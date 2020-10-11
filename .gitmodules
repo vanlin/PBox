@@ -1,0 +1,24 @@
+[submodule "vcl/SynEdit"]
+	path = vcl/SynEdit
+	url = https://github.com/SynEdit/SynEdit.git
+[submodule "vcl/Delphi-FFMPEG"]
+	path = vcl/Delphi-FFMPEG
+	url = https://github.com/Laex/Delphi-FFMPEG.git
+[submodule "vcl/Neslib.Clang"]
+	path = vcl/Neslib.Clang
+	url = https://github.com/neslib/Neslib.Clang.git
+[submodule "vcl/Virtual-TreeView"]
+	path = vcl/Virtual-TreeView
+	url = https://github.com/Virtual-TreeView/Virtual-TreeView.git
+[submodule "vcl/FastMD5"]
+	path = vcl/FastMD5
+	url = https://github.com/PassByYou888/FastMD5.git
+[submodule "vcl/cnvcl"]
+	path = vcl/cnvcl
+	url = https://github.com/cnpack/cnvcl.git
+[submodule "vcl/diocp-v5"]
+	path = vcl/diocp-v5
+	url = https://github.com/ymofen/diocp-v5.git
+[submodule "vcl/mORMot"]
+	path = vcl/mORMot
+	url = https://github.com/synopse/mORMot.git

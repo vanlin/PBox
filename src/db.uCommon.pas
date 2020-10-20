@@ -49,8 +49,8 @@ type
     RecordLength: Cardinal;
     MajorVersion: Word;
     MinorVersion: Word;
-    FileReferenceNumber: UInt64;
-    ParentFileReferenceNumber: UInt64;
+    FileReferenceNumber: Int64Rec;
+    ParentFileReferenceNumber: Int64Rec;
     USN: Int64;
     TimeStamp: LARGE_INTEGER;
     Reason: Cardinal;
@@ -78,11 +78,13 @@ const
   c_strAESKey                  = 'dbyoung@sina.com';
   c_intBetweenVerticalDistance = 5;
   c_intDelayTime               = 200;
+  c_strResultTableName         = 'NTFS2';
+  c_strSearchTempTableName     = 'TempSearchTable';
   BUF_LEN                      = 500 * 1024;
   USN_DELETE_FLAG_DELETE       = $00000001;
   c_UInt64Root                 = 1407374883553285;
-  WM_SEARCHDRIVEFINISHED       = WM_USER + $1000;
-  WM_GETFILEFULLFINISHED       = WM_USER + $1001;
+  WM_SEARCHDRIVEFILEFINISHED   = WM_USER + $1000;
+  WM_GETFILEFULLNAMEFINISHED   = WM_USER + $1001;
 
   { 全局变量 }
 var
@@ -189,6 +191,12 @@ function GetProcessThreadCount: Integer;
 
 { 去除标题栏 }
 procedure RemoveCaption(hWnd: THandle);
+
+{ 获取 DLL 模块文件名，包含路径 }
+function GetDllFullFileName: String;
+
+{ 获取 DLL 所在路径 }
+function GetDllFilePath: String;
 
 implementation
 
@@ -1531,6 +1539,21 @@ begin
 
   if not bShowCloseButton then
     SetWindowLong(hWnd, GWL_STYLE, GetWindowLong(hWnd, GWL_STYLE) xor WS_CAPTION);
+end;
+
+{ 获取 DLL 模块文件名，包含路径 }
+function GetDllFullFileName: String;
+var
+  strFileName: array [0 .. 255] of Char;
+begin
+  GetModuleFileName(HInstance, strFileName, 256);
+  Result := strFileName;
+end;
+
+{ 获取 DLL 所在路径 }
+function GetDllFilePath: String;
+begin
+  Result := ExtractFilePath(GetDllFullFileName);
 end;
 
 end.

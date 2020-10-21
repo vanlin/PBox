@@ -129,6 +129,7 @@ begin
   lvData.Items.Count  := 0;
   lblTip.Caption      := '正在搜索，请稍候······';
   lblTip.Visible      := True;
+  lblTip.Left         := (lblTip.Parent.Width - lblTip.Width) div 2;
 
   { 开始搜索整个磁盘文件 }
   SearchDrivesFiles;
@@ -142,8 +143,8 @@ var
   bExistDB: Boolean;
 begin
   FstrSqlWhere := '';
-  bExistDB     := FileExists(FstrSqlite3DBFileName);
-  FDatabase    := TSQLDataBase.Create(FstrSqlite3DBFileName);
+  bExistDB     := FileExists(FstrSqlite3DBFileName);                    // 数据库文件是否存在
+  FDatabase    := TSQLDataBase.Create(FstrSqlite3DBFileName);           // 创建 Sqlite3 数据库
   FDatabase.ExecuteNoException('PRAGMA synchronous = OFF');             // 关闭写同步，加快写入速度
   if bExistDB then                                                      // 如果数据库已经存在
   begin                                                                 //
@@ -151,9 +152,7 @@ begin
     FDatabase.ExecuteNoException('DROP TABLE ' + c_strResultTableName); // 删除表
   end;                                                                  //
   FDatabase.ExecuteNoException(c_strCreateDriveTable);                  // 创建表结构
-
-  { 开启事务，加快写入速度 }
-  FDatabase.TransactionBegin();
+  FDatabase.TransactionBegin();                                         //开启事务，加快写入速度
 end;
 
 { 开始搜索整个磁盘文件 }
@@ -204,6 +203,16 @@ begin
   tmrSearchStop.Enabled := True;
 end;
 
+{ 单个磁盘文件搜索结束 }
+procedure TfrmNTFSFiles.SearchDriveFileFinished(var msg: TMessage);
+begin
+  Dec(FintSearchDriveThreadCount);
+
+  FintCount      := FintCount + msg.WParam;
+  lblTip.Caption := string(PChar(msg.LParam));
+  lblTip.Left    := (lblTip.Parent.Width - lblTip.Width) div 2;
+end;
+
 { 检查所有搜索线程是否结束 }
 procedure TfrmNTFSFiles.tmrSearchStopTimer(Sender: TObject);
 begin
@@ -214,6 +223,7 @@ begin
   tmrSearchStop.Enabled := False;
   FDatabase.Commit;
   lblTip.Caption                  := Format('合计文件(%s)：%d，合计用时：%d秒', [FlstAllDrives.DelimitedText, FintCount, (GetTickCount - FintStartTime) div 1000 - 1]);
+  lblTip.Left                     := (lblTip.Parent.Width - lblTip.Width) div 2;
   tmrGetFileFullNameStart.Enabled := True;
 
   { 所有搜索线程结束后，再获取磁盘文件的全路径文件名称 }
@@ -227,16 +237,6 @@ begin
   btnReSearch.Visible := True;
   lblTip.Visible      := False;
   DrawDataItem;
-end;
-
-{ 单个磁盘文件搜索结束 }
-procedure TfrmNTFSFiles.SearchDriveFileFinished(var msg: TMessage);
-begin
-  Dec(FintSearchDriveThreadCount);
-
-  FintCount      := FintCount + msg.WParam;
-  lblTip.Caption := string(PChar(msg.LParam));
-  lblTip.Left    := (lblTip.Parent.Width - lblTip.Width) div 2;
 end;
 
 procedure TfrmNTFSFiles.FormResize(Sender: TObject);

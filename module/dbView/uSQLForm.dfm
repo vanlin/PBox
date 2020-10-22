@@ -12,7 +12,7 @@ object frmSQL: TfrmSQL
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
-  Position = poScreenCenter
+  Position = poDesigned
   OnCreate = FormCreate
   DesignSize = (
     635

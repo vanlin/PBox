@@ -319,7 +319,15 @@ begin
   begin
     GetClassName(P_HWND, chrClassName, 256);
     strClassName := chrClassName;
-    if (CompareText(strClassName, 'TApplication') <> 0) and (CompareText(strClassName, 'TPUtilWindow') <> 0) and (CompareText(strClassName, 'IME') <> 0) and (CompareText(strClassName, 'MSCTFIME UI') <> 0) then
+    if                                                                  //
+      (CompareText(strClassName, 'TApplication') <> 0) and              //
+      (CompareText(strClassName, 'TPUtilWindow') <> 0) and              //
+      (CompareText(strClassName, 'IME') <> 0) and                       //
+      (CompareText(strClassName, 'MSCTFIME UI') <> 0) and               //
+      (CompareText(strClassName, 'tooltips_class32') <> 0) and          //
+      (CompareText(strClassName, 'ADODB.AsyncEventMessenger') <> 0) and //
+      (CompareText(strClassName, 'TfrmSQL') <> 0)                       //
+    then
     begin
       Result                 := False;
       PCardinal(LParam + 4)^ := P_HWND;

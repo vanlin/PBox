@@ -27,10 +27,15 @@ implementation
 {$R *.dfm}
 
 procedure ShowSQLForm(const hWnd: THandle);
+var
+  rct: TRect;
 begin
   with TfrmSQL.Create(nil) do
   begin
     FhWnd := hWnd;
+    GetWindowRect(GetMainFormHandle, rct);
+    Top  := rct.Top + 250;
+    Left := rct.Left + 250;
     ShowModal;
     Free;
   end;

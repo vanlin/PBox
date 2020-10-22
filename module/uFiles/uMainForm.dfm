@@ -66,9 +66,11 @@ object frmNTFSFiles: TfrmNTFSFiles
     ReadOnly = True
     RowSelect = True
     ParentFont = False
+    PopupMenu = pmFile
     TabOrder = 0
     ViewStyle = vsReport
     OnData = lvDataData
+    OnDblClick = mniOpenPathClick
   end
   object btnReSearch: TButton
     Left = 992
@@ -102,5 +104,30 @@ object frmNTFSFiles: TfrmNTFSFiles
   object ADOCNN: TADOConnection
     Left = 80
     Top = 304
+  end
+  object pmFile: TPopupMenu
+    AutoHotkeys = maManual
+    Left = 80
+    Top = 372
+    object mniOpenPath: TMenuItem
+      Caption = #25171#24320#36335#24452
+      OnClick = mniOpenPathClick
+    end
+    object mniFileAttr: TMenuItem
+      Caption = #25991#20214#23646#24615
+      OnClick = mniFileAttrClick
+    end
+    object mniOpen: TMenuItem
+      Caption = #25171#24320
+      OnClick = mniOpenClick
+    end
+    object mniReName: TMenuItem
+      Caption = #37325#21629#21517
+      OnClick = mniReNameClick
+    end
+    object mniDelete: TMenuItem
+      Caption = #21024#38500
+      OnClick = mniDeleteClick
+    end
   end
 end

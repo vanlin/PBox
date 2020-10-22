@@ -1,5 +1,5 @@
 unit db.uCommon;
-
+
 interface
 
 uses
@@ -85,6 +85,8 @@ const
   c_UInt64Root                 = 1407374883553285;
   WM_SEARCHDRIVEFILEFINISHED   = WM_USER + $1000;
   WM_GETFILEFULLNAMEFINISHED   = WM_USER + $1001;
+  WM_EXECSQL                   = WM_USER + $1002;
+  WM_EXECSQLSUCCESS            = WM_USER + $1003;
 
   { 全局变量 }
 var
@@ -509,8 +511,16 @@ begin
 
   if Pos('.udl', LowerCase(strLinkDB)) > 0 then
   begin
-    ADOCNN.ConnectionString := 'FILE NAME=' + strLinkDB;
-    ADOCNN.Provider         := strLinkDB;
+    if Pos('FILE NAME=', strLinkDB) > 0 then
+    begin
+      ADOCNN.ConnectionString := strLinkDB;
+      ADOCNN.Provider         := RightStr(strLinkDB, Length(strLinkDB) - 10);
+    end
+    else
+    begin
+      ADOCNN.ConnectionString := 'FILE NAME=' + strLinkDB;
+      ADOCNN.Provider         := strLinkDB;
+    end;
   end
   else
   begin
@@ -1557,3 +1567,4 @@ begin
 end;
 
 end.
+

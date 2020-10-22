@@ -3,8 +3,9 @@ unit uMainForm;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.StrUtils, System.Classes, System.IOUtils, System.Types, Vcl.StdCtrls, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.WinXCtrls,
-  Data.Win.ADODB, Data.db, SynSQLite3, SynSQLite3Static, SynCommons, db.uCommon;
+  Winapi.Windows, Winapi.Messages, Winapi.ShellAPI, System.SysUtils, System.StrUtils, System.Classes, System.IOUtils, System.Types, Vcl.StdCtrls, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.WinXCtrls,
+  Data.Win.ADODB, Data.db, SynSQLite3, SynSQLite3Static, SynCommons, db.uCommon,
+  Vcl.Menus;
 
 type
   TfrmNTFSFiles = class(TForm)
@@ -16,6 +17,12 @@ type
     srchbxFile: TSearchBox;
     ADOCNN: TADOConnection;
     btnReSearch: TButton;
+    pmFile: TPopupMenu;
+    mniOpenPath: TMenuItem;
+    mniReName: TMenuItem;
+    mniDelete: TMenuItem;
+    mniOpen: TMenuItem;
+    mniFileAttr: TMenuItem;
     procedure tmrSearchStartTimer(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure lvDataData(Sender: TObject; Item: TListItem);
@@ -24,6 +31,11 @@ type
     procedure tmrGetFileFullNameStartTimer(Sender: TObject);
     procedure btnReSearchClick(Sender: TObject);
     procedure srchbxFileInvokeSearch(Sender: TObject);
+    procedure mniOpenPathClick(Sender: TObject);
+    procedure mniReNameClick(Sender: TObject);
+    procedure mniDeleteClick(Sender: TObject);
+    procedure mniOpenClick(Sender: TObject);
+    procedure mniFileAttrClick(Sender: TObject);
   private
     FintStartTime             : Cardinal;
     FlstAllDrives             : TStringList;
@@ -152,7 +164,7 @@ begin
     FDatabase.ExecuteNoException('DROP TABLE ' + c_strResultTableName); // 删除表
   end;                                                                  //
   FDatabase.ExecuteNoException(c_strCreateDriveTable);                  // 创建表结构
-  FDatabase.TransactionBegin();                                         //开启事务，加快写入速度
+  FDatabase.TransactionBegin();                                         // 开启事务，加快写入速度
 end;
 
 { 开始搜索整个磁盘文件 }
@@ -275,6 +287,52 @@ begin
     FstrSqlWhere := 'FullName like ' + QuotedStr('%' + srchbxFile.Text + '%');
 
   DrawDataItem;
+end;
+
+{ 运行文件 }
+procedure TfrmNTFSFiles.mniOpenClick(Sender: TObject);
+begin
+  if lvData.ItemIndex = -1 then
+    Exit;
+
+  ShellExecute(0, 'open', PChar(lvData.Selected.SubItems[0]), nil, nil, SW_SHOW);
+end;
+
+{ 打开路径 }
+procedure TfrmNTFSFiles.mniOpenPathClick(Sender: TObject);
+begin
+  if lvData.ItemIndex = -1 then
+    Exit;
+
+  OpenFolderAndSelectFile(lvData.Selected.SubItems[0]);
+end;
+
+{ 重命名文件 }
+procedure TfrmNTFSFiles.mniReNameClick(Sender: TObject);
+begin
+  if lvData.ItemIndex = -1 then
+    Exit;
+
+  OpenFolderAndSelectFile(lvData.Selected.SubItems[0], True);
+end;
+
+{ 删除文件 }
+procedure TfrmNTFSFiles.mniDeleteClick(Sender: TObject);
+begin
+  if lvData.ItemIndex = -1 then
+    Exit;
+
+  if DeleteFile(lvData.Selected.SubItems[0]) then
+    lvData.Selected.Delete;
+end;
+
+{ 文件属性对话框 }
+procedure TfrmNTFSFiles.mniFileAttrClick(Sender: TObject);
+begin
+  if lvData.ItemIndex = -1 then
+    Exit;
+
+  ShowFileProperties(lvData.Selected.SubItems[0], 0);
 end;
 
 end.

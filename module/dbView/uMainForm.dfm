@@ -25,6 +25,8 @@ object frmdbView: TfrmdbView
     Width = 177
     Height = 33
     Caption = #21019#24314#25968#25454#24211#36830#25509
+    DropDownMenu = pmDatabaseType
+    Style = bsSplitButton
     TabOrder = 0
     OnClick = btnConnectClick
   end
@@ -173,6 +175,24 @@ object frmdbView: TfrmdbView
   object dlgSaveExcel: TSaveDialog
     Filter = 'EXCEL|*.xlsx'
     Left = 84
-    Top = 434
+    Top = 470
+  end
+  object pmDatabaseType: TPopupMenu
+    AutoHotkeys = maManual
+    Left = 88
+    Top = 70
+    object mniODBC: TMenuItem
+      Caption = 'ODBC '#25968#25454#24211
+      OnClick = btnConnectClick
+    end
+    object mniSqlite: TMenuItem
+      Caption = 'Sqlite3 '#25968#25454#24211
+      OnClick = mniSqliteClick
+    end
+  end
+  object dlgOpenSqliteDB: TOpenDialog
+    Filter = 'Sqlite3|*.db|*.db'
+    Left = 88
+    Top = 402
   end
 end

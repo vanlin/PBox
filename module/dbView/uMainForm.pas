@@ -533,6 +533,7 @@ var
   jsn         : TJSONObject;
   jsnValue    : TJSONArray;
   intCount    : Integer;
+  intRowResult: Integer;
 begin
   if not FbSqlite3 then
   begin
@@ -559,10 +560,14 @@ begin
     strResult    := UTF8ToString(FSqlite3DB.ExecuteJSON(RawUTF8(strSQL)));
     jsn          := TJSONObject.ParseJSONValue(strResult) as TJSONObject;
     intCount     := TJSONNumber(jsn.P['fieldCount'] as TJSONNumber).AsInt;
-    jsnValue     := jsn.P['values'] as TJSONArray;
-    for I        := 0 to jsnValue.Count div 2 - 1 do
+    intRowResult := TJSONNumber(jsn.P['rowCount'] as TJSONNumber).AsInt;
+    if intRowResult > 0 then
     begin
-      Item.SubItems.Add(TJSONString(jsnValue.A[I + intCount]).Value);
+      jsnValue := jsn.P['values'] as TJSONArray;
+      for I    := 0 to jsnValue.Count div 2 - 1 do
+      begin
+        Item.SubItems.Add(TJSONString(jsnValue.A[I + intCount]).Value);
+      end;
     end;
   end;
 end;

@@ -113,10 +113,16 @@ object frmdbView: TfrmdbView
       BevelOuter = bvNone
       BorderStyle = bsNone
       Columns = <>
+      Font.Charset = GB2312_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = #23435#20307
+      Font.Style = []
       GridLines = True
       OwnerData = True
       ReadOnly = True
       RowSelect = True
+      ParentFont = False
       TabOrder = 0
       ViewStyle = vsReport
       OnData = lvDataData

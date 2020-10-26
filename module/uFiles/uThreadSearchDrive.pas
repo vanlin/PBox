@@ -33,7 +33,7 @@ begin
   FchrDrive       := chrDrive;
   FMainFormHandle := MainFormHandle;
   FDataBase       := DataBase;
-  FsrInsert.Prepare(FDataBase, RawUTF8(c_strInsertSQL));
+  FsrInsert.Prepare(FDataBase, c_strInsertSQL);
 end;
 
 procedure TSearchThread.GetUSNFileInfo(UsnInfo: PUSN);

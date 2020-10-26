@@ -3,9 +3,8 @@ unit uMainForm;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, Winapi.ShellAPI, System.SysUtils, System.StrUtils, System.Classes, System.IOUtils, System.Types, Vcl.StdCtrls, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.WinXCtrls,
-  Data.Win.ADODB, Data.db, SynSQLite3, SynSQLite3Static, SynCommons, db.uCommon,
-  Vcl.Menus;
+  Winapi.Windows, Winapi.Messages, Winapi.ShellAPI, System.SysUtils, System.StrUtils, System.Classes, System.IOUtils, System.Types, Vcl.Menus, Vcl.StdCtrls, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.WinXCtrls,
+  Data.Win.ADODB, Data.db, SynSQLite3, SynSQLite3Static, SynCommons, db.uCommon;
 
 type
   TfrmNTFSFiles = class(TForm)

@@ -63,7 +63,8 @@ type
     procedure mniTrayShowFormClick(Sender: TObject);
     procedure mniTrayExitClick(Sender: TObject);
   private
-    FListDll: THashedStringList;
+    FListDll  : THashedStringList;
+    FintBakRow: Integer;
     { 设置默认界面 }
     procedure ReadConfigUI;
     { 加载所有的 DLL 和 EXE 到列表 }
@@ -242,11 +243,14 @@ var
   strPModuleIconFilePath: string;
   J                     : Integer;
 begin
-  { 先销毁分栏式显示界面 }
-  FreeListViewSubModule;
+  intRow := Ifthen(WindowState = wsMaximized, 5, 3);
+  if FintBakRow = intRow then
+    Exit;
 
-  { 在创建分栏式显示界面 }
-  intRow              := Ifthen(MaxForm, 5, 3);
+  { 销毁分栏式界面 }
+  FreeListViewSubModule;
+  FintBakRow := intRow;
+
   clbrPModule.Visible := False;
   pgcAll.ActivePage   := tsList;
   SetLength(arrParentModuleLabel, mmMainMenu.Items.Count);
@@ -427,6 +431,7 @@ begin
   FListDll.Clear;
   ilMainMenu.Clear;
   ilPModule.Clear;
+  FintBakRow              := 0;
   clbrPModule.Visible     := False;
   pnlModuleDialog.Visible := False;
   FreeModuleMenu;
@@ -595,7 +600,6 @@ end;
 
 procedure TfrmPBox.FormResize(Sender: TObject);
 begin
-  { 对话框显示模式时 }
   if GetShowStyle = 1 then
   begin
     if Assigned(pnlModuleDialog) then
@@ -612,12 +616,6 @@ begin
   begin
     { 更改 DLL 窗体大小 }
     EnumChildWindows(Handle, @EnumChildFunc, tsDll.Handle);
-  end;
-
-  { 列表视图显示模式时 }
-  if GetShowStyle = 2 then
-  begin
-    CreateDisplayUI_List;
   end;
 end;
 

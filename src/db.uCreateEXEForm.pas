@@ -109,7 +109,7 @@ begin
   ShowWindow(hEXEFormHandle, SW_SHOWNORMAL);                                                                                                             // œ‘ æ¥∞ÃÂ
   Application.MainForm.Height := Application.MainForm.Height + 1;
   Application.MainForm.Height := Application.MainForm.Height - 1;
-  SetTimer(Application.MainForm.Handle, $1000, 200, @EndExeForm);
+  SetTimer(Application.MainForm.Handle, $2000, 200, @EndExeForm);
 end;
 
 procedure CheckSysinternalsREG(const strProgramName: String);

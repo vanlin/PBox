@@ -60,7 +60,6 @@ type
     property CloseToTray: Boolean read GetCloseToTray write SetCloseToTray;
     property MainTrayIcon: TTrayIcon read FTrayIcon;
     property TrayIconPMenu: TPopupMenu read GetTrayIconPMenu write SetTrayIconPMenu;
-    property MaxForm: Boolean read FbMaxForm;
   end;
 
 {$R *.res}
@@ -351,18 +350,17 @@ begin
     FintOldWidth  := Width;
     FintOldHeight := Height;
 
-    FbMaxForm := not FbMaxForm;
     FormMaxSize;
     TImage(Sender).Hint := '还原';
     LoadButtonBmp(TImage(Sender), 'RESTORE', 0);
   end
   else
   begin
-    FbMaxForm := not FbMaxForm;
     FormRestoreSize;
     TImage(Sender).Hint := '最大化';
     LoadButtonBmp(TImage(Sender), 'MAX', 0);
   end;
+  FbMaxForm := not FbMaxForm;
 end;
 
 procedure TdbBaseForm.OnSysBtnMinClick(Sender: TObject);

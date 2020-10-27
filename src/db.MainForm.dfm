@@ -284,10 +284,6 @@ object frmPBox: TfrmPBox
     object tsList: TTabSheet
       Caption = 'tsList'
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object imgListBack: TImage
         Left = 0
         Top = 0
@@ -304,10 +300,6 @@ object frmPBox: TfrmPBox
     object tsDll: TTabSheet
       Caption = 'tsDll'
       ImageIndex = 2
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object imgDllFormBack: TImage
         Left = 0
         Top = 0

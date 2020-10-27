@@ -1,5 +1,5 @@
 unit db.MainForm;
-
+
 interface
 
 uses
@@ -66,7 +66,7 @@ type
     FListDll  : THashedStringList;
     FintBakRow: Integer;
     { 设置默认界面 }
-    procedure ReadConfigUI;
+    procedure ReadConfigUI(const bSize: Boolean = True);
     { 加载所有的 DLL 和 EXE 到列表 }
     procedure LoadAllPlugins(var lstDll: THashedStringList);
     { 创建模块功能菜单 }
@@ -77,7 +77,7 @@ type
     procedure CreateDisplayUI_Button; // 按钮模式
     procedure CreateDisplayUI_List;   // 列表模式
     { 创建界面 }
-    procedure ReCreate;
+    procedure ReCreate(const bSize: Boolean = True);
     { 系统参数配置 }
     procedure OnSysConfig(Sender: TObject);
     { 销毁 DLL / EXE 窗体 }
@@ -243,7 +243,7 @@ var
   strPModuleIconFilePath: string;
   J                     : Integer;
 begin
-  intRow := Ifthen(WindowState = wsMaximized, 5, 3);
+  intRow := Ifthen(MaxForm, 5, 3);
   if FintBakRow = intRow then
     Exit;
 
@@ -391,7 +391,7 @@ begin
   if ShowConfigForm(FListDll) then
   begin
     FreeAllDllForm;
-    ReCreate;
+    ReCreate(False);
   end;
 end;
 
@@ -447,7 +447,7 @@ begin
 end;
 
 { 设置默认界面 }
-procedure TfrmPBox.ReadConfigUI;
+procedure TfrmPBox.ReadConfigUI(const bSize: Boolean = True);
 var
   bShowImage  : Boolean;
   strImageBack: String;
@@ -479,13 +479,13 @@ begin
 end;
 
 { 创建界面 }
-procedure TfrmPBox.ReCreate;
+procedure TfrmPBox.ReCreate(const bSize: Boolean = True);
 begin
   { 参数恢复默认值 }
   FillDefaultValue;
 
   { 设置默认界面 }
-  ReadConfigUI;
+  ReadConfigUI(bSize);
 
   { 加载所有的 DLL 和 EXE 到列表 }
   LoadAllPlugins(FListDll);
@@ -600,6 +600,7 @@ end;
 
 procedure TfrmPBox.FormResize(Sender: TObject);
 begin
+  { 对话框模式时 }
   if GetShowStyle = 1 then
   begin
     if Assigned(pnlModuleDialog) then
@@ -612,10 +613,19 @@ begin
     end;
   end;
 
+  { 有 DLL/EXE 窗体时，更改 DLL 窗体大小 }
   if (Assigned(pgcAll)) and (Assigned(tsDll)) and (pgcAll.ActivePage = tsDll) then
   begin
-    { 更改 DLL 窗体大小 }
     EnumChildWindows(Handle, @EnumChildFunc, tsDll.Handle);
+  end;
+
+  { 列表模式时 }
+  if GetShowStyle = 2 then
+  begin
+    if pgcAll.ActivePage = tsList then
+    begin
+      CreateDisplayUI_List;
+    end;
   end;
 end;
 
@@ -945,3 +955,4 @@ begin
 end;
 
 end.
+

@@ -57,6 +57,12 @@ begin
   FsrInsert.Step;
 end;
 
+procedure MyMove(const Source; var Dest; Count: NativeInt); assembler;
+asm
+  FILD    QWORD PTR [EAX]
+  FISTP   QWORD PTR [EDX]
+end;
+
 procedure TSearchThread.Execute;
 var
   cjd         : CREATE_USN_JOURNAL_DATA;
@@ -107,7 +113,7 @@ begin
         Dec(dwRet, UsnInfo.RecordLength);
         UsnInfo := PUSN(Cardinal(UsnInfo) + UsnInfo.RecordLength);
       end;
-      Move(BufferOut, BufferIn, int64Size);
+      MyMove(BufferOut, BufferIn, int64Size);
     end;
 
     { 删除USN日志文件信息 }

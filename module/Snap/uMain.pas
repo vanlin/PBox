@@ -77,6 +77,22 @@ begin
   Application.Icon.Handle := GetMainFormApplication.Icon.Handle;
 end;
 
+procedure TfrmSnapScreen.FormCreate(Sender: TObject);
+begin
+  FDuplication         := TDesktopDuplicationWrapper.Create;
+  btnDXGI.Enabled      := Win32MajorVersion > 6;
+  FcvsGDIWindow        := TCanvas.Create;
+  FcvsGDIWindow.Handle := GetDC(0);
+end;
+
+procedure TfrmSnapScreen.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  DeleteDC(FcvsGDIWindow.Handle);
+  FcvsGDIWindow.Free;
+  FDuplication.Free;
+  Action := caFree;
+end;
+
 procedure TfrmSnapScreen.HideMainForm;
 begin
   GetMainFormApplication.MainForm.WindowState := wsMinimized;
@@ -122,7 +138,7 @@ begin
   end
   else if dlgSaveSnap.FilterIndex = 2 then
   begin
-    with TJPEGImage.create do
+    with TJPEGImage.Create do
     begin
       CompressionQuality := 80;
       Assign(imgSnap.Picture.Bitmap);
@@ -132,29 +148,13 @@ begin
   end
   else
   begin
-    with TPngImage.create do
+    with TPngImage.Create do
     begin
       Assign(imgSnap.Picture.Bitmap);
       SaveToFile(dlgSaveSnap.FileName + '.png');
       Free;
     end;
   end;
-end;
-
-procedure TfrmSnapScreen.FormClose(Sender: TObject; var Action: TCloseAction);
-begin
-  DeleteDC(FcvsGDIWindow.Handle);
-  FcvsGDIWindow.Free;
-  FDuplication.Free;
-  Action := caFree;
-end;
-
-procedure TfrmSnapScreen.FormCreate(Sender: TObject);
-begin
-  FDuplication         := TDesktopDuplicationWrapper.create;
-  btnDXGI.Enabled      := Win32MajorVersion > 6;
-  FcvsGDIWindow        := TCanvas.create;
-  FcvsGDIWindow.Handle := GetDC(0);
 end;
 
 { ×¢²áÈÈ¼ü }
@@ -259,8 +259,8 @@ var
   cvsTemp: TCanvas;
   bmpSnap: TBitmap;
 begin
-  bmpSnap := TBitmap.create;
-  cvsTemp := TCanvas.create;
+  bmpSnap := TBitmap.Create;
+  cvsTemp := TCanvas.Create;
   try
     cvsTemp.Handle      := GetDC(0);
     bmpSnap.PixelFormat := pf32bit;
@@ -356,8 +356,8 @@ begin
 
   if FDuplication.GetFrame then
   begin
-    bmpTemp := TBitmap.create;
-    bmpSnap := TBitmap.create;
+    bmpTemp := TBitmap.Create;
+    bmpSnap := TBitmap.Create;
     try
       FDuplication.DrawFrame(bmpTemp);
       bmpSnap.PixelFormat := pf32bit;
@@ -370,7 +370,6 @@ begin
       bmpSnap.Free;
     end;
   end;
-
 end;
 
 end.

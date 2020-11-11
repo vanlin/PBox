@@ -2,3 +2,4 @@
 *.identcache
 *.local
 *.user
+/bin/Win32/plugins/uFiles.db

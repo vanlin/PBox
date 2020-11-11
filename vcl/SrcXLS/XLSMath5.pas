@@ -4196,7 +4196,7 @@ var
   ap1,ap2,ls: double;
   ra: double;
   D_: double;
-  lg,lb : double;
+  lg,lb,zb: double;
 begin
    has_10_digits^ := False;
    if a = 1 then begin

@@ -16154,7 +16154,7 @@ begin;
   lenSub := pinteger(pSub-4)^;
   dec(lenSub);
   len := pinteger(p-4)^;
-  if (len<lenSub+PtrInt(Offset)) or (lenSub<0) then begin
+  if (len<lenSub+Offset) or (lenSub<0) then begin
     Result := 0;
     goto Exit;
   end;
@@ -45564,7 +45564,7 @@ end;
 constructor TSynAuthenticationAbstract.Create;
 begin
   fLock := TAutoLocker.Create;
-  fTokenSeed :=GetTickCount64*PtrUInt(self)*Random(maxInt);
+  fTokenSeed := GetTickCount64*PtrUInt(self)*Random(maxInt);
   fSessionGenerator := abs(fTokenSeed*PtrUInt(ClassType));
 end;
 

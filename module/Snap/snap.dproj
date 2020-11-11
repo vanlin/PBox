@@ -3,7 +3,7 @@
         <ProjectGuid>{2F676167-7400-436E-A09D-21B2F6531FD3}</ProjectGuid>
         <ProjectVersion>19.1</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
-        <MainSource>Snap.dpr</MainSource>
+        <MainSource>snap.dpr</MainSource>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Release</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
@@ -77,7 +77,7 @@
         <DCC_K>false</DCC_K>
         <GenDll>true</GenDll>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
-        <SanitizedProjectName>Snap</SanitizedProjectName>
+        <SanitizedProjectName>snap</SanitizedProjectName>
         <VerInfo_Locale>2052</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <DCC_UnitSearchPath>..\..\;..\..\3rdparty\AES;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
@@ -172,7 +172,7 @@
         <BorlandProject>
             <Delphi.Personality>
                 <Source>
-                    <Source Name="MainSource">Snap.dpr</Source>
+                    <Source Name="MainSource">snap.dpr</Source>
                 </Source>
                 <Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcboffice2k270.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
@@ -182,15 +182,15 @@
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="3">
-                <DeployFile LocalName="..\..\bin\Win32\plugins\Snap.dll" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="..\..\bin\Win32\plugins\snap.dll" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
-                        <RemoteName>Snap.dll</RemoteName>
+                        <RemoteName>snap.dll</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\bin\Win32\plugins\Snap.dll" Configuration="Release" Class="ProjectOutput">
+                <DeployFile LocalName="..\..\bin\Win32\plugins\snap.dll" Configuration="Release" Class="ProjectOutput">
                     <Platform Name="Win32">
-                        <RemoteName>Snap.dll</RemoteName>
+                        <RemoteName>snap.dll</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

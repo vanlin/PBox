@@ -12,3 +12,5 @@
      SDK
      mpv.exe
 
+  LAVFilters
+     SDK

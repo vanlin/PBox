@@ -22,3 +22,6 @@
 [submodule "vcl/mORMot"]
 	path = vcl/mORMot
 	url = https://github.com/synopse/mORMot.git
+[submodule "vcl/FastMM4"]
+	path = vcl/FastMM4
+	url = https://github.com/pleriche/FastMM4.git

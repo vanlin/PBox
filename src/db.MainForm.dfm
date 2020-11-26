@@ -33,6 +33,7 @@ object frmPBox: TfrmPBox
       end>
     EdgeInner = esNone
     EdgeOuter = esNone
+    ExplicitWidth = 1142
     object tlbPModule: TToolBar
       Left = 11
       Top = 0
@@ -65,6 +66,8 @@ object frmPBox: TfrmPBox
     ParentCtl3D = False
     ShowCaption = False
     TabOrder = 1
+    ExplicitTop = 637
+    ExplicitWidth = 1142
     object pnlTime: TPanel
       Left = 952
       Top = 0
@@ -81,6 +84,7 @@ object frmPBox: TfrmPBox
       ParentFont = False
       ShowCaption = False
       TabOrder = 0
+      ExplicitLeft = 918
       object lblTime: TLabel
         Left = 10
         Top = 4
@@ -113,9 +117,10 @@ object frmPBox: TfrmPBox
       ParentFont = False
       ShowCaption = False
       TabOrder = 1
+      ExplicitLeft = 765
       object lblIP: TLabel
         Left = 14
-        Top = 4
+        Top = 6
         Width = 8
         Height = 15
         Font.Charset = GB2312_CHARSET
@@ -153,6 +158,7 @@ object frmPBox: TfrmPBox
       ParentFont = False
       ShowCaption = False
       TabOrder = 2
+      ExplicitLeft = 450
       object lblWeb: TLabel
         Left = 7
         Top = 4
@@ -190,6 +196,7 @@ object frmPBox: TfrmPBox
       ParentFont = False
       ShowCaption = False
       TabOrder = 3
+      ExplicitWidth = 450
       object lblLogin: TLabel
         Left = 4
         Top = 4
@@ -219,10 +226,16 @@ object frmPBox: TfrmPBox
     Height = 677
     ActivePage = tsButton
     Align = alClient
+    DoubleBuffered = True
+    ParentDoubleBuffered = False
     Style = tsFlatButtons
     TabOrder = 2
+    ExplicitWidth = 1142
+    ExplicitHeight = 613
     object tsButton: TTabSheet
       Caption = 'tsButton'
+      ExplicitWidth = 1134
+      ExplicitHeight = 582
       object imgButtonBack: TImage
         Left = 0
         Top = 0
@@ -284,11 +297,13 @@ object frmPBox: TfrmPBox
     object tsList: TTabSheet
       Caption = 'tsList'
       ImageIndex = 1
+      ExplicitWidth = 1134
+      ExplicitHeight = 582
       object imgListBack: TImage
         Left = 0
         Top = 0
-        Width = 1168
-        Height = 646
+        Width = 1134
+        Height = 582
         Align = alClient
         Stretch = True
         ExplicitLeft = 248
@@ -300,11 +315,13 @@ object frmPBox: TfrmPBox
     object tsDll: TTabSheet
       Caption = 'tsDll'
       ImageIndex = 2
+      ExplicitWidth = 1134
+      ExplicitHeight = 582
       object imgDllFormBack: TImage
         Left = 0
         Top = 0
-        Width = 1168
-        Height = 646
+        Width = 1134
+        Height = 582
         Align = alClient
         Stretch = True
         ExplicitLeft = 360

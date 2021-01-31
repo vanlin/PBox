@@ -3705,6 +3705,17 @@ object frmPEInfo: TfrmPEInfo
           Font.Style = []
           ParentFont = False
         end
+        object chkExportFuncCppType: TCheckBox
+          Left = 608
+          Top = 44
+          Width = 97
+          Height = 17
+          Caption = 'Cpp '#23548#20986#27169#24335
+          Checked = True
+          State = cbChecked
+          TabOrder = 0
+          OnClick = chkExportFuncCppTypeClick
+        end
       end
     end
     object tsImport: TTabSheet

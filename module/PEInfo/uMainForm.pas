@@ -338,6 +338,7 @@ type
     pmCopyExportFunc: TPopupMenu;
     mniCopySelectFuncName: TMenuItem;
     mniCopyAllExportFuncName: TMenuItem;
+    chkExportFuncCppType: TCheckBox;
     procedure srchbxSelectPEFileInvokeSearch(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure lvSectionTableClick(Sender: TObject);
@@ -366,6 +367,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure mniCopySelectFuncNameClick(Sender: TObject);
     procedure mniCopyAllExportFuncNameClick(Sender: TObject);
+    procedure chkExportFuncCppTypeClick(Sender: TObject);
   private
     FbX64   : Boolean;
     FTempHex: THexEditor;
@@ -383,7 +385,7 @@ type
     { PE Section Table }
     procedure AnalyzePE_SectionTable;
     { PE Export Data }
-    procedure AnalyzePE_ExportFunc;
+    procedure AnalyzePE_ExportFunc(const bCppFuncType: Boolean = True);
     { PE Import Data }
     procedure AnalyzePE_ImportFunc;
     { PE Resource Data }
@@ -1014,7 +1016,7 @@ begin
 end;
 
 { PE Export Data }
-procedure TfrmPEInfo.AnalyzePE_ExportFunc;
+procedure TfrmPEInfo.AnalyzePE_ExportFunc(const bCppFuncType: Boolean = True);
 var
   intLen         : Integer;
   sts            : TArray<TImageSectionHeader>;
@@ -1070,7 +1072,10 @@ begin
       SubItems.Add(Format('$%0.8x', [eft^.AddressOfNames - intVA + intRA + DWORD(4 * I)]));
       SubItems.Add(Format('$%0.8x', [intFuncRA - intVA + intRA]));
       strFuncName := string(arrFunctionName);
-      SubItems.Add(GetFullFuncNameCpp(strFuncName));
+      if bCppFuncType then
+        SubItems.Add(GetFullFuncNameCpp(strFuncName))
+      else
+        SubItems.Add(strFuncName);
     end;
   end;
 end;
@@ -1256,6 +1261,11 @@ begin
 
   AnalyzePE_Resource;
   pgcPEInfo.ActivePage := tsResource;
+end;
+
+procedure TfrmPEInfo.chkExportFuncCppTypeClick(Sender: TObject);
+begin
+  AnalyzePE_ExportFunc(chkExportFuncCppType.Checked);
 end;
 
 end.

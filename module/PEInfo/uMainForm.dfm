@@ -58,16 +58,12 @@ object frmPEInfo: TfrmPEInfo
     Top = 40
     Width = 798
     Height = 705
-    ActivePage = tsNTHeader
+    ActivePage = tsExport
     Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 2
     OnChange = pgcPEInfoChange
     object tsAll: TTabSheet
       Caption = 'PE '#31616#20171
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object lbl57: TLabel
         Left = 20
         Top = 12
@@ -84,10 +80,6 @@ object frmPEInfo: TfrmPEInfo
     object tsDosHeader: TTabSheet
       Caption = 'DOS '#22836
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object lbl39: TLabel
         Left = 16
         Top = 23
@@ -865,10 +857,6 @@ object frmPEInfo: TfrmPEInfo
     object tsDosStub: TTabSheet
       Caption = 'DOS '#25554#26729
       ImageIndex = 8
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
     end
     object tsNTHeader: TTabSheet
       Caption = 'NT '#22836
@@ -3058,10 +3046,6 @@ object frmPEInfo: TfrmPEInfo
     object tsSectionTable: TTabSheet
       Caption = #33410#34920
       ImageIndex = 3
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       DesignSize = (
         790
         677)
@@ -3363,10 +3347,6 @@ object frmPEInfo: TfrmPEInfo
     object tsSectionData: TTabSheet
       Caption = #33410#25968#25454
       ImageIndex = 4
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       DesignSize = (
         790
         677)
@@ -3418,10 +3398,6 @@ object frmPEInfo: TfrmPEInfo
     object tsExport: TTabSheet
       Caption = #23548#20986#20989#25968
       ImageIndex = 5
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       DesignSize = (
         790
         677)
@@ -3456,6 +3432,7 @@ object frmPEInfo: TfrmPEInfo
         ReadOnly = True
         RowSelect = True
         ParentFont = False
+        PopupMenu = pmCopyExportFunc
         TabOrder = 0
         ViewStyle = vsReport
         OnClick = lvFuncClick
@@ -3733,10 +3710,6 @@ object frmPEInfo: TfrmPEInfo
     object tsImport: TTabSheet
       Caption = #23548#20837#20989#25968
       ImageIndex = 6
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       DesignSize = (
         790
         677)
@@ -3824,10 +3797,6 @@ object frmPEInfo: TfrmPEInfo
     object tsResource: TTabSheet
       Caption = #36164#28304
       ImageIndex = 7
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       DesignSize = (
         790
         677)
@@ -4123,6 +4092,19 @@ object frmPEInfo: TfrmPEInfo
       Caption = '  IMAGE_FILE_MACHINE_AMD64         = $8664;  { AMD64 (K8) }'
       OnDrawItem = IMAGEFILEMACHINEAMD648664AMD64K81DrawItem
       OnMeasureItem = IMAGEFILEMACHINEAMD648664AMD64K81MeasureItem
+    end
+  end
+  object pmCopyExportFunc: TPopupMenu
+    AutoHotkeys = maManual
+    Left = 911
+    Top = 328
+    object mniCopySelectFuncName: TMenuItem
+      Caption = #22797#21046#25152#36873#20989#25968#21040#21098#20999#26495
+      OnClick = mniCopySelectFuncNameClick
+    end
+    object mniCopyAllExportFuncName: TMenuItem
+      Caption = #22797#21046#25152#26377#20989#25968#21040#21098#20999#26495
+      OnClick = mniCopyAllExportFuncNameClick
     end
   end
 end

@@ -1,10 +1,10 @@
 unit uMainForm;
-
+
 interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.StrUtils, System.Variants, System.Classes, System.Math, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.WinXCtrls, Vcl.ComCtrls, Vcl.ExtCtrls, Vcl.Grids,
-  db.uCommon, uHexEditor, uResource, Vcl.Menus;
+  Vcl.Clipbrd, db.uCommon, uHexEditor, uResource, Vcl.Menus;
 
 type
   TfrmPEInfo = class(TForm)
@@ -335,6 +335,9 @@ type
     btnDll: TButton;
     tsDosStub: TTabSheet;
     tvResource: TTreeView;
+    pmCopyExportFunc: TPopupMenu;
+    mniCopySelectFuncName: TMenuItem;
+    mniCopyAllExportFuncName: TMenuItem;
     procedure srchbxSelectPEFileInvokeSearch(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure lvSectionTableClick(Sender: TObject);
@@ -361,6 +364,8 @@ type
     procedure mniIMAGEDLLCHARACTERISTICSTERMINALSERVERAWARE0x80001MeasureItem(Sender: TObject; ACanvas: TCanvas; var Width, Height: Integer);
     procedure btnDllClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure mniCopySelectFuncNameClick(Sender: TObject);
+    procedure mniCopyAllExportFuncNameClick(Sender: TObject);
   private
     FbX64   : Boolean;
     FTempHex: THexEditor;
@@ -848,6 +853,30 @@ begin
   Width := 1050;
 end;
 
+procedure TfrmPEInfo.mniCopySelectFuncNameClick(Sender: TObject);
+begin
+  if lvFunc.ItemIndex = -1 then
+    Exit;
+
+  Clipboard.asText := lvFunc.Items[lvFunc.ItemIndex].SubItems[2];
+end;
+
+procedure TfrmPEInfo.mniCopyAllExportFuncNameClick(Sender: TObject);
+var
+  I       : Integer;
+  strValue: String;
+begin
+  if lvFunc.Items.Count <= 0 then
+    Exit;
+
+  strValue := '';
+  for I    := 0 to lvFunc.Items.Count - 1 do
+  begin
+    strValue := strValue + #$D#$A + lvFunc.Items[I].SubItems[2]
+  end;
+  Clipboard.asText := strValue;
+end;
+
 procedure TfrmPEInfo.scrlbx1MouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
 begin
   if WheelDelta < 0 then
@@ -1230,3 +1259,4 @@ begin
 end;
 
 end.
+

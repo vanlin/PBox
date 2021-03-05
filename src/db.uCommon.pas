@@ -1121,6 +1121,9 @@ begin
       if Pos('virtual', LowerCase(strName)) > 0 then
         Continue;
 
+      if Pos('usb wireless', LowerCase(strName)) > 0 then
+        Continue;
+
       Result := string(AdapterInfo^.IpAddressList.IpAddress.S);
     end;
   finally

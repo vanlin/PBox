@@ -1,5 +1,5 @@
 unit db.uBaseForm;
-
+
 interface
 
 uses Winapi.Windows, Winapi.Messages, System.Classes, System.SysUtils, System.StrUtils, System.Math, System.IniFiles, Vcl.Menus, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.ComCtrls, Vcl.ExtCtrls, JvComponentBase, JvDragDrop, db.uCommon;
@@ -50,6 +50,7 @@ type
     procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
     procedure MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
     procedure OnFileDrop(Sender: TObject; hwnd: THandle);
+    procedure WMSYSCOMMAND(var msg: TWMSYSCOMMAND); message WM_SYSCOMMAND;
   public
     procedure LoadButtonBmp(btn: TImage; const strResName: String; const intIndex: Integer);
     constructor Create(AOwner: TComponent); override;
@@ -460,6 +461,18 @@ begin
     Show;
 end;
 
+{ 任务栏最小化、还原 }
+procedure TdbBaseForm.WMSYSCOMMAND(var msg: TWMSYSCOMMAND);
+begin
+  case msg.CmdType of
+    SC_RESTORE:
+      SetWindowLong(Handle, GWL_STYLE, WS_MINIMIZEBOX);
+    SC_MINIMIZE:
+      SetWindowLong(Handle, GWL_STYLE, WS_MAXIMIZEBOX);
+  end;
+  inherited;
+end;
+
 procedure TdbBaseForm.OnSysBtnConfigClick(Sender: TObject);
 begin
   if Assigned(FOnConfig) then
@@ -472,4 +485,3 @@ begin
 end;
 
 end.
-

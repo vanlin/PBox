@@ -23,7 +23,7 @@ extern int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInst,LPSTR lpCmdLin
 extern "C" __declspec(dllexport) void db_ShowDllForm_Plugins(TLangStyle* lsFileType, char** strParentName, char** strSubModuleName, char** strClassName, char** strWindowName, const bool show = false)
 {
     * lsFileType       = lsQTDll;                 // TLangStyle
-    * strParentName    = "程序员工具";             // 父模块名称
+    * strParentName    = "程序员工具";            // 父模块名称
     * strSubModuleName = "CMake-GUI(DLL)";        // 子模块名称
     * strClassName     = "Qt5150QWindowIcon";     // 窗体类名
     * strWindowName    = "CMakeSetup";            // 窗体名

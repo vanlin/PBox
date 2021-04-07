@@ -17,7 +17,7 @@ link /dll /OUT:qBittorrent.dll ^
   /TLBID:1 ^
   /DYNAMICBASE ^
   /NXCOMPAT ^
-  /MACHINE:X64 /SAFESEH /guard:cf  /machine:X64 ^
+  /MACHINE:X64 /guard:cf  /machine:X64 ^
   qBittorrent.obj ^
   x64\*.* ^
  dbghelp.lib winmm.lib advapi32.lib comdlg32.lib crypt32.lib d2d1.lib d3d11.lib dwmapi.lib dwrite.lib dxgi.lib dxguid.lib gdi32.lib glu32.lib imm32.lib iphlpapi.lib kernel32.lib mpr.lib POWRPROF.LIB ^

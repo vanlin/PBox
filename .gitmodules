@@ -25,3 +25,6 @@
 [submodule "vcl/FastMM4"]
 	path = vcl/FastMM4
 	url = https://github.com/pleriche/FastMM4.git
+[submodule "vcl/DWScript"]
+	path = vcl/DWScript
+	url = https://github.com/EricGrange/DWScript.git

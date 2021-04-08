@@ -24,6 +24,7 @@ object frmPBox: TfrmPBox
     Width = 1176
     Height = 24
     AutoSize = True
+    BandBorderStyle = bsNone
     Bands = <
       item
         Control = tlbPModule
@@ -33,10 +34,11 @@ object frmPBox: TfrmPBox
       end>
     EdgeInner = esNone
     EdgeOuter = esNone
+    FixedOrder = True
     object tlbPModule: TToolBar
-      Left = 11
+      Left = 2
       Top = 0
-      Width = 1165
+      Width = 1174
       Height = 24
       ButtonHeight = 24
       ButtonWidth = 43

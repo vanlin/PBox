@@ -14,13 +14,14 @@ type
     lbl4: TLabel;
     lbl5: TLabel;
     lbl6: TLabel;
-    btn2: TButton;
     lnklblWebAddress: TLinkLabel;
     lnklbl1: TLinkLabel;
     lbl7: TLabel;
     lbl8: TLabel;
     lbl9: TLabel;
     lbl10: TLabel;
+    lbl11: TLabel;
+    lnklbl2: TLinkLabel;
     procedure lnklblWebAddressLinkClick(Sender: TObject; const Link: string; LinkType: TSysLinkType);
     procedure lnklbl1LinkClick(Sender: TObject; const Link: string; LinkType: TSysLinkType);
   private

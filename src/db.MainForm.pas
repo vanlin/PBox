@@ -116,6 +116,8 @@ type
     procedure DllFormCloseRestoreUI;
     { VC DLG DLL Form 窗体销毁 }
     procedure OnVCDLGDllFormClose(Sender: TObject);
+    { 关闭系统 }
+    procedure OnExitProgram(Sender: TObject);
   end;
 
 var
@@ -160,6 +162,13 @@ procedure TfrmPBox.FormDestroy(Sender: TObject);
 begin
   FreeModuleMenu;
   FListDll.Free;
+end;
+
+{ 关闭系统 }
+procedure TfrmPBox.OnExitProgram(Sender: TObject);
+begin
+  if MessageBox(Handle, '你确定要退出管理系统吗？', '系统提示：', MB_YESNO OR MB_ICONQUESTION) = idYes then
+    Close;
 end;
 
 function EnumChildFunc(hDllForm: THandle; hParentHandle: THandle): Boolean; stdcall;
@@ -590,6 +599,7 @@ end;
 procedure TfrmPBox.CreateDisplayUI_Button;
 var
   tmpTB          : TToolButton;
+  ExitTB         : TToolButton;
   I              : Integer;
   strIconFilePath: String;
   strIconFileName: String;
@@ -619,6 +629,16 @@ begin
       end;
     end;
   end;
+
+  icoPModule := TIcon.Create;
+  icoPModule.LoadFromResourceName(hInstance, 'QUITBUTTONICON');
+  ilPModule.AddIcon(icoPModule);
+  icoPModule.Free;
+  ExitTB            := TToolButton.Create(tlbPModule);
+  ExitTB.Parent     := tlbPModule;
+  ExitTB.Caption    := '退出系统';
+  ExitTB.ImageIndex := ilPModule.Count - 1;
+  ExitTB.OnClick    := OnExitProgram;
 
   for I := mmMainMenu.Items.Count - 1 downto 0 do
   begin

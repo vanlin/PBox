@@ -17,7 +17,7 @@ object frmAbout: TfrmAbout
   TextHeight = 13
   object lbl1: TLabel
     Left = 32
-    Top = 32
+    Top = 24
     Width = 39
     Height = 13
     Caption = #21517#31216#65306
@@ -30,7 +30,7 @@ object frmAbout: TfrmAbout
   end
   object lbl2: TLabel
     Left = 32
-    Top = 58
+    Top = 50
     Width = 39
     Height = 13
     Caption = #29256#26412#65306
@@ -43,7 +43,7 @@ object frmAbout: TfrmAbout
   end
   object lbl3: TLabel
     Left = 113
-    Top = 85
+    Top = 77
     Width = 191
     Height = 13
     Caption = #22522#20110' Dll '#31383#20307#30340#27169#22359#21270#24320#21457#24179#21488
@@ -56,7 +56,7 @@ object frmAbout: TfrmAbout
   end
   object lbl4: TLabel
     Left = 113
-    Top = 111
+    Top = 103
     Width = 189
     Height = 13
     Caption = 'Copyright (C) 2021, dbyoung'
@@ -69,7 +69,7 @@ object frmAbout: TfrmAbout
   end
   object lbl5: TLabel
     Left = 32
-    Top = 138
+    Top = 130
     Width = 39
     Height = 13
     Caption = #20027#39029#65306
@@ -82,7 +82,7 @@ object frmAbout: TfrmAbout
   end
   object lbl6: TLabel
     Left = 32
-    Top = 165
+    Top = 157
     Width = 65
     Height = 13
     Caption = #30005#23376#37038#20214#65306
@@ -95,7 +95,7 @@ object frmAbout: TfrmAbout
   end
   object lbl7: TLabel
     Left = 113
-    Top = 32
+    Top = 24
     Width = 35
     Height = 13
     Caption = 'PBox '
@@ -108,7 +108,7 @@ object frmAbout: TfrmAbout
   end
   object lbl8: TLabel
     Left = 113
-    Top = 58
+    Top = 50
     Width = 28
     Height = 13
     Caption = 'v4.0'
@@ -121,7 +121,7 @@ object frmAbout: TfrmAbout
   end
   object lbl9: TLabel
     Left = 32
-    Top = 85
+    Top = 77
     Width = 39
     Height = 13
     Caption = #21151#33021#65306
@@ -134,7 +134,7 @@ object frmAbout: TfrmAbout
   end
   object lbl10: TLabel
     Left = 32
-    Top = 112
+    Top = 104
     Width = 39
     Height = 13
     Caption = #29256#26435#65306
@@ -147,7 +147,7 @@ object frmAbout: TfrmAbout
   end
   object lbl11: TLabel
     Left = 32
-    Top = 192
+    Top = 184
     Width = 65
     Height = 13
     Caption = #28304#30721#22320#22336#65306
@@ -160,7 +160,7 @@ object frmAbout: TfrmAbout
   end
   object lnklblWebAddress: TLinkLabel
     Left = 113
-    Top = 138
+    Top = 130
     Width = 85
     Height = 17
     Hint = 'https://blog.csdn.net/dbyoung'
@@ -172,7 +172,7 @@ object frmAbout: TfrmAbout
   end
   object lnklbl1: TLinkLabel
     Left = 113
-    Top = 164
+    Top = 156
     Width = 85
     Height = 17
     Hint = 'dbyoung@sina.com'
@@ -184,7 +184,7 @@ object frmAbout: TfrmAbout
   end
   object lnklbl2: TLinkLabel
     Left = 113
-    Top = 190
+    Top = 182
     Width = 234
     Height = 20
     Hint = 'https://github.com/dbyoung720/PBox.git'

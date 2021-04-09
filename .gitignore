@@ -12,3 +12,7 @@
 /bin/Win32/plugins/OpenCV/bin/test01.exe
 /bin/Win32/plugins/OpenCV/bin/test02.exe
 /bin/Win32/plugins/OpenCV/face/test.jpg
+/bin/Win32/plugins/cports-x64/cports.cfg
+/bin/Win32/plugins/smsniff-x64/smsniff.cfg
+/bin/Win64/plugins/cports-x64/cports.cfg
+/bin/Win64/plugins/smsniff-x64/smsniff.cfg

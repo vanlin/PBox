@@ -44,6 +44,7 @@ type
     OpenPictureDialog1: TOpenPictureDialog;
     btnAddEXE: TButton;
     chkShowWebSpeed: TCheckBox;
+    chkLoadSpeed: TCheckBox;
     procedure btnCancelClick(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
     procedure btnDatabaseConfigClick(Sender: TObject);
@@ -61,9 +62,11 @@ type
     procedure imgPModuleIconClick(Sender: TObject);
     procedure imgSModuleIconClick(Sender: TObject);
     procedure rgShowStyleClick(Sender: TObject);
+    procedure chkLoadSpeedClick(Sender: TObject);
   private
     FmemIni      : TMemIniFile;
     FlstModuleAll: THashedStringList;
+    FilMainMenu  : TImageList;
     FbResult     : Boolean;
     procedure ReadConfigFillUI;
     procedure SaveConfig;
@@ -73,20 +76,21 @@ type
     { Public declarations }
   end;
 
-function ShowConfigForm(var lstModuleAll: THashedStringList): Boolean;
+function ShowConfigForm(var lstModuleAll: THashedStringList; const ilMainMenu: TImageList): Boolean;
 
 implementation
 
-uses db.DBConfig, db.AddEXE;
+uses db.ImageListEx, db.DBConfig, db.AddEXE;
 
 {$R *.dfm}
 
-function ShowConfigForm(var lstModuleAll: THashedStringList): Boolean;
+function ShowConfigForm(var lstModuleAll: THashedStringList; const ilMainMenu: TImageList): Boolean;
 begin
   with TfrmConfig.Create(nil) do
   begin
     FbResult      := False;
     FlstModuleAll := lstModuleAll;
+    FilMainMenu   := ilMainMenu;
     ReadConfigFillUI;
     Position := poScreenCenter;
     ShowModal;
@@ -188,6 +192,7 @@ begin
   FmemIni.WriteString(c_strIniUISection, 'filebackimage', IfThen(chkBackImage.Checked, srchbxBackImage.Text, ''));
   FmemIni.WriteInteger(c_strIniUISection, 'ShowStyle', rgShowStyle.ItemIndex);
   FmemIni.WriteBool(c_strIniUISection, 'ShowCloseButton', chkShowCloseButton.Checked);
+  FmemIni.WriteBool(c_strIniUISection, 'LoadSpeed', chkLoadSpeed.Checked);
 
   EnableAutoRun(chkAutorun.Checked);
 
@@ -208,6 +213,7 @@ begin
   chkAutorun.Checked         := FmemIni.ReadBool(c_strIniUISection, 'AutoRun', False);
   chkOnlyOneInstance.Checked := FmemIni.ReadBool(c_strIniUISection, 'OnlyOneInstance', True);
   chkShowWebSpeed.Checked    := FmemIni.ReadBool(c_strIniUISection, 'ShowWebSpeed', False);
+  chkLoadSpeed.Checked       := FmemIni.ReadBool(c_strIniUISection, 'LoadSpeed', False);
 
   chkBackImage.Checked := FmemIni.ReadBool(c_strIniUISection, 'ShowBackImage', False);
   if chkBackImage.Checked then
@@ -530,6 +536,22 @@ begin
     begin
       imgSModuleIcon.Picture.LoadFromFile(strIconFileName);
     end;
+  end;
+end;
+
+procedure TfrmConfig.chkLoadSpeedClick(Sender: TObject);
+begin
+  if chkLoadSpeed.Checked then
+  begin
+    FlstModuleAll.SaveToFile(GetLoadSpeedFileName_Config);
+    TImageListEx(FilMainMenu).SaveToFile(GetLoadSpeedFileName_icolst);
+  end
+  else
+  begin
+    if FileExists(GetLoadSpeedFileName_Config) then
+      DeleteFile(GetLoadSpeedFileName_Config);
+    if FileExists(GetLoadSpeedFileName_icolst) then
+      DeleteFile(GetLoadSpeedFileName_icolst);
   end;
 end;
 

@@ -278,7 +278,7 @@ end;
 
 procedure TfrmPBox.mniFuncMenuConfigClick(Sender: TObject);
 begin
-  if ShowConfigForm(FListDll) then
+  if ShowConfigForm(FListDll, ilMainMenu) then
   begin
     FreeAllDllForm;
     ReCreate(False);
@@ -401,14 +401,23 @@ end;
 { 加载所有的 DLL 和 EXE 到列表 }
 procedure TfrmPBox.LoadAllPlugins(var lstDll: THashedStringList);
 begin
-  { 扫描 DLL 文件，读取 Plugins 目录 }
-  LoadAllPlugins_Dll(lstDll, ilMainMenu);
+  { 是否开启了加速加载子模块 }
+  if CheckLoadSpeed then
+  begin
+    lstDll.LoadFromFile(GetLoadSpeedFileName_Config);
+    LoadAllMenuIconSpeed(ilMainMenu);
+  end
+  else
+  begin
+    { 扫描 DLL 文件，读取 Plugins 目录 }
+    LoadAllPlugins_Dll(lstDll, ilMainMenu);
 
-  { 扫描 EXE 文件，读取 配置 文件 }
-  LoadAllPlugins_EXE(lstDll, ilMainMenu);
+    { 扫描 EXE 文件，读取 配置 文件 }
+    LoadAllPlugins_EXE(lstDll, ilMainMenu);
 
-  { 排序模块 }
-  SortModuleList(lstDll);
+    { 排序模块 }
+    SortModuleList(lstDll);
+  end;
 end;
 
 procedure TfrmPBox.OnMenuItemClick(Sender: TObject);

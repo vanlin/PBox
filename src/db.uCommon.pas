@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, Winapi.ShellAPI, Winapi.IpRtrMib, Winapi.TlHelp32, Winapi.ShlObj, Winapi.IpTypes, Winapi.ActiveX, Winapi.IpHlpApi, Winapi.ImageHlp,
   System.IOUtils, System.Types, System.Math, System.SysUtils, System.StrUtils, System.Classes, System.IniFiles, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Data.Win.ADODB, Data.db,
-  IdIPWatch, FlyUtils.CnXXX.Common, FlyUtils.AES, db.uNetworkManager;
+  IdIPWatch, FlyUtils.CnXXX.Common, FlyUtils.AES, db.uNetworkManager, db.ImageListEx;
 
 type
   { 界面显示方式：菜单、按钮、列表 }
@@ -202,6 +202,18 @@ function GetDllFilePath: String;
 
 { 获取导出函数全名 C++ 类型函数 }
 function GetFullFuncNameCpp(const strFuncName: string): String;
+
+{ 加速加载配置文件名称 }
+function GetLoadSpeedFileName_Config: String;
+
+{ 加速加载图标文件名称 }
+function GetLoadSpeedFileName_Icolst: String;
+
+{ 是否开启了加速加载子模块 }
+function CheckLoadSpeed: Boolean;
+
+{ 加速加载时，每个菜单项的图标 }
+procedure LoadAllMenuIconSpeed(const ilMainMenu: TImageList);
 
 implementation
 
@@ -1605,6 +1617,34 @@ var
 begin
   UnDecorateSymbolName(PAnsiChar(AnsiString(strFuncName)), strFuncFullName, 256, 0);
   Result := string(strFuncFullName);
+end;
+
+{ 加速加载配置文件名称 }
+function GetLoadSpeedFileName_Config: String;
+begin
+  Result := ChangeFileExt(ParamStr(0), '.lsc');
+end;
+
+{ 加速加载图标文件名称 }
+function GetLoadSpeedFileName_Icolst: String;
+begin
+  Result := ChangeFileExt(ParamStr(0), '.lsi');
+end;
+
+{ 是否开启了加速加载子模块 }
+function CheckLoadSpeed: Boolean;
+begin
+  with TIniFile.Create(ChangeFileExt(ParamStr(0), '.ini')) do
+  begin
+    Result := ReadBool(c_strIniUISection, 'LoadSpeed', False) and FileExists(GetLoadSpeedFileName_Config);
+    Free;
+  end;
+end;
+
+{ 加速加载时，每个菜单项的图标 }
+procedure LoadAllMenuIconSpeed(const ilMainMenu: TImageList);
+begin
+  TImageListEx(ilMainMenu).LoadFromFile(GetLoadSpeedFileName_Icolst);
 end;
 
 end.

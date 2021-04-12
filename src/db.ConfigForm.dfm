@@ -23,7 +23,7 @@ object frmConfig: TfrmConfig
   TextHeight = 13
   object lbl2: TLabel
     Left = 8
-    Top = 302
+    Top = 303
     Width = 70
     Height = 19
     Caption = #26174#31034#39118#26684#65306
@@ -80,7 +80,7 @@ object frmConfig: TfrmConfig
     Left = 8
     Top = 25
     Width = 333
-    Height = 270
+    Height = 277
     Font.Charset = GB2312_CHARSET
     Font.Color = clWindowText
     Font.Height = -15
@@ -90,21 +90,21 @@ object frmConfig: TfrmConfig
     TabOrder = 0
     object lblTitle: TLabel
       Left = 10
-      Top = 15
+      Top = 12
       Width = 105
       Height = 15
       Caption = #26631#39064#25991#26412#26174#31034#65306
     end
     object edtTitle: TEdit
       Left = 124
-      Top = 12
+      Top = 9
       Width = 189
       Height = 23
       TabOrder = 0
     end
     object chkShowTwoScreen: TCheckBox
       Left = 10
-      Top = 41
+      Top = 38
       Width = 224
       Height = 17
       Caption = #22810#23631#24149#26102#65292#26174#31034#22312#31532#20108#20010#23631#24149#19978
@@ -112,7 +112,7 @@ object frmConfig: TfrmConfig
     end
     object chkTopForm: TCheckBox
       Left = 10
-      Top = 68
+      Top = 64
       Width = 224
       Height = 17
       Caption = #31383#20307#20445#25345#39030#31471#26174#31034
@@ -120,7 +120,7 @@ object frmConfig: TfrmConfig
     end
     object chkCloseMini: TCheckBox
       Left = 10
-      Top = 122
+      Top = 117
       Width = 224
       Height = 17
       Caption = #20851#38381#26102#65292#26368#23567#21270#21040#25176#30424#21306
@@ -128,7 +128,7 @@ object frmConfig: TfrmConfig
     end
     object srchbxBackImage: TSearchBox
       Left = 124
-      Top = 229
+      Top = 248
       Width = 189
       Height = 23
       ReadOnly = True
@@ -138,7 +138,7 @@ object frmConfig: TfrmConfig
     end
     object chkBackImage: TCheckBox
       Left = 10
-      Top = 230
+      Top = 249
       Width = 97
       Height = 17
       Caption = #26174#31034#32972#26223#22270
@@ -147,7 +147,7 @@ object frmConfig: TfrmConfig
     end
     object chkAutorun: TCheckBox
       Left = 10
-      Top = 149
+      Top = 143
       Width = 224
       Height = 17
       Caption = #24320#26426#33258#21160#21551#21160
@@ -155,7 +155,7 @@ object frmConfig: TfrmConfig
     end
     object chkOnlyOneInstance: TCheckBox
       Left = 10
-      Top = 176
+      Top = 170
       Width = 224
       Height = 17
       Caption = #21482#20801#35768#36816#34892#19968#20010#23454#20363
@@ -163,7 +163,7 @@ object frmConfig: TfrmConfig
     end
     object chkFullScreen: TCheckBox
       Left = 10
-      Top = 95
+      Top = 91
       Width = 224
       Height = 17
       Caption = #31383#20307#26368#22823#21270#26174#31034
@@ -171,11 +171,20 @@ object frmConfig: TfrmConfig
     end
     object chkShowWebSpeed: TCheckBox
       Left = 10
-      Top = 203
+      Top = 196
       Width = 224
       Height = 17
       Caption = #26174#31034#32593#32476#19979#36733#19978#20256#36895#24230
       TabOrder = 7
+    end
+    object chkLoadSpeed: TCheckBox
+      Left = 10
+      Top = 222
+      Width = 143
+      Height = 17
+      Caption = #20248#21270#27169#22359#21152#36733#36895#24230
+      TabOrder = 10
+      OnClick = chkLoadSpeedClick
     end
   end
   object btnSave: TButton

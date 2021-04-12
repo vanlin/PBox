@@ -1636,7 +1636,7 @@ function CheckLoadSpeed: Boolean;
 begin
   with TIniFile.Create(ChangeFileExt(ParamStr(0), '.ini')) do
   begin
-    Result := ReadBool(c_strIniUISection, 'LoadSpeed', False) and FileExists(GetLoadSpeedFileName_Config);
+    Result := ReadBool(c_strIniUISection, 'LoadSpeed', False) and FileExists(GetLoadSpeedFileName_Config) and FileExists(GetLoadSpeedFileName_Icolst);
     Free;
   end;
 end;

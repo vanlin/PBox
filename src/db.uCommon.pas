@@ -1622,13 +1622,13 @@ end;
 { 加速加载配置文件名称 }
 function GetLoadSpeedFileName_Config: String;
 begin
-  Result := ChangeFileExt(ParamStr(0), '.lsc');
+  Result := ExtractFilePath(ParamStr(0)) + 'plugins\' + ChangeFileExt(ExtractFileName(ParamStr(0)), '.lsc');
 end;
 
 { 加速加载图标文件名称 }
 function GetLoadSpeedFileName_Icolst: String;
 begin
-  Result := ChangeFileExt(ParamStr(0), '.lsi');
+  Result := ExtractFilePath(ParamStr(0)) + 'plugins\' + ChangeFileExt(ExtractFileName(ParamStr(0)), '.lsi');
 end;
 
 { 是否开启了加速加载子模块 }

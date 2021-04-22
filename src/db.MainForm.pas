@@ -149,7 +149,7 @@ begin
   FListDll      := THashedStringList.Create;
   OnConfig      := OnSysConfig;
   TrayIconPMenu := pmTray;
-  CreateGlobalHotKey;
+  FHotKeyID     := 0;
 
   for I := 0 to pgcAll.PageCount - 1 do
   begin
@@ -199,6 +199,9 @@ begin
   end;
   if not bFullHotkey then
     Exit;
+
+  if FHotKeyID <> 0 then
+    UnregisterHotKey(Handle, FHotKeyID);
 
   FHotKeyID := GlobalAddAtom('PBox');
   intSheft  := Ifthen(HotkeyValue and scShift <> 0, MOD_SHIFT, 0);
@@ -398,6 +401,9 @@ begin
 
   { 设置默认界面 }
   ReadConfigUI(bSize);
+
+  { 注册热键 }
+  CreateGlobalHotKey;
 
   { 加载所有的 DLL 和 EXE 到列表 }
   LoadAllPlugins(FListDll);

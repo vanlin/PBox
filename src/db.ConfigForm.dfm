@@ -4,7 +4,7 @@ object frmConfig: TfrmConfig
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = #37197#32622
-  ClientHeight = 495
+  ClientHeight = 520
   ClientWidth = 832
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -18,7 +18,7 @@ object frmConfig: TfrmConfig
   OnDestroy = FormDestroy
   DesignSize = (
     832
-    495)
+    520)
   PixelsPerInch = 96
   TextHeight = 13
   object lbl2: TLabel
@@ -62,7 +62,7 @@ object frmConfig: TfrmConfig
   end
   object btnDatabaseConfig: TSpeedButton
     Left = 8
-    Top = 451
+    Top = 476
     Width = 92
     Height = 36
     Anchors = [akLeft, akBottom]
@@ -189,7 +189,7 @@ object frmConfig: TfrmConfig
   end
   object btnSave: TButton
     Left = 732
-    Top = 451
+    Top = 476
     Width = 92
     Height = 36
     Anchors = [akRight, akBottom]
@@ -202,10 +202,11 @@ object frmConfig: TfrmConfig
     ParentFont = False
     TabOrder = 1
     OnClick = btnSaveClick
+    ExplicitTop = 451
   end
   object btnCancel: TButton
     Left = 616
-    Top = 451
+    Top = 476
     Width = 92
     Height = 36
     Anchors = [akRight, akBottom]
@@ -218,12 +219,13 @@ object frmConfig: TfrmConfig
     ParentFont = False
     TabOrder = 2
     OnClick = btnCancelClick
+    ExplicitTop = 451
   end
   object rgShowStyle: TRadioGroup
     Left = 8
     Top = 326
     Width = 333
-    Height = 107
+    Height = 132
     Font.Charset = GB2312_CHARSET
     Font.Color = clWindowText
     Font.Height = -15
@@ -233,7 +235,8 @@ object frmConfig: TfrmConfig
     Items.Strings = (
       #33756#21333#39118#26684
       #25353#38062#39118#26684
-      #21015#34920#39118#26684)
+      #21015#34920#39118#26684
+      #26641#24418#39118#26684)
     ParentFont = False
     TabOrder = 3
     OnClick = rgShowStyleClick
@@ -242,7 +245,7 @@ object frmConfig: TfrmConfig
     Left = 352
     Top = 25
     Width = 467
-    Height = 408
+    Height = 433
     Anchors = [akLeft, akTop, akBottom]
     Color = clBtnFace
     Font.Charset = DEFAULT_CHARSET
@@ -254,9 +257,10 @@ object frmConfig: TfrmConfig
     ParentColor = False
     ParentFont = False
     TabOrder = 4
+    ExplicitHeight = 408
     DesignSize = (
       467
-      408)
+      433)
     object imgPModuleIcon: TImage
       Left = 183
       Top = 114
@@ -309,7 +313,7 @@ object frmConfig: TfrmConfig
       Left = 20
       Top = 21
       Width = 149
-      Height = 370
+      Height = 395
       Anchors = [akLeft, akTop, akBottom]
       Font.Charset = GB2312_CHARSET
       Font.Color = clBlack
@@ -320,12 +324,13 @@ object frmConfig: TfrmConfig
       ParentFont = False
       TabOrder = 0
       OnClick = lstParentModuleClick
+      ExplicitHeight = 370
     end
     object lstSubModule: TListBox
       Left = 264
       Top = 21
       Width = 141
-      Height = 370
+      Height = 395
       Anchors = [akLeft, akTop, akBottom]
       Font.Charset = GB2312_CHARSET
       Font.Color = clBlack
@@ -336,6 +341,7 @@ object frmConfig: TfrmConfig
       ParentFont = False
       TabOrder = 1
       OnClick = lstSubModuleClick
+      ExplicitHeight = 370
     end
     object btnParentUp: TButton
       Left = 174
@@ -375,7 +381,7 @@ object frmConfig: TfrmConfig
     end
     object btnSubModuleIcon: TButton
       Left = 409
-      Top = 73
+      Top = 98
       Width = 53
       Height = 25
       Hint = #36873#25321#22270#26631#65292#24517#39035#26159' 32'#215'32 '#30340' ico '#22270#29255
@@ -385,20 +391,22 @@ object frmConfig: TfrmConfig
       ShowHint = True
       TabOrder = 6
       OnClick = imgSModuleIconClick
+      ExplicitTop = 73
     end
     object chkGray: TCheckBox
       Left = 414
-      Top = 260
+      Top = 285
       Width = 97
       Height = 17
       Anchors = [akRight, akBottom]
       Caption = #38544#34255
       TabOrder = 7
       Visible = False
+      ExplicitTop = 260
     end
     object btnPModuleIcon: TButton
       Left = 174
-      Top = 73
+      Top = 98
       Width = 53
       Height = 25
       Hint = #36873#25321#22270#26631#65292#24517#39035#26159' 32'#215'32 '#30340' ico '#22270#29255
@@ -408,10 +416,11 @@ object frmConfig: TfrmConfig
       ShowHint = True
       TabOrder = 8
       OnClick = imgPModuleIconClick
+      ExplicitTop = 73
     end
     object btnAddEXE: TButton
       Left = 409
-      Top = 366
+      Top = 391
       Width = 53
       Height = 25
       Hint = #24517#39035#26159' 32'#215'32 '#30340' bmp,ico,png '#22270#29255
@@ -421,11 +430,12 @@ object frmConfig: TfrmConfig
       ShowHint = True
       TabOrder = 9
       OnClick = btnAddEXEClick
+      ExplicitTop = 366
     end
   end
   object chkShowCloseButton: TCheckBox
     Left = 156
-    Top = 376
+    Top = 387
     Width = 165
     Height = 18
     Caption = #26174#31034'Dll'#31383#20307#20851#38381#25353#38062

@@ -47,6 +47,9 @@ type
     mniTrayShowForm: TMenuItem;
     mniTrayLine01: TMenuItem;
     mniTrayExit: TMenuItem;
+    tsTree: TTabSheet;
+    imgTreeBack: TImage;
+    ctgrypnlgrpModule: TCategoryPanelGroup;
     procedure FormCreate(Sender: TObject);
     procedure tmrDateTimeTimer(Sender: TObject);
     procedure mniFuncMenuConfigClick(Sender: TObject);
@@ -76,6 +79,8 @@ type
     procedure CreateDisplayUI_Menu;   // 菜单模式
     procedure CreateDisplayUI_Button; // 按钮模式
     procedure CreateDisplayUI_List;   // 列表模式
+    procedure CreateDispalyUI_Tree;   // 树形模式
+    procedure CreateSubMoudleTree(pnl: TCategoryPanel; mmItem: TMenuItem);
     { 创建界面 }
     procedure ReCreate(const bSize: Boolean = True);
     { 系统参数配置 }
@@ -118,6 +123,8 @@ type
     procedure OnVCDLGDllFormClose(Sender: TObject);
     { 关闭系统 }
     procedure OnExitProgram(Sender: TObject);
+    procedure FreePanlSubModuleButton;
+    procedure FreeCatePanelGroup;
   end;
 
 var
@@ -160,6 +167,9 @@ end;
 
 procedure TfrmPBox.FormDestroy(Sender: TObject);
 begin
+  FreePanlSubModuleButton;
+  FreeCatePanelGroup;
+
   FreeModuleMenu;
   FListDll.Free;
 end;
@@ -525,11 +535,98 @@ begin
   end;
 end;
 
+procedure TfrmPBox.FreePanlSubModuleButton;
+var
+  I, J: Integer;
+  pnl : TCategoryPanel;
+begin
+  if ctgrypnlgrpModule.Panels.Count = 0 then
+    Exit;
+
+  for I := 0 to ctgrypnlgrpModule.Panels.Count - 1 do
+  begin
+    pnl := ctgrypnlgrpModule.Panels[I];
+    if pnl.ComponentCount > 0 then
+    begin
+      for J := pnl.ComponentCount - 1 downto 0 do
+      begin
+        if pnl.Components[J] is TSpeedButton then
+        begin
+          TSpeedButton(pnl.Components[J]).Free;
+        end;
+      end;
+    end;
+  end;
+end;
+
+procedure TfrmPBox.FreeCatePanelGroup;
+var
+  I: Integer;
+begin
+  if ctgrypnlgrpModule.Panels.Count = 0 then
+    Exit;
+
+  for I := ctgrypnlgrpModule.Panels.Count - 1 downto 0 do
+  begin
+    TCategoryPanel(ctgrypnlgrpModule.Panels[I]).Free;
+  end;
+end;
+
+procedure TfrmPBox.CreateSubMoudleTree(pnl: TCategoryPanel; mmItem: TMenuItem);
+var
+  I  : Integer;
+  btn: TSpeedButton;
+begin
+  for I := mmItem.Count - 1 downto 0 do
+  begin
+    btn := TSpeedButton.Create(pnl);
+    begin
+      btn.Parent     := pnl;
+      btn.Height     := 40;
+      btn.Align      := altop;
+      btn.Flat       := True;
+      btn.GroupIndex := 1;
+      btn.Tag        := mmItem.Items[I].Tag;
+      btn.Caption    := AlignStringWidth(mmItem.Items[I].Caption, btn.Font, 80);
+      ilMainMenu.GetBitmap(mmItem.Items[I].ImageIndex, btn.Glyph);
+      btn.OnClick := OnMenuItemClick;
+    end;
+  end;
+end;
+
+{ 创建显示界面 --- 树形模式 }
+procedure TfrmPBox.CreateDispalyUI_Tree;
+var
+  I  : Integer;
+  pnl: TCategoryPanel;
+begin
+  FreePanlSubModuleButton;
+  FreeCatePanelGroup;
+
+  for I := 0 to mmMainMenu.Items.Count - 1 do
+  begin
+    pnl            := TCategoryPanel.Create(ctgrypnlgrpModule);
+    pnl.Height     := 20 + (40 + 5) * mmMainMenu.Items.Items[I].Count;
+    pnl.PanelGroup := ctgrypnlgrpModule;
+    pnl.Caption    := mmMainMenu.Items.Items[I].Caption;
+    pnl.Collapse;
+    CreateSubMoudleTree(pnl, mmMainMenu.Items.Items[I]);
+  end;
+
+  if ctgrypnlgrpModule.Panels.Count > 0 then
+    TCategoryPanel(ctgrypnlgrpModule.Panels[0]).Expand;
+
+  pgcAll.ActivePage := tsTree;
+end;
+
 { 创建显示界面 }
 procedure TfrmPBox.CreateDisplayUI;
 var
   intShowStyle: Integer;
 begin
+  FreePanlSubModuleButton;
+  FreeCatePanelGroup;
+
   intShowStyle := GetShowStyle;
   case intShowStyle of
     0:
@@ -538,6 +635,8 @@ begin
       CreateDisplayUI_Button;
     2:
       CreateDisplayUI_List;
+    3:
+      CreateDispalyUI_Tree;
   end;
 end;
 
@@ -893,7 +992,9 @@ begin
   if GetShowStyle = 1 then
     pgcAll.ActivePage := tsButton
   else if GetShowStyle = 2 then
-    pgcAll.ActivePage := tsList;
+    pgcAll.ActivePage := tsList
+  else if GetShowStyle = 3 then
+    pgcAll.ActivePage := tsTree;
 end;
 
 procedure TfrmPBox.OnAdapterDrawItem(Sender: TObject; ACanvas: TCanvas; ARect: TRect; Selected: Boolean);

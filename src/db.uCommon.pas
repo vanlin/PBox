@@ -9,7 +9,7 @@ uses
 
 type
   { 界面显示方式：菜单、按钮、列表 }
-  TShowStyle = (ssMenu, ssButton, ssList);
+  TShowStyle = (ssMenu, ssButton, ssList, ssTree);
 
   { 界面显示模式：单文档、多文档 }
   TViewStyle = (dsSingle, dsMulti);
@@ -214,6 +214,9 @@ function CheckLoadSpeed: Boolean;
 
 { 加速加载时，每个菜单项的图标 }
 procedure LoadAllMenuIconSpeed(const ilMainMenu: TImageList);
+
+{ 对齐字符串；即固定长度 }
+function AlignStringWidth(const strValue: string; const Font: TFont; const intMaxLen: Integer = 200): String;
 
 implementation
 
@@ -512,7 +515,7 @@ function GetShowStyle: Integer;
 begin
   with TIniFile.Create(ChangeFileExt(ParamStr(0), '.ini')) do
   begin
-    Result := ReadInteger(c_strIniUISection, 'ShowStyle', 0) mod 3;
+    Result := ReadInteger(c_strIniUISection, 'ShowStyle', 0) mod 4;
     Free;
   end;
 end;
@@ -1645,6 +1648,39 @@ end;
 procedure LoadAllMenuIconSpeed(const ilMainMenu: TImageList);
 begin
   TImageListEx(ilMainMenu).LoadFromFile(GetLoadSpeedFileName_Icolst);
+end;
+
+{ 获取字符串宽度；包含中英文、数字等 }
+function GetStringWidth(const strValue: string; const Font: TFont): Integer;
+var
+  DC      : HDC;
+  hSavFont: HFont;
+  Size    : TSize;
+begin
+  DC       := GetDC(0);
+  hSavFont := SelectObject(DC, Font.Handle);
+  GetTextExtentPoint32(DC, PChar(strValue), Length(strValue), Size);
+  SelectObject(DC, hSavFont);
+  ReleaseDC(0, DC);
+  Result := Size.cx;
+end;
+
+{ 对齐字符串；即固定长度 }
+function AlignStringWidth(const strValue: string; const Font: TFont; const intMaxLen: Integer = 200): String;
+var
+  intLen: Integer;
+begin
+  Result := strValue;
+  intLen := GetStringWidth(strValue, Font);
+  if intLen >= intMaxLen then
+    Exit;
+
+  while True do
+  begin
+    Result := Result + ' ';
+    if GetStringWidth(Result, Font) >= intMaxLen then
+      Break;
+  end;
 end;
 
 end.

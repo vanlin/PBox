@@ -221,7 +221,7 @@ object frmPBox: TfrmPBox
     Top = 24
     Width = 1176
     Height = 677
-    ActivePage = tsButton
+    ActivePage = tsTree
     Align = alClient
     DoubleBuffered = True
     ParentDoubleBuffered = False
@@ -317,6 +317,37 @@ object frmPBox: TfrmPBox
         ExplicitTop = 216
         ExplicitWidth = 105
         ExplicitHeight = 105
+      end
+    end
+    object tsTree: TTabSheet
+      Caption = 'tsTree'
+      ImageIndex = 3
+      object imgTreeBack: TImage
+        Left = 200
+        Top = 0
+        Width = 968
+        Height = 646
+        Align = alClient
+        ExplicitLeft = 32
+        ExplicitTop = 48
+        ExplicitWidth = 105
+        ExplicitHeight = 105
+      end
+      object ctgrypnlgrpModule: TCategoryPanelGroup
+        Left = 0
+        Top = 0
+        Height = 646
+        VertScrollBar.Tracking = True
+        Color = clWhite
+        HeaderFont.Charset = DEFAULT_CHARSET
+        HeaderFont.Color = clWindowText
+        HeaderFont.Height = -11
+        HeaderFont.Name = 'Tahoma'
+        HeaderFont.Style = []
+        TabOrder = 0
+        ExplicitLeft = 320
+        ExplicitTop = 176
+        ExplicitHeight = 350
       end
     end
   end

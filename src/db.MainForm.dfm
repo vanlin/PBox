@@ -345,9 +345,6 @@ object frmPBox: TfrmPBox
         HeaderFont.Name = 'Tahoma'
         HeaderFont.Style = []
         TabOrder = 0
-        ExplicitLeft = 320
-        ExplicitTop = 176
-        ExplicitHeight = 350
       end
     end
   end

@@ -984,6 +984,7 @@ begin
   mmMainMenu.AutoMerge := True;
   tlbPModule.Height    := 24;
   clbrPModule.Visible  := True;
+  pgcAll.ActivePage    := tsDll;
 end;
 
 { DLL/EXE 窗体销毁之后，恢复界面 }

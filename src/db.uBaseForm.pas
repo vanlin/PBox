@@ -62,6 +62,7 @@ type
     property MainTrayIcon: TTrayIcon read FTrayIcon;
     property TrayIconPMenu: TPopupMenu read GetTrayIconPMenu write SetTrayIconPMenu;
     property MaxForm: Boolean read FbMaxForm;
+    procedure FullScreen;
   end;
 
 {$R *.res}
@@ -482,6 +483,24 @@ end;
 procedure TdbBaseForm.pnlDBLClick(Sender: TObject);
 begin
   //
+end;
+
+procedure TdbBaseForm.FullScreen;
+begin
+  if not FbMaxForm then
+  begin
+    FTopPanel.Visible                              := False;
+    TPanel(FindComponent('pnlBottom')).Visible     := False;
+    TCoolBar(FindComponent('clbrPModule')).Visible := False;
+    OnSysBtnMaxClick(FbtnMax);
+  end
+  else
+  begin
+    OnSysBtnMaxClick(FbtnMax);
+    TPanel(FindComponent('pnlBottom')).Visible     := True;
+    TCoolBar(FindComponent('clbrPModule')).Visible := True;
+    FTopPanel.Visible                              := True;
+  end;
 end;
 
 end.

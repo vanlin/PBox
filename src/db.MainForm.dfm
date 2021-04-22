@@ -379,8 +379,8 @@ object frmPBox: TfrmPBox
     AutoHotkeys = maManual
     AutoMerge = True
     Images = ilMainMenu
-    Left = 96
-    Top = 262
+    Left = 88
+    Top = 278
   end
   object tmrDateTime: TTimer
     OnTimer = tmrDateTimeTimer

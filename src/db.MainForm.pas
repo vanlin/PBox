@@ -3,7 +3,7 @@ unit db.MainForm;
 interface
 
 uses
-  Winapi.Windows, Winapi.IpTypes, System.SysUtils, System.Classes, System.IniFiles, System.UITypes, System.StrUtils, System.Math, System.ImageList,
+  Winapi.Windows, Winapi.Messages, Winapi.IpTypes, System.SysUtils, System.Classes, System.IniFiles, System.UITypes, System.StrUtils, System.Math, System.ImageList,
   Vcl.Graphics, Vcl.Buttons, Vcl.Controls, Vcl.Forms, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Menus, Vcl.StdCtrls, Vcl.ToolWin, Vcl.ImgList,
   db.uBaseForm, db.uCommon;
 
@@ -68,6 +68,7 @@ type
   private
     FListDll  : THashedStringList;
     FintBakRow: Integer;
+    FHotKeyID : WORD;
     { 设置默认界面 }
     procedure ReadConfigUI(const bSize: Boolean = True);
     { 加载所有的 DLL 和 EXE 到列表 }
@@ -123,8 +124,13 @@ type
     procedure OnVCDLGDllFormClose(Sender: TObject);
     { 关闭系统 }
     procedure OnExitProgram(Sender: TObject);
+    { 释放树形视图创建的控件 }
     procedure FreePanlSubModuleButton;
     procedure FreeCatePanelGroup;
+    { 创建系统级全屏快捷键 }
+    procedure CreateGlobalHotKey;
+    { 全屏按键消息 }
+    procedure FullScreenHotKey(var msg: TMessage); message WM_HOTKEY;
   end;
 
 var
@@ -143,6 +149,7 @@ begin
   FListDll      := THashedStringList.Create;
   OnConfig      := OnSysConfig;
   TrayIconPMenu := pmTray;
+  CreateGlobalHotKey;
 
   for I := 0 to pgcAll.PageCount - 1 do
   begin
@@ -160,6 +167,53 @@ begin
   ReCreate;
 end;
 
+function ModifierVirtualKey(AModifier: Integer): Integer;
+begin
+  case AModifier of
+    Ord(ssShift):
+      Result := VK_SHIFT;
+    Ord(ssCtrl):
+      Result := VK_CONTROL;
+    Ord(ssAlt):
+      Result := VK_MENU;
+  else
+    Result := 0;
+  end;
+end;
+
+{ 创建系统级全屏快捷键 }
+procedure TfrmPBox.CreateGlobalHotKey;
+var
+  bFullHotkey: Boolean;
+  HotkeyValue: TShortCut;
+  intCtrl    : WORD;
+  intAlt     : WORD;
+  intSheft   : WORD;
+  intKey     : WORD;
+begin
+  with TIniFile.Create(ChangeFileExt(ParamStr(0), '.ini')) do
+  begin
+    bFullHotkey := ReadBool(c_strIniUISection, 'FullHokKey', True);
+    HotkeyValue := ReadInteger(c_strIniUISection, 'HokkeyValue', 0);
+    Free;
+  end;
+  if not bFullHotkey then
+    Exit;
+
+  FHotKeyID := GlobalAddAtom('PBox');
+  intSheft  := Ifthen(HotkeyValue and scShift <> 0, MOD_SHIFT, 0);
+  intCtrl   := Ifthen(HotkeyValue and scCtrl <> 0, MOD_CONTROL, 0);
+  intAlt    := Ifthen(HotkeyValue and scAlt <> 0, MOD_ALT, 0);
+  intKey    := HotkeyValue and not(scShift + scCtrl + scAlt);
+  RegisterHotKey(Handle, FHotKeyID, intCtrl or intAlt or intSheft, intKey);
+end;
+
+{ 全屏按键消息 }
+procedure TfrmPBox.FullScreenHotKey(var msg: TMessage);
+begin
+  FullScreen;
+end;
+
 procedure TfrmPBox.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   FreeAllDllForm(True);
@@ -172,6 +226,8 @@ begin
 
   FreeModuleMenu;
   FListDll.Free;
+
+  UnregisterHotKey(Handle, FHotKeyID);
 end;
 
 { 关闭系统 }
@@ -405,7 +461,7 @@ begin
   end;
   tlbPModule.Images := nil;
   tlbPModule.Height := 30;
-  tlbPModule.Menu   := nil;
+  tlbPModule.menu   := nil;
 end;
 
 { 加载所有的 DLL 和 EXE 到列表 }
@@ -980,7 +1036,7 @@ end;
 { 创建显示界面 --- 菜单模式 }
 procedure TfrmPBox.CreateDisplayUI_Menu;
 begin
-  tlbPModule.Menu      := mmMainMenu;
+  tlbPModule.menu      := mmMainMenu;
   mmMainMenu.AutoMerge := True;
   tlbPModule.Height    := 24;
   clbrPModule.Visible  := True;

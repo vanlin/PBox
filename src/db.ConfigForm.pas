@@ -4,7 +4,8 @@ interface
 
 uses
   Winapi.Windows, Winapi.ShellAPI, System.SysUtils, System.StrUtils, System.Classes, System.IniFiles, System.Win.Registry,
-  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtDlgs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.WinXCtrls, Vcl.Buttons, Data.Win.ADODB, db.uCommon;
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtDlgs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.WinXCtrls, Vcl.Buttons, Data.Win.ADODB, db.uCommon,
+  Vcl.ComCtrls;
 
 type
   TfrmConfig = class(TForm)
@@ -45,6 +46,8 @@ type
     btnAddEXE: TButton;
     chkShowWebSpeed: TCheckBox;
     chkLoadSpeed: TCheckBox;
+    chkHokKey: TCheckBox;
+    hkFullScreen: THotKey;
     procedure btnCancelClick(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
     procedure btnDatabaseConfigClick(Sender: TObject);
@@ -63,6 +66,7 @@ type
     procedure imgSModuleIconClick(Sender: TObject);
     procedure rgShowStyleClick(Sender: TObject);
     procedure chkLoadSpeedClick(Sender: TObject);
+    procedure chkHokKeyClick(Sender: TObject);
   private
     FmemIni      : TMemIniFile;
     FlstModuleAll: THashedStringList;
@@ -193,6 +197,8 @@ begin
   FmemIni.WriteInteger(c_strIniUISection, 'ShowStyle', rgShowStyle.ItemIndex);
   FmemIni.WriteBool(c_strIniUISection, 'ShowCloseButton', chkShowCloseButton.Checked);
   FmemIni.WriteBool(c_strIniUISection, 'LoadSpeed', chkLoadSpeed.Checked);
+  FmemIni.WriteBool(c_strIniUISection, 'FullHokKey', chkHokKey.Checked);
+  FmemIni.WriteInteger(c_strIniUISection, 'HokkeyValue', hkFullScreen.HotKey);
 
   EnableAutoRun(chkAutorun.Checked);
 
@@ -214,6 +220,9 @@ begin
   chkOnlyOneInstance.Checked := FmemIni.ReadBool(c_strIniUISection, 'OnlyOneInstance', True);
   chkShowWebSpeed.Checked    := FmemIni.ReadBool(c_strIniUISection, 'ShowWebSpeed', False);
   chkLoadSpeed.Checked       := FmemIni.ReadBool(c_strIniUISection, 'LoadSpeed', False);
+  chkHokKey.Checked          := FmemIni.ReadBool(c_strIniUISection, 'FullHokKey', True);
+  if chkHokKey.Checked then
+    hkFullScreen.HotKey := FmemIni.ReadInteger(c_strIniUISection, 'HokkeyValue', 0);
 
   chkBackImage.Checked := FmemIni.ReadBool(c_strIniUISection, 'ShowBackImage', False);
   if chkBackImage.Checked then
@@ -320,6 +329,11 @@ begin
     srchbxBackImage.Visible := False;
     srchbxBackImage.Text    := '';
   end;
+end;
+
+procedure TfrmConfig.chkHokKeyClick(Sender: TObject);
+begin
+  hkFullScreen.Visible := chkHokKey.Checked;
 end;
 
 procedure TfrmConfig.FormCreate(Sender: TObject);

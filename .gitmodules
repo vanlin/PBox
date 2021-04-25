@@ -28,3 +28,6 @@
 [submodule "vcl/DWScript"]
 	path = vcl/DWScript
 	url = https://github.com/EricGrange/DWScript.git
+[submodule "vcl/pascalscript"]
+	path = vcl/pascalscript
+	url = https://github.com/remobjects/pascalscript.git

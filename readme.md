@@ -44,6 +44,7 @@ extern "C" __declspec(dllexport) void db_ShowDllForm_Plugins(TLangStyle* lsFileT
 * Put the compiled DLL file in the plugins directory;
 * Same as VC Dialog DLL;
 * Example£ºmodule\cmake-gui;
+* Example£ºmodule\qBittorrent£»
 * function declaration:
 ```
 enum TLangStyle {lsDelphiDll, lsVCDLGDll, lsVCMFCDll, lsQTDll, lsEXE};

@@ -44,6 +44,7 @@ extern "C" __declspec(dllexport) void db_ShowDllForm_Plugins(TLangStyle* lsFileT
 * 把编译后的 DLL 文件放置到 plugins 目录下就可以了；
 * 其实和 VC Dialog DLL 方式一模一样，封装和调用；
 * 示例：module\cmake-gui；
+* 示例：module\qBittorrent；
 * 函数声明：
 ```
 enum TLangStyle {lsDelphiDll, lsVCDLGDll, lsVCMFCDll, lsQTDll, lsEXE};

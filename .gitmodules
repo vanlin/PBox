@@ -31,3 +31,6 @@
 [submodule "vcl/pascalscript"]
 	path = vcl/pascalscript
 	url = https://github.com/remobjects/pascalscript.git
+[submodule "vcl/NtUtilsLibrary"]
+	path = vcl/NtUtilsLibrary
+	url = https://github.com/diversenok/NtUtilsLibrary.git

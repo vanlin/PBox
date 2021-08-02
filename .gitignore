@@ -8,6 +8,8 @@
 /bin/Win64/plugins/Notepad3/Notepad3.ini
 /bin/Win64/plugins/OpenCV/4.5.2/GPU/bin/opencv_cudafilters452.dll
 /bin/Win64/plugins/OpenCV/4.5.2/GPU/bin/opencv_cudaarithm452.dll
+/bin/Win64/plugins/OpenCV/4.5.3/GPU/bin/opencv_cudafilters453.dll
+/bin/Win64/plugins/OpenCV/4.5.3/GPU/bin/opencv_cudaarithm453.dll
 /module/qBittorrent/x64/torrent-rasterbar.lib
 /bin/Win32/plugins/OpenCV/bin/test01.exe
 /bin/Win32/plugins/OpenCV/bin/test02.exe

@@ -3,14 +3,13 @@ program PBox;
 {$WEAKLINKRTTI ON}
 {$RTTI EXPLICIT METHODS([]) PROPERTIES([]) FIELDS([])}
 {$IFEND}
-
 {$R *.dres}
 
 uses
   Vcl.Forms,
   Data.Win.ADODB,
   db.uCommon in 'db.uCommon.pas',
-  db.LoginForm in 'db.LoginForm.pas' {frmLogin},
+  db.LoginForm in 'db.LoginForm.pas' {frmLogin} ,
   db.MainForm in 'db.MainForm.pas' {frmPBox};
 
 {$R *.res}
@@ -27,7 +26,7 @@ begin
     ReportMemoryLeaksOnShutdown   := True;
     Application.MainFormOnTaskbar := True;
     Application.CreateForm(TfrmPBox, frmPBox);
-  frmPBox.lblLogin.Caption := strLoginName;
+    frmPBox.lblLogin.Caption := strLoginName;
     Application.Run;
   finally
     g_ADOCNN.Free;

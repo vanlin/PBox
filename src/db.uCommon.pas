@@ -1114,10 +1114,10 @@ end;
 { 获取本机IP }
 function GetNativeIP: String;
 var
-  lstAdapter : TList;
-  I          : Integer;
-  AdapterInfo: PIP_ADAPTER_INFO;
-  strName    : String;
+  lstAdapter  : TList;
+  I           : Integer;
+  AdapterInfo : PIP_ADAPTER_INFO;
+  strGatewayIP: String;
 begin
   Result     := '';
   lstAdapter := TList.Create;
@@ -1128,18 +1128,13 @@ begin
 
     for I := 0 to lstAdapter.Count - 1 do
     begin
-      AdapterInfo := PIP_ADAPTER_INFO(lstAdapter.Items[I]);
-      strName     := string(AdapterInfo^.Description);
-      if Pos('hyper-v', LowerCase(strName)) > 0 then
-        Continue;
-
-      if Pos('virtual', LowerCase(strName)) > 0 then
-        Continue;
-
-      if Pos('usb wireless', LowerCase(strName)) > 0 then
-        Continue;
-
-      Result := string(AdapterInfo^.IpAddressList.IpAddress.S);
+      AdapterInfo  := PIP_ADAPTER_INFO(lstAdapter.Items[I]);
+      strGatewayIP := string(AdapterInfo.GatewayList.IpAddress.S);
+      if not SameText(strGatewayIP, '0.0.0.0') then
+      begin
+        Result := string(AdapterInfo^.IpAddressList.IpAddress.S);
+        Break;
+      end;
     end;
   finally
     lstAdapter.Free;

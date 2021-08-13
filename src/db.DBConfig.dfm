@@ -4,7 +4,7 @@ object DBConfig: TDBConfig
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = #25968#25454#24211#37197#32622
-  ClientHeight = 495
+  ClientHeight = 572
   ClientWidth = 832
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -16,12 +16,12 @@ object DBConfig: TDBConfig
   Position = poMainFormCenter
   DesignSize = (
     832
-    495)
+    572)
   PixelsPerInch = 96
   TextHeight = 13
   object btnSave: TButton
-    Left = 728
-    Top = 451
+    Left = 732
+    Top = 528
     Width = 92
     Height = 36
     Anchors = [akRight, akBottom]
@@ -37,7 +37,7 @@ object DBConfig: TDBConfig
   end
   object btnCancel: TButton
     Left = 616
-    Top = 451
+    Top = 528
     Width = 92
     Height = 36
     Anchors = [akRight, akBottom]
@@ -54,8 +54,8 @@ object DBConfig: TDBConfig
   object pgcAll: TPageControl
     Left = 8
     Top = 8
-    Width = 812
-    Height = 437
+    Width = 816
+    Height = 509
     ActivePage = tsCreateDBLink
     MultiLine = True
     TabHeight = 35

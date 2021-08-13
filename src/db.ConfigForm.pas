@@ -3,9 +3,9 @@ unit db.ConfigForm;
 interface
 
 uses
-  Winapi.Windows, Winapi.ShellAPI, System.SysUtils, System.StrUtils, System.Classes, System.IniFiles, System.Win.Registry,
-  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtDlgs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.WinXCtrls, Vcl.Buttons, Data.Win.ADODB, db.uCommon,
-  Vcl.ComCtrls;
+  Winapi.Windows, Winapi.ShellAPI, System.SysUtils, System.StrUtils, System.Classes, System.IniFiles, System.Win.Registry,Data.Win.ADODB,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtDlgs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.WinXCtrls, Vcl.Buttons, Vcl.ComCtrls,
+  db.uCommon;
 
 type
   TfrmConfig = class(TForm)

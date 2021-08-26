@@ -121,7 +121,6 @@ object frmPBox: TfrmPBox
         Top = 4
         Width = 8
         Height = 15
-        Cursor = crHandPoint
         Font.Charset = GB2312_CHARSET
         Font.Color = clWhite
         Font.Height = -15
@@ -131,6 +130,7 @@ object frmPBox: TfrmPBox
         ParentShowHint = False
         ShowHint = False
         OnClick = lblIPClick
+        OnMouseEnter = lblIPMouseEnter
       end
       object bvlIP: TBevel
         Left = 151

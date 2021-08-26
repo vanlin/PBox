@@ -65,6 +65,7 @@ type
     procedure imgSubModuleCloseMouseLeave(Sender: TObject);
     procedure mniTrayShowFormClick(Sender: TObject);
     procedure mniTrayExitClick(Sender: TObject);
+    procedure lblIPMouseEnter(Sender: TObject);
   private
     FListDll  : THashedStringList;
     FintBakRow: Integer;
@@ -945,6 +946,19 @@ begin
         pmAdapterList.Popup(pt.X, pt.Y);
       end;
     end;
+  finally
+    lstAdapter.Free;
+  end;
+end;
+
+procedure TfrmPBox.lblIPMouseEnter(Sender: TObject);
+var
+  lstAdapter: TList;
+begin
+  lstAdapter := TList.Create;
+  try
+    GetAdapterInfo(lstAdapter);
+    lblIP.Cursor := Ifthen(lstAdapter.Count > 1, crHandPoint, crDefault);
   finally
     lstAdapter.Free;
   end;

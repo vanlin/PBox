@@ -1,4 +1,4 @@
-¼¯³ÉµÄµÚÈı·½¿â(Integrated third party libraries)£º
+ï»¿é›†æˆçš„ç¬¬ä¸‰æ–¹åº“(Integrated third party libraries)ï¼š
   amf
   avisynth
   chromaprint

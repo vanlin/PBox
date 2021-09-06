@@ -24,3 +24,9 @@
 /bin/Win32/plugins/UninstallView/UninstallView.cfg
 /bin/Win64/plugins/UninstallView/UninstallView.cfg
 /bin/Win32/plugins/cports-x64
+/bin/Win32/plugins/ffmpeg/single/ffmpeg.exe
+/bin/Win32/plugins/ffmpeg/single/ffplay.exe
+/bin/Win32/plugins/ffmpeg/single/ffprobe.exe
+/bin/Win64/plugins/ffmpeg/single/ffmpeg.exe
+/bin/Win64/plugins/ffmpeg/single/ffplay.exe
+/bin/Win64/plugins/ffmpeg/single/ffprobe.exe

@@ -1,0 +1,14 @@
+﻿<View>[-1]
+{
+ <->[]{}
+ DeleteNoFirst;
+
+ $State=ShowPrivateNow;
+ if ($State=true) 
+ {
+  CreateItemDefChecked("Public only",DB_IC_COMMON,"HidePrivate;",false,true,false,0);
+ }; else
+ {
+  CreateItemDefChecked("Display private images",DB_IC_PRIVATE,"ShowPrivate;",false,true,false,0);
+ };
+}

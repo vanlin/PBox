@@ -67,9 +67,10 @@ type
     procedure mniTrayExitClick(Sender: TObject);
     procedure lblIPMouseEnter(Sender: TObject);
   private
-    FListDll  : THashedStringList;
-    FintBakRow: Integer;
-    FHotKeyID : WORD;
+    FListDll        : THashedStringList;
+    FintBakRow      : Integer;
+    FHotKeyID       : WORD;
+    FbChangeFormSize: Boolean;
     { 设置默认界面 }
     procedure ReadConfigUI(const bSize: Boolean = True);
     { 加载所有的 DLL 和 EXE 到列表 }
@@ -258,6 +259,9 @@ end;
 
 procedure TfrmPBox.FormResize(Sender: TObject);
 begin
+  if not FbChangeFormSize then
+    Exit;
+
   { 对话框模式时 }
   if GetShowStyle = 1 then
   begin
@@ -419,29 +423,34 @@ var
   bShowImage  : Boolean;
   strImageBack: String;
 begin
-  TitleString := GetTitleText;
-  with TIniFile.Create(ChangeFileExt(ParamStr(0), '.ini')) do
-  begin
-    TitleString    := ReadString(c_strIniUISection, 'Title', c_strTitle);
-    MulScreenPos   := ReadBool(c_strIniUISection, 'MulScreen', False);
-    FormStyle      := TFormStyle(Integer(ReadBool(c_strIniUISection, 'OnTop', False)) * 3);
-    CloseToTray    := ReadBool(c_strIniUISection, 'CloseMini', False);
-    pnlWeb.Visible := ReadBool(c_strIniUISection, 'ShowWebSpeed', False);
-    bShowImage     := ReadBool(c_strIniUISection, 'showbackimage', False);
-    strImageBack   := ReadString(c_strIniUISection, 'filebackimage', '');
-    if (bShowImage) and (Trim(strImageBack) <> '') and (FileExists(strImageBack)) then
+  FbChangeFormSize := False;
+  try
+    TitleString := GetTitleText;
+    with TIniFile.Create(ChangeFileExt(ParamStr(0), '.ini')) do
     begin
-      imgDllFormBack.Picture.LoadFromFile(strImageBack);
-      imgButtonBack.Picture.LoadFromFile(strImageBack);
-      imgListBack.Picture.LoadFromFile(strImageBack);
-    end
-    else
-    begin
-      imgDllFormBack.Picture.Assign(nil);
-      imgButtonBack.Picture.Assign(nil);
-      imgListBack.Picture.Assign(nil);
+      TitleString    := ReadString(c_strIniUISection, 'Title', c_strTitle);
+      MulScreenPos   := ReadBool(c_strIniUISection, 'MulScreen', False);
+      FormStyle      := TFormStyle(Integer(ReadBool(c_strIniUISection, 'OnTop', False)) * 3);
+      CloseToTray    := ReadBool(c_strIniUISection, 'CloseMini', False);
+      pnlWeb.Visible := ReadBool(c_strIniUISection, 'ShowWebSpeed', False);
+      bShowImage     := ReadBool(c_strIniUISection, 'showbackimage', False);
+      strImageBack   := ReadString(c_strIniUISection, 'filebackimage', '');
+      if (bShowImage) and (Trim(strImageBack) <> '') and (FileExists(strImageBack)) then
+      begin
+        imgDllFormBack.Picture.LoadFromFile(strImageBack);
+        imgButtonBack.Picture.LoadFromFile(strImageBack);
+        imgListBack.Picture.LoadFromFile(strImageBack);
+      end
+      else
+      begin
+        imgDllFormBack.Picture.Assign(nil);
+        imgButtonBack.Picture.Assign(nil);
+        imgListBack.Picture.Assign(nil);
+      end;
+      Free;
     end;
-    Free;
+  finally
+    FbChangeFormSize := True;
   end;
 end;
 

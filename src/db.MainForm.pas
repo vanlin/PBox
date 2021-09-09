@@ -280,10 +280,7 @@ begin
   { 列表模式时 }
   if GetShowStyle = 2 then
   begin
-    if pgcAll.ActivePage = tsList then
-    begin
-      CreateDisplayUI_List;
-    end;
+    CreateDisplayUI_List;
   end;
 end;
 
@@ -990,7 +987,8 @@ begin
   FintBakRow := intRow;
 
   clbrPModule.Visible := False;
-  pgcAll.ActivePage   := tsList;
+  if pgcAll.ActivePage <> tsDll then
+    pgcAll.ActivePage := tsList;
   SetLength(arrParentModuleLabel, mmMainMenu.Items.Count);
   SetLength(arrParentModuleImage, mmMainMenu.Items.Count);
   SetLength(arrSubModuleLabel, mmMainMenu.Items.Count);

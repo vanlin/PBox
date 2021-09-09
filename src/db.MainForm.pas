@@ -465,6 +465,7 @@ begin
   FintBakRow              := 0;
   clbrPModule.Visible     := False;
   pnlModuleDialog.Visible := False;
+  pgcAll.ActivePage       := tsList;
   FreeModuleMenu;
   FreeListViewSubModule;
 

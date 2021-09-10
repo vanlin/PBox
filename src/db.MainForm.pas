@@ -1027,7 +1027,7 @@ begin
     arrParentModuleImage[I].Width   := 32;
     arrParentModuleImage[I].Stretch := True;
     arrParentModuleImage[I].Left    := arrParentModuleLabel[I].Left - 40;
-    arrParentModuleImage[I].Top     := arrParentModuleLabel[I].Top - 2;
+    arrParentModuleImage[I].Top     := arrParentModuleLabel[I].Top;
     with TIniFile.Create(ChangeFileExt(ParamStr(0), '.ini')) do
     begin
       strPModuleIconFilePath := ReadString(c_strIniModuleSection, arrParentModuleLabel[I].Caption + '_ICON', '');

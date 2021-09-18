@@ -89,6 +89,12 @@ var
   strModuleName     : PAnsiChar;
   frmDelphiDll      : TForm;
 begin
+  if not FileExists(strPEFileName) then
+  begin
+    MessageBox(0, '文件不存在，请检查文件', c_strTitle, 64);
+    Exit;
+  end;
+
   if SameText(FstrFileValue, strFileValue) then
     Exit;
 

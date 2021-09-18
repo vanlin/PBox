@@ -166,6 +166,12 @@ var
   strParamModuleName, strModuleName: PAnsiChar;
   strClassName, strWindowName      : PAnsiChar;
 begin
+  if not FileExists(strVCDllFileName) then
+  begin
+    MessageBox(0, '文件不存在，请检查文件', c_strTitle, 64);
+    Exit;
+  end;
+
   { 等待先前的 VC Dialog DLL Form 模态窗体销毁完成，才能进行新的 DLL 创建 }
   if FhVCDllModule <> 0 then
   begin

@@ -147,6 +147,12 @@ end;
 { 运行 EXE 文件 }
 procedure PBoxRun_IMAGE_EXE(const strEXEFileName, strFileValue: String; ts: TTabSheet; OnPEProcessDestroyCallback: TNotifyEvent);
 begin
+  if not FileExists(strEXEFileName) then
+  begin
+    MessageBox(0, '文件不存在，请检查文件', c_strTitle, 64);
+    Exit;
+  end;
+
   FTabsheet                   := ts;
   FstrFileValue               := strFileValue;
   FOnPEProcessDestroyCallback := OnPEProcessDestroyCallback;

@@ -3,7 +3,7 @@ unit db.uCommon;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, Winapi.ShellAPI, Winapi.IpRtrMib, Winapi.TlHelp32, Winapi.ShlObj, Winapi.IpTypes, Winapi.ActiveX, Winapi.IpHlpApi, Winapi.ImageHlp,
+  Winapi.Windows, Winapi.Messages, Winapi.ShellAPI, Winapi.IpRtrMib, Winapi.TlHelp32, Winapi.ShlObj, Winapi.IpTypes, Winapi.ActiveX, Winapi.IpHlpApi, Winapi.ImageHlp, System.Win.Registry,
   System.IOUtils, System.Types, System.Math, System.SysUtils, System.StrUtils, System.Classes, System.IniFiles, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Data.Win.ADODB, Data.db,
   IdIPWatch, FlyUtils.CnXXX.Common, FlyUtils.AES, db.uNetworkManager, db.ImageListEx;
 
@@ -217,6 +217,9 @@ procedure LoadAllMenuIconSpeed(const ilMainMenu: TImageList);
 
 { 对齐字符串；即固定长度 }
 function AlignStringWidth(const strValue: string; const Font: TFont; const intMaxLen: Integer = 200): String;
+
+{ 从系统搜索路径中，查询文件是否存在，并返回全路径 }
+function CheckFileExistsFromSysSearchPath(const strFileName: string; var strFullPathName: String): Boolean;
 
 implementation
 
@@ -1675,6 +1678,84 @@ begin
     Result := Result + ' ';
     if GetStringWidth(Result, Font) >= intMaxLen then
       Break;
+  end;
+end;
+
+{ 从系统搜索路径中，查询文件是否存在，并返回全路径 }
+function CheckFileExistsFromSysSearchPath(const strFileName: string; var strFullPathName: String): Boolean;
+var
+  lstDirs   : TStringList;
+  I         : Integer;
+  strDirName: String;
+begin
+  Result := False;
+
+  { 用户搜索路径 }
+  lstDirs := TStringList.Create;
+  try
+    lstDirs.Delimiter := ';';
+    with TRegistry.Create do
+    begin
+      RootKey := HKEY_CURRENT_USER;
+      if OpenKeyReadOnly('Environment') then
+      begin
+        lstDirs.DelimitedText := ReadString('Path');
+      end;
+      Free;
+    end;
+
+    if lstDirs.Count > 0 then
+    begin
+      for I := 0 to lstDirs.Count - 1 do
+      begin
+        strDirName := lstDirs.Strings[I];
+        if RightStr(strDirName, 1) <> '\' then
+          strDirName := strDirName + '\';
+
+        if FileExists(strDirName + strFileName) then
+        begin
+          strFullPathName := strDirName + strFileName;
+          Result          := True;
+          Exit;
+        end;
+      end;
+    end;
+  finally
+    lstDirs.Free;
+  end;
+
+  { 系统搜索路径 }
+  lstDirs := TStringList.Create;
+  try
+    lstDirs.Delimiter := ';';
+    with TRegistry.Create do
+    begin
+      RootKey := HKEY_LOCAL_MACHINE;
+      if OpenKeyReadOnly('SYSTEM\CurrentControlSet\Control\Session Manager\Environment') then
+      begin
+        lstDirs.DelimitedText := ReadString('Path');
+      end;
+      Free;
+    end;
+
+    if lstDirs.Count > 0 then
+    begin
+      for I := 0 to lstDirs.Count - 1 do
+      begin
+        strDirName := lstDirs.Strings[I];
+        if RightStr(strDirName, 1) <> '\' then
+          strDirName := strDirName + '\';
+
+        if FileExists(strDirName + strFileName) then
+        begin
+          strFullPathName := strDirName + strFileName;
+          Result          := True;
+          Break;
+        end;
+      end;
+    end;
+  finally
+    lstDirs.Free;
   end;
 end;
 

@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, Winapi.ShellAPI, Winapi.IpRtrMib, Winapi.TlHelp32, Winapi.ShlObj, Winapi.IpTypes, Winapi.ActiveX, Winapi.IpHlpApi, Winapi.ImageHlp, System.Win.Registry,
   System.IOUtils, System.Types, System.Math, System.SysUtils, System.StrUtils, System.Classes, System.IniFiles, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Data.Win.ADODB, Data.db,
-  IdIPWatch, FlyUtils.CnXXX.Common, FlyUtils.AES, db.uNetworkManager, db.ImageListEx;
+  IdIPWatch, FlyUtils.CnXXX.Common, FlyUtils.AES, db.uNetworkManager, db.ImageListEx, db.VerInfo;
 
 type
   { 界面显示方式：菜单、按钮、列表 }
@@ -220,6 +220,9 @@ function AlignStringWidth(const strValue: string; const Font: TFont; const intMa
 
 { 从系统搜索路径中，查询文件是否存在，并返回全路径 }
 function CheckFileExistsFromSysSearchPath(const strFileName: string; var strFullPathName: String): Boolean;
+
+{ 获取产品名称 }
+function GetProcductName: String;
 
 implementation
 
@@ -1756,6 +1759,16 @@ begin
     end;
   finally
     lstDirs.Free;
+  end;
+end;
+
+{ 获取产品名称 }
+function GetProcductName: String;
+begin
+  with TdbVerInfo.Create(ParamStr(0)) do
+  begin
+    Result := ProductName;
+    Free;
   end;
 end;
 

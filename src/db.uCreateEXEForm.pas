@@ -13,6 +13,8 @@ procedure PBoxRun_IMAGE_EXE(const strEXEFileName, strFileValue: String; ts: TTab
 { 非用户触发，程序调用强制关闭 EXE 窗体 }
 procedure FreeExeForm;
 
+function EnumNewMainForm(hWnd: THandle; lParam1: LPARAM): Boolean; stdcall;
+
 implementation
 
 var
@@ -22,6 +24,7 @@ var
   FTabsheet                  : TTabSheet;
   FOnPEProcessDestroyCallback: TNotifyEvent;
   FExePID                    : Cardinal;
+  FhEXEFormHandle            : THandle;
 
 procedure DLog(const strLog: String);
 begin
@@ -38,13 +41,193 @@ begin
     Exit;
 
   KillTimer(Application.MainForm.Handle, $2000);
+  KillTimer(Application.MainForm.Handle, $3000);
   FExePID                  := 0;
   Application.MainForm.Tag := 0;
   FOnPEProcessDestroyCallback(nil);
 end;
 
+{ 将 EXE 主窗体放置到 Tab Dll 窗口中 }
+procedure SetParentForm(const hWnd: THandle);
+var
+  intST, intET: Cardinal;
+  bOK         : Boolean;
+begin
+  FTabsheet.PageControl.ActivePage := FTabsheet;
+
+  { 设置父窗体为 TabSheet }
+  bOK := True;
+  if Winapi.Windows.SetParent(hWnd, FTabsheet.Handle) = 0 then
+  begin
+    bOK   := False;
+    intST := GetTickCount;
+    while True do
+    begin
+      Application.ProcessMessages;
+      intET := GetTickCount;
+      if intET - intST >= 10 * 1000 then
+        Break;
+
+      if Winapi.Windows.SetParent(hWnd, FTabsheet.Handle) <> 0 then
+      begin
+        bOK := True;
+        Break;
+      end;
+    end;
+  end;
+
+  if not bOK then
+  begin
+    EnumWindows(@EnumNewMainForm, 0);
+    Exit;
+  end;
+
+  { 最大化 Dll 子窗体 }
+  bOK := True;
+  if not SetWindowPos(hWnd, FTabsheet.Handle, 0, 0, FTabsheet.width, FTabsheet.Height, SWP_NOZORDER OR SWP_NOACTIVATE) then
+  begin
+    bOK   := False;
+    intST := GetTickCount;
+    while True do
+    begin
+      Application.ProcessMessages;
+      intET := GetTickCount;
+      if intET - intST >= 10 * 1000 then
+        Break;
+
+      if SetWindowPos(hWnd, FTabsheet.Handle, 0, 0, FTabsheet.width, FTabsheet.Height, SWP_NOZORDER OR SWP_NOACTIVATE) then
+      begin
+        bOK := True;
+        Break;
+      end;
+    end;
+  end;
+  if not bOK then
+  begin
+    EnumWindows(@EnumNewMainForm, 0);
+    Exit;
+  end;
+
+  RemoveMenu(GetSystemMenu(hWnd, False), 0, MF_BYPOSITION); // 删除移动菜单
+  RemoveMenu(GetSystemMenu(hWnd, False), 0, MF_BYPOSITION); // 删除移动菜单
+  RemoveMenu(GetSystemMenu(hWnd, False), 0, MF_BYPOSITION); // 删除移动菜单
+  RemoveMenu(GetSystemMenu(hWnd, False), 0, MF_BYPOSITION); // 删除移动菜单
+  RemoveMenu(GetSystemMenu(hWnd, False), 0, MF_BYPOSITION); // 删除移动菜单
+  RemoveMenu(GetSystemMenu(hWnd, False), 0, MF_BYPOSITION); // 删除移动菜单
+
+  { 设置窗体风格 }
+  bOK := True;
+  if SetWindowLong(hWnd, GWL_STYLE, Integer(WS_CAPTION OR WS_POPUP OR WS_VISIBLE OR WS_CLIPSIBLINGS OR WS_CLIPCHILDREN OR WS_SYSMENU)) = 0 then
+  begin
+    bOK   := False;
+    intST := GetTickCount;
+    while True do
+    begin
+      Application.ProcessMessages;
+      intET := GetTickCount;
+      if intET - intST >= 3000 then
+        Break;
+
+      if SetWindowLong(hWnd, GWL_STYLE, Integer(WS_CAPTION OR WS_POPUP OR WS_VISIBLE OR WS_CLIPSIBLINGS OR WS_CLIPCHILDREN OR WS_SYSMENU)) <> 0 then
+      begin
+        bOK := True;
+        Break;
+      end;
+    end;
+  end;
+  if not bOK then
+  begin
+    EnumWindows(@EnumNewMainForm, 0);
+    Exit;
+  end;
+
+  { 设置窗体扩展风格 }
+  bOK := True;
+  if SetWindowLong(hWnd, GWL_EXSTYLE, Integer(WS_EX_LEFT OR WS_EX_LTRREADING OR WS_EX_DLGMODALFRAME OR WS_EX_WINDOWEDGE OR WS_EX_CONTROLPARENT)) = 0 then // $00010000);                                                                              // $00010101
+  begin
+    bOK   := False;
+    intST := GetTickCount;
+    while True do
+    begin
+      Application.ProcessMessages;
+      intET := GetTickCount;
+      if intET - intST >= 3000 then
+        Break;
+
+      if SetWindowLong(hWnd, GWL_EXSTYLE, Integer(WS_EX_LEFT OR WS_EX_LTRREADING OR WS_EX_DLGMODALFRAME OR WS_EX_WINDOWEDGE OR WS_EX_CONTROLPARENT)) <> 0 then // $00010000);                                                                              // $00010101
+      begin
+        bOK := True;
+        Break;
+      end;
+    end;
+  end;
+  if not bOK then
+  begin
+    EnumWindows(@EnumNewMainForm, 0);
+    Exit;
+  end;
+
+  { 去除标题栏 }
+  RemoveCaption(hWnd);
+
+  { 显示窗体 }
+  bOK := True;
+  if not ShowWindow(hWnd, SW_SHOWNORMAL) then
+  begin
+    bOK   := False;
+    intST := GetTickCount;
+    while True do
+    begin
+      Application.ProcessMessages;
+      intET := GetTickCount;
+      if intET - intST >= 3000 then
+        Break;
+
+      if ShowWindow(hWnd, SW_SHOWNORMAL) then
+      begin
+        bOK := True;
+        Break;
+      end;
+    end;
+  end;
+  if not bOK then
+  begin
+    EnumWindows(@EnumNewMainForm, 0);
+    Exit;
+  end;
+
+  Application.MainForm.Height := Application.MainForm.Height + 1;
+  Application.MainForm.Height := Application.MainForm.Height - 1;
+end;
+
+function EnumNewMainForm(hWnd: THandle; lParam1: LPARAM): Boolean; stdcall;
+var
+  intPID: DWORD;
+  rct   : TRect;
+begin
+  GetWindowThreadProcessId(hWnd, intPID);
+  if (FExePID = intPID) and (GetParent(hWnd) = 0) then
+  begin
+    GetWindowRect(hWnd, rct);
+    if (rct.width > 100) and (rct.Height > 100) then
+    begin
+      KillTimer(Application.MainForm.Handle, $3000);
+      SetParentForm(hWnd);
+    end;
+  end;
+  Result := True;
+end;
+
+procedure FindOtherNewForm(hWnd: THandle; uMsg, idEvent: UINT; dwTime: DWORD); stdcall;
+begin
+  if not IsWindowVisible(FhEXEFormHandle) then
+  begin
+    EnumWindows(@EnumNewMainForm, 0);
+  end;
+end;
+
 { 查找 EXE 的主窗体是否成功创建 }
-procedure FindExeForm(hWnd: hWnd; uMsg, idEvent: UINT; dwTime: DWORD); stdcall;
+procedure FindExeForm(hWnd: THandle; uMsg, idEvent: UINT; dwTime: DWORD); stdcall;
 var
   hEXEFormHandle: THandle;
   intPID        : DWORD;
@@ -89,27 +272,15 @@ begin
     Exit;
 
   KillTimer(Application.MainForm.Handle, $1000);
-  DelayTime(200); // 延时 500毫秒
+  DelayTime(200);
   GetWindowThreadProcessId(hEXEFormHandle, intPID);
   FExePID                  := intPID;
   Application.MainForm.Tag := intPID;
+  FhEXEFormHandle          := hEXEFormHandle;
 
-  FTabsheet.PageControl.ActivePage := FTabsheet;
-  Winapi.Windows.SetParent(hEXEFormHandle, FTabsheet.Handle);                                                                                            // 设置父窗体为 TabSheet
-  SetWindowPos(hEXEFormHandle, FTabsheet.Handle, 0, 0, FTabsheet.Width, FTabsheet.Height, SWP_NOZORDER OR SWP_NOACTIVATE);                               // 最大化 Dll 子窗体
-  RemoveMenu(GetSystemMenu(hEXEFormHandle, False), 0, MF_BYPOSITION);                                                                                    // 删除移动菜单
-  RemoveMenu(GetSystemMenu(hEXEFormHandle, False), 0, MF_BYPOSITION);                                                                                    // 删除移动菜单
-  RemoveMenu(GetSystemMenu(hEXEFormHandle, False), 0, MF_BYPOSITION);                                                                                    // 删除移动菜单
-  RemoveMenu(GetSystemMenu(hEXEFormHandle, False), 0, MF_BYPOSITION);                                                                                    // 删除移动菜单
-  RemoveMenu(GetSystemMenu(hEXEFormHandle, False), 0, MF_BYPOSITION);                                                                                    // 删除移动菜单
-  RemoveMenu(GetSystemMenu(hEXEFormHandle, False), 0, MF_BYPOSITION);                                                                                    // 删除移动菜单
-  SetWindowLong(hEXEFormHandle, GWL_STYLE, Integer(WS_CAPTION OR WS_POPUP OR WS_VISIBLE OR WS_CLIPSIBLINGS OR WS_CLIPCHILDREN OR WS_SYSMENU));           // $96C80000);                                                                        // $96000000
-  SetWindowLong(hEXEFormHandle, GWL_EXSTYLE, Integer(WS_EX_LEFT OR WS_EX_LTRREADING OR WS_EX_DLGMODALFRAME OR WS_EX_WINDOWEDGE OR WS_EX_CONTROLPARENT)); // $00010000);                                                                              // $00010101
-  RemoveCaption(hEXEFormHandle);                                                                                                                         // 去除标题栏
-  ShowWindow(hEXEFormHandle, SW_SHOWNORMAL);                                                                                                             // 显示窗体
-  Application.MainForm.Height := Application.MainForm.Height + 1;
-  Application.MainForm.Height := Application.MainForm.Height - 1;
+  SetParentForm(hEXEFormHandle);
   SetTimer(Application.MainForm.Handle, $2000, 200, @EndExeForm);
+  SetTimer(Application.MainForm.Handle, $3000, 200, @FindOtherNewForm);
 end;
 
 procedure CheckSysinternalsREG(const strProgramName: String);
@@ -183,6 +354,7 @@ begin
   if FExePID = 0 then
     Exit;
 
+  KillTimer(Application.MainForm.Handle, $3000);
   hProcess := OpenProcess(PROCESS_TERMINATE, False, FExePID);
   TerminateProcess(hProcess, 0);
   FExePID                  := 0;

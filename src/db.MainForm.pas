@@ -1153,6 +1153,7 @@ procedure TfrmPBox.CreateDllForm(const intMenuItemIndex: Integer);
 var
   LangType: TLangStyle;
 begin
+  DeleteFormPositon;
   SetDllDirectory(PChar(ExtractFilePath(ParamStr(0)) + 'plugins'));
   LangType := TLangStyle(StrToInt(FListDll.ValueFromIndex[intMenuItemIndex].Split([';'])[5]));
   case LangType of

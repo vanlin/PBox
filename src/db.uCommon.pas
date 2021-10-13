@@ -224,6 +224,9 @@ function CheckFileExistsFromSysSearchPath(const strFileName: string; var strFull
 { 获取产品名称 }
 function GetProcductName: String;
 
+{ 删除一些程序会读取窗体位置的信息 }
+procedure DeleteFormPositon;
+
 implementation
 
 { 只允许运行一个实例 }
@@ -1768,6 +1771,20 @@ begin
   with TdbVerInfo.Create(ParamStr(0)) do
   begin
     Result := ProductName;
+    Free;
+  end;
+end;
+
+{ 删除一些程序会读取窗体位置的信息 }
+procedure DeleteFormPositon;
+begin
+  with TRegistry.Create do
+  begin
+    RootKey := HKEY_CURRENT_USER;
+    if OpenKey('SOFTWARE\7-Zip\FM', False) then
+    begin
+      DeleteValue('Position');
+    end;
     Free;
   end;
 end;

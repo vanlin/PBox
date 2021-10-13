@@ -34,3 +34,5 @@
 /bin/Win32/plugins/HeidiSQL/portable_settings.txt
 /bin/Win64/plugins/HeidiSQL/tabs.ini
 /bin/Win64/plugins/HeidiSQL/portable_settings.txt
+/bin/Win32/plugins/shexview/shexview.cfg
+/bin/Win64/plugins/shexview/shexview.cfg

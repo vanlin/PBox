@@ -30,3 +30,7 @@
 /bin/Win64/plugins/ffmpeg/single/ffmpeg.exe
 /bin/Win64/plugins/ffmpeg/single/ffplay.exe
 /bin/Win64/plugins/ffmpeg/single/ffprobe.exe
+/bin/Win32/plugins/HeidiSQL/tabs.ini
+/bin/Win32/plugins/HeidiSQL/portable_settings.txt
+/bin/Win64/plugins/HeidiSQL/tabs.ini
+/bin/Win64/plugins/HeidiSQL/portable_settings.txt

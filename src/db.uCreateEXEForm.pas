@@ -125,7 +125,7 @@ begin
     begin
       Application.ProcessMessages;
       intET := GetTickCount;
-      if intET - intST >= 3000 then
+      if intET - intST >= 10 * 1000 then
         Break;
 
       if SetWindowLong(hWnd, GWL_STYLE, Integer(WS_CAPTION OR WS_POPUP OR WS_VISIBLE OR WS_CLIPSIBLINGS OR WS_CLIPCHILDREN OR WS_SYSMENU)) <> 0 then
@@ -151,7 +151,7 @@ begin
     begin
       Application.ProcessMessages;
       intET := GetTickCount;
-      if intET - intST >= 3000 then
+      if intET - intST >= 10 * 1000 then
         Break;
 
       if SetWindowLong(hWnd, GWL_EXSTYLE, Integer(WS_EX_LEFT OR WS_EX_LTRREADING OR WS_EX_DLGMODALFRAME OR WS_EX_WINDOWEDGE OR WS_EX_CONTROLPARENT)) <> 0 then // $00010000);                                                                              // $00010101
@@ -180,7 +180,7 @@ begin
     begin
       Application.ProcessMessages;
       intET := GetTickCount;
-      if intET - intST >= 3000 then
+      if intET - intST >= 10 * 1000 then
         Break;
 
       if ShowWindow(hWnd, SW_SHOWNORMAL) then

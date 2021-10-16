@@ -4,7 +4,7 @@
 interface
 
 uses
-  Winapi.Windows, System.SysUtils, System.Classes, System.IOUtils, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtDlgs, Vcl.WinXCtrls, Vcl.ExtCtrls,
+  Winapi.Windows, System.SysUtils, System.Classes, System.IOUtils, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtDlgs, Vcl.WinXCtrls, Vcl.ExtCtrls, Vcl.Imaging.jpeg,
   db.uCommon;
 
 type

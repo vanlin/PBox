@@ -34,3 +34,6 @@
 [submodule "vcl/NtUtilsLibrary"]
 	path = vcl/NtUtilsLibrary
 	url = https://github.com/diversenok/NtUtilsLibrary.git
+[submodule "vcl/DOSCommand"]
+	path = vcl/DOSCommand
+	url = https://github.com/TurboPack/DOSCommand.git

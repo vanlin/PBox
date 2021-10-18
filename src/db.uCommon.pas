@@ -49,8 +49,8 @@ type
     RecordLength: Cardinal;
     MajorVersion: Word;
     MinorVersion: Word;
-    FileReferenceNumber: Int64Rec;
-    ParentFileReferenceNumber: Int64Rec;
+    FileReferenceNumber: UInt64;       // Int64Rec;
+    ParentFileReferenceNumber: UInt64; // Int64Rec;
     USN: Int64;
     TimeStamp: LARGE_INTEGER;
     Reason: Cardinal;

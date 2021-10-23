@@ -1,59 +1,55 @@
-unit uMainForm;
+ï»¿unit uMainForm;
 
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, Winapi.ShellAPI, System.SysUtils, System.StrUtils, System.Classes, System.IOUtils, System.Types, Vcl.Menus, Vcl.StdCtrls, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.WinXCtrls,
-  Data.Win.ADODB, Data.db, SynSQLite3, SynSQLite3Static, SynCommons, db.uCommon;
+  Winapi.Windows, Winapi.Messages, System.Math, System.IniFiles, System.SysUtils, System.StrUtils, System.Classes, System.IOUtils, System.Types, System.Diagnostics, System.Generics.Collections, Vcl.Controls, Vcl.WinXCtrls, Vcl.Forms, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.Buttons,
+  SynSQLite3, SynSQLite3Static, SynCommons, uTSDFS, db.uCommon;
 
 type
-  TfrmNTFSFiles = class(TForm)
-    tmrSearchStart: TTimer;
-    lvData: TListView;
-    lblTip: TLabel;
-    tmrSearchStop: TTimer;
-    tmrGetFileFullNameStart: TTimer;
-    srchbxFile: TSearchBox;
-    ADOCNN: TADOConnection;
+  TfrmSuperSearch = class(TForm)
+    tmrStart: TTimer;
+    mmoLog: TMemo;
+    btnClose: TBitBtn;
+    lbl1: TLabel;
+    srchbxFileName: TSearchBox;
     btnReSearch: TButton;
-    pmFile: TPopupMenu;
-    mniOpenPath: TMenuItem;
-    mniReName: TMenuItem;
-    mniDelete: TMenuItem;
-    mniOpen: TMenuItem;
-    mniFileAttr: TMenuItem;
-    procedure tmrSearchStartTimer(Sender: TObject);
+    lvFiles: TListView;
+    lblTip: TLabel;
+    procedure tmrStartTimer(Sender: TObject);
+    procedure btnCloseClick(Sender: TObject);
+    procedure lvFilesData(Sender: TObject; Item: TListItem);
     procedure FormDestroy(Sender: TObject);
-    procedure lvDataData(Sender: TObject; Item: TListItem);
-    procedure tmrSearchStopTimer(Sender: TObject);
     procedure FormResize(Sender: TObject);
-    procedure tmrGetFileFullNameStartTimer(Sender: TObject);
     procedure btnReSearchClick(Sender: TObject);
-    procedure srchbxFileInvokeSearch(Sender: TObject);
-    procedure mniOpenPathClick(Sender: TObject);
-    procedure mniReNameClick(Sender: TObject);
-    procedure mniDeleteClick(Sender: TObject);
-    procedure mniOpenClick(Sender: TObject);
-    procedure mniFileAttrClick(Sender: TObject);
+    procedure srchbxFileNameInvokeSearch(Sender: TObject);
+    procedure srchbxFileNameKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
-    FintStartTime             : Cardinal;
-    FlstAllDrives             : TStringList;
-    FintCount                 : Cardinal;
-    FintSearchDriveThreadCount: Integer;
-    FstrSqlite3DBFileName     : String;
-    FstrSqlWhere              : String;
-    FDatabase                 : TSQLDataBase;
-    { ´´½¨ Sqlite3 Êı¾İ¿â }
-    procedure CreateSqlite3DB;
-    { ¿ªÊ¼ËÑË÷Õû¸ö´ÅÅÌÎÄ¼ş }
-    procedure SearchDrivesFiles;
-    { ¿ªÊ¼»æÖÆÊı¾İÁĞ±í }
-    procedure DrawDataItem;
+    FDatabase          : TSQLDataBase;
+    FintDrivesCount    : Integer;
+    FlstFilesCount     : THashedStringList;
+    FbSearchFile       : Boolean;
+    FstrArrSearchResult: TRawUTF8DynArray;
+    { å¼€å§‹å…¨ç›˜æœç´¢æ–‡ä»¶ }
+    procedure StartSearchFiles;
+    { åˆ›å»ºæœç´¢æ–‡ä»¶çº¿ç¨‹ï¼Œå¤šä¸ªç£ç›˜ä¸€èµ·æœç´¢ }
+    procedure CreateGetFilesThread(const lstDrives: TStringList);
+    { åˆ›å»º Sqlite3 æ•°æ®åº“ }
+    procedure CreateSQLite3DB;
+    { åˆ›å»ºè¡¨ }
+    procedure CreateSQLite3Table(const strDriveName: Char);
+    { åˆ›å»ºç´¢å¼•ï¼ŒåŠ å¿«æŸ¥è¯¢é€Ÿåº¦ }
+    procedure CreateSQLite3Index(const strDriveName: Char);
+    { è·å–æ–‡ä»¶æ€»æ•° }
+    function GetFilesCount: Integer;
+    { è·å–æ–‡ä»¶å…¨è·¯å¾„åç§° }
+    function GetFullFileName(const intIndex: Integer; const bSearchFile: Boolean = False): String; overload;
+    function GetFullFileName(const strTabelName: String; const intIndex, intID: Integer; const bSearchFile: Boolean = False): string; overload;
+    { åŠ è½½åŸæœ‰çš„æ•°æ®åº“æ–‡ä»¶ }
+    procedure LoadFilesDB(const strFileName: String);
   protected
-    { µ¥¸ö´ÅÅÌÎÄ¼şËÑË÷½áÊø }
-    procedure SearchDriveFileFinished(var msg: TMessage); message WM_SearchDriveFileFinished;
-    { »ñÈ¡ÎÄ¼şÈ«Â·¾¶½áÊø }
-    procedure GetFileFullNameFinished(var msg: TMessage); message WM_GetFileFullNameFinished;
+    { å•ä¸ªç£ç›˜æ–‡ä»¶æœç´¢å®Œæ¯• }
+    procedure WMSEARCHDRIVEFILEFINISHED(var msg: TMessage); message WM_SEARCHDRIVEFILEFINISHED;
   end;
 
 procedure db_ShowDllForm_Plugins(var frm: TFormClass; var strParentModuleName, strModuleName: PAnsiChar); stdcall;
@@ -62,276 +58,353 @@ implementation
 
 {$R *.dfm}
 
-uses uThreadSearchDrive, uThreadGetFileFullName;
-
 procedure db_ShowDllForm_Plugins(var frm: TFormClass; var strParentModuleName, strModuleName: PAnsiChar); stdcall;
 begin
-  frm                     := TfrmNTFSFiles;
-  strParentModuleName     := 'ÏµÍ³¹ÜÀí';
-  strModuleName           := 'NTFS ÎÄ¼şËÑË÷';
+  frm                     := TfrmSuperSearch;
+  strParentModuleName     := 'ç³»ç»Ÿç®¡ç†';
+  strModuleName           := 'è¶…çº§æ–‡ä»¶æœç´¢ v2.0';
   Application.Handle      := GetMainFormApplication.Handle;
   Application.Icon.Handle := GetMainFormApplication.Icon.Handle;
 end;
 
-{ ¿ªÊ¼»æÖÆÊı¾İÁĞ±í }
-procedure TfrmNTFSFiles.DrawDataItem;
+{ åŠ è½½åŸæœ‰çš„æ•°æ®åº“æ–‡ä»¶ }
+procedure TfrmSuperSearch.LoadFilesDB(const strFileName: String);
+var
+  I, Count    : Integer;
+  arrTableName: TRawUTF8DynArray;
 begin
-  if FstrSqlWhere = '' then
+  FDatabase             := TSQLDataBase.Create(strFileName);
+  FlstFilesCount        := THashedStringList.Create;
+  FlstFilesCount.Sorted := True;
+  FDatabase.Execute('SELECT name FROM sqlite_master WHERE type=''table'' ORDER BY name', arrTableName);
+  for I := 0 to Length(arrTableName) - 1 do
   begin
-    lvData.Items.Count := FDatabase.ExecuteNoExceptionInt64(RawUTF8('select count(*) from ' + c_strResultTableName));
+    Count := FDatabase.ExecuteNoExceptionInt64(RawUTF8(Format('select count(id) from %s', [arrTableName[I]])));
+    FlstFilesCount.Add(Format('%s=%d', [arrTableName[I][1], Count]));
+  end;
+
+  lvFiles.Items.Count    := GetFilesCount;
+  btnClose.Visible       := False;
+  mmoLog.Visible         := False;
+  btnReSearch.Enabled    := True;
+  srchbxFileName.Enabled := True;
+  lvFiles.Height         := lvFiles.Height + mmoLog.Height + 6;
+end;
+
+procedure TfrmSuperSearch.tmrStartTimer(Sender: TObject);
+var
+  strFileName: String;
+begin
+  tmrStart.Enabled       := False;
+  btnClose.Enabled       := False;
+  btnReSearch.Enabled    := False;
+  srchbxFileName.Enabled := False;
+  FbSearchFile           := False;
+
+  { æ•°æ®åº“æ–‡ä»¶æ˜¯å¦å­˜åœ¨ï¼Œå­˜åœ¨åˆ™åŠ è½½ }
+  strFileName := ChangeFileExt(GetDllFullFileName, '.db');
+  if FileExists(strFileName) then
+  begin
+    mmoLog.Lines.Add('æ•°æ®åº“æ–‡ä»¶å­˜åœ¨ï¼ŒåŠ è½½ä¸­ï¼Œè¯·ç¨ç­‰â€¢â€¢â€¢â€¢â€¢â€¢');
+    LoadFilesDB(strFileName);
+    Exit;
+  end;
+
+  { å¼€å§‹å…¨ç›˜æœç´¢æ–‡ä»¶ }
+  StartSearchFiles;
+end;
+
+{ å†æ¬¡å…¨ç›˜æœç´¢æ–‡ä»¶ }
+procedure TfrmSuperSearch.btnReSearchClick(Sender: TObject);
+var
+  strFileName: String;
+begin
+  strFileName            := ChangeFileExt(GetDllFullFileName, '.db');
+  btnClose.Visible       := True;
+  btnClose.Enabled       := False;
+  btnReSearch.Enabled    := False;
+  srchbxFileName.Enabled := False;
+  FbSearchFile           := False;
+  lvFiles.Items.Count    := 0;
+  FintDrivesCount        := 0;
+  if not mmoLog.Visible then
+  begin
+    lvFiles.Height := lvFiles.Height - mmoLog.Height - 6;
+    mmoLog.Visible := True;
+  end;
+  FDatabase.DBClose;
+  FDatabase.free;
+  DeleteFile(strFileName);
+  FlstFilesCount.Clear;
+  FlstFilesCount.free;
+  mmoLog.Clear;
+
+  tmrStart.Enabled := True;
+end;
+
+{ å•ä¸ªç£ç›˜æ–‡ä»¶æœç´¢å®Œæ¯• }
+procedure TfrmSuperSearch.WMSEARCHDRIVEFILEFINISHED(var msg: TMessage);
+begin
+  Dec(FintDrivesCount);
+  FlstFilesCount.Add(string(PChar(msg.WParam)));
+  mmoLog.Lines.Add(string(PChar(msg.LParam)));
+
+  if FintDrivesCount = 0 then
+  begin
+    FDatabase.Commit;
+    btnClose.Enabled       := True;
+    btnReSearch.Enabled    := True;
+    srchbxFileName.Enabled := True;
+    lvFiles.Items.Count    := GetFilesCount;
+  end;
+end;
+
+{ è·å–æ–‡ä»¶æ€»æ•° }
+function TfrmSuperSearch.GetFilesCount: Integer;
+var
+  I: Integer;
+begin
+  Result := 0;
+  for I  := 0 to FlstFilesCount.Count - 1 do
+  begin
+    Result := Result + StrToInt(FlstFilesCount.ValueFromIndex[I]);
+  end;
+end;
+
+procedure TfrmSuperSearch.btnCloseClick(Sender: TObject);
+begin
+  btnClose.Visible := False;
+  mmoLog.Visible   := False;
+  lvFiles.Height   := lvFiles.Height + mmoLog.Height + 6;
+end;
+
+{ åˆ›å»º Sqlite3 æ•°æ®åº“ }
+procedure TfrmSuperSearch.CreateSQLite3DB;
+var
+  strFileName: String;
+begin
+  strFileName := ChangeFileExt(GetDllFullFileName, '.db');
+  if FileExists(strFileName) then
+    DeleteFile(strFileName);
+
+  FDatabase := TSQLDataBase.Create(strFileName);            // åˆ›å»º Sqlite3 æ•°æ®åº“
+  FDatabase.ExecuteNoException('PRAGMA synchronous = OFF'); // å…³é—­å†™åŒæ­¥ï¼ŒåŠ å¿«å†™å…¥é€Ÿåº¦
+  FDatabase.TransactionBegin();                             // å¼€å¯äº‹åŠ¡ï¼ŒåŠ å¿«å†™å…¥é€Ÿåº¦
+end;
+
+{ å¼€å§‹å…¨ç›˜æœç´¢æ–‡ä»¶ }
+procedure TfrmSuperSearch.StartSearchFiles;
+var
+  strDrives: System.Types.TStringDynArray;
+  strDrive : String;
+  sysFlags : DWORD;
+  strNTFS  : array [0 .. 255] of Char;
+  intlen   : DWORD;
+  lstDrives: TStringList;
+begin
+  FintDrivesCount       := 0;
+  FlstFilesCount        := THashedStringList.Create;
+  FlstFilesCount.Sorted := True;
+  CreateSQLite3DB;
+
+  { æ£€æŸ¥é€»è¾‘ç£ç›˜æ˜¯å¦æ˜¯ NTFS æ ¼å¼ }
+  lstDrives := TStringList.Create;
+  try
+    strDrives := TDirectory.GetLogicalDrives;
+    for strDrive in strDrives do
+    begin
+      if not GetVolumeInformation(PChar(strDrive), nil, 0, nil, intlen, sysFlags, strNTFS, 256) then
+        Continue;
+
+      if not SameText(strNTFS, 'NTFS') then
+        Continue;
+
+      lstDrives.Add(strDrive[1]);
+    end;
+
+    FintDrivesCount := lstDrives.Count;
+    CreateGetFilesThread(lstDrives);
+  finally
+    lstDrives.free;
+  end;
+end;
+
+{ åˆ›å»ºè¡¨ }
+procedure TfrmSuperSearch.CreateSQLite3Table(const strDriveName: Char);
+begin
+  FDatabase.ExecuteNoException(RawUTF8(Format(c_strCreateDriveTable, [strDriveName])));
+end;
+
+{ åˆ›å»ºç´¢å¼•ï¼ŒåŠ å¿«æŸ¥è¯¢é€Ÿåº¦ }
+procedure TfrmSuperSearch.CreateSQLite3Index(const strDriveName: Char);
+begin
+  FDatabase.ExecuteNoException(RawUTF8(Format(c_strCreateDriveIndex01, [strDriveName, strDriveName])));
+  FDatabase.ExecuteNoException(RawUTF8(Format(c_strCreateDriveIndex02, [strDriveName, strDriveName])));
+  FDatabase.ExecuteNoException(RawUTF8(Format(c_strCreateDriveIndex03, [strDriveName, strDriveName])));
+end;
+
+procedure TfrmSuperSearch.FormDestroy(Sender: TObject);
+begin
+  if FDatabase <> nil then
+    FDatabase.free;
+  if FlstFilesCount <> nil then
+    FlstFilesCount.free;
+end;
+
+procedure TfrmSuperSearch.FormResize(Sender: TObject);
+begin
+  lvFiles.Columns[1].Width := Width - 160;
+end;
+
+{ åˆ›å»ºæœç´¢æ–‡ä»¶çº¿ç¨‹ï¼Œå¤šä¸ªç£ç›˜ä¸€èµ·æœç´¢ }
+procedure TfrmSuperSearch.CreateGetFilesThread(const lstDrives: TStringList);
+var
+  I: Integer;
+begin
+  mmoLog.Lines.Add(Format('å¼€å§‹å…¨ç›˜æœç´¢(%s)', [lstDrives.DelimitedText]));
+  for I := 0 to lstDrives.Count - 1 do
+  begin
+    CreateSQLite3Table(lstDrives.Strings[I][1]);
+    CreateSQLite3Index(lstDrives.Strings[I][1]);
+    TThreadGetFiles.Create(Handle, lstDrives.Strings[I][1], FDatabase);
+  end;
+end;
+
+{ è·å–æ–‡ä»¶å…¨è·¯å¾„åç§° }
+function TfrmSuperSearch.GetFullFileName(const intIndex: Integer; const bSearchFile: Boolean = False): String;
+var
+  I, J, intID: Integer;
+  ttt        : Integer;
+  strDrive   : String;
+  strValue   : string;
+begin
+  Result := '';
+  intID  := intIndex;
+  J      := 0;
+  ttt    := 0;
+
+  if bSearchFile then
+  begin
+    strValue := string(FstrArrSearchResult[intIndex - 1]);
+    strDrive := strValue.Split([';'])[1];
+    intID    := StrToInt(strValue.Split([';'])[0]);
   end
   else
   begin
-    { ´´½¨²éÑ¯ÁÙÊ±±í }
-    FDatabase.ExecuteNoException(RawUTF8('create table ' + c_strSearchTempTableName + ' as select * from ' + c_strResultTableName + ' where ' + FstrSqlWhere));
-    lvData.Items.Count := FDatabase.ExecuteNoExceptionInt64(RawUTF8('select count(*) from ' + c_strSearchTempTableName));
+    { è·å–å¯¹åº”çš„ç›˜ç¬¦ }
+    for I := 0 to FlstFilesCount.Count - 1 do
+    begin
+      ttt := ttt + StrToInt(FlstFilesCount.ValueFromIndex[I]);
+      if intIndex <= ttt then
+      begin
+        J := I;
+        Break;
+      end;
+    end;
+
+    { è·å–è®°å½• ID å· }
+    for I := 0 to J - 1 do
+    begin
+      intID := intID - StrToInt(FlstFilesCount.ValueFromIndex[I]);
+    end;
+    strDrive := FlstFilesCount.Names[J];
   end;
 
-  srchbxFile.Enabled  := True;
-  btnReSearch.Enabled := True;
-  lblTip.Visible      := False;
-  Screen.Cursor       := crArrow;
+  { è·å–æ–‡ä»¶å…¨è·¯å¾„åç§° }
+  Result := GetFullFileName(strDrive + '_ntfs', intIndex, intID);
 end;
 
-{ ¿ªÊ¼»ñÈ¡ÎÄ¼şÈ«Â·¾¶Ãû³Æ }
-procedure TfrmNTFSFiles.tmrGetFileFullNameStartTimer(Sender: TObject);
+{ è·å–æ–‡ä»¶å…¨è·¯å¾„åç§° }
+function TfrmSuperSearch.GetFullFileName(const strTabelName: String; const intIndex, intID: Integer; const bSearchFile: Boolean = False): string;
+var
+  I, Count   : Integer;
+  strArrValue: TRawUTF8DynArray;
 begin
-  tmrGetFileFullNameStart.Enabled := False;
-  lblTip.Caption                  := 'ÕıÔÚ»ñÈ¡ÎÄ¼şÈ«Â·¾¶£¬ÇëÉÔºò¡¤¡¤¡¤¡¤¡¤¡¤';
-  lblTip.Left                     := (lblTip.Parent.Width - lblTip.Width) div 2;
-end;
-
-procedure TfrmNTFSFiles.tmrSearchStartTimer(Sender: TObject);
-begin
-  tmrSearchStart.Enabled := False;
-
-  { Èç¹ûÊı¾İ¿âÎÄ¼ş´æÔÚ£¬Ö±½ÓÊ¹ÓÃ£¬¾Í²»ÔÚ½øĞĞÈ«ÅÌÉ¨ÃèÁË }
-  FstrSqlite3DBFileName := ChangeFileExt(GetDllFullFileName, '.db');
-  if FileExists(FstrSqlite3DBFileName) then
+  FDatabase.Execute(RawUTF8(Format(c_strGetFullFileName, [strTabelName[1], intID, strTabelName[1], strTabelName[1], strTabelName[1], strTabelName[1]])), strArrValue);
+  Count := Length(strArrValue);
+  for I := 0 to Count - 1 do
   begin
-    FDatabase           := TSQLDataBase.Create(FstrSqlite3DBFileName);
-    srchbxFile.Visible  := True;
-    btnReSearch.Visible := True;
-    DrawDataItem;
+    if strArrValue[I] <> '' then
+    begin
+      Result := UTF8ToString(strArrValue[I]) + '\' + Result;
+    end;
+  end;
+  Result := strTabelName[1] + ':\' + LeftStr(Result, Length(Result) - 1);
+end;
+
+procedure TfrmSuperSearch.lvFilesData(Sender: TObject; Item: TListItem);
+begin
+  Item.Caption := Format('%0.8d', [Item.Index + 1]);
+  Item.SubItems.Add(GetFullFileName(Item.Index + 1, FbSearchFile));
+end;
+
+procedure DelayTime(const intTime: Cardinal);
+var
+  intST, intET: Cardinal;
+begin
+  intST := GetTickCount;
+  while True do
+  begin
+    Application.ProcessMessages;
+    intET := GetTickCount;
+    if intET - intST >= intTime then
+      Break;
+  end;
+end;
+
+procedure TfrmSuperSearch.srchbxFileNameInvokeSearch(Sender: TObject);
+var
+  I           : Integer;
+  strTemp     : String;
+  strDriveName: String;
+  strSearch   : String;
+begin
+  { è¿˜åŸåˆ°å…¨éƒ¨æ–‡ä»¶ }
+  if Length(srchbxFileName.Text) = 0 then
+  begin
+    lvFiles.Items.Count := 0;
+    DelayTime(500);
+    lvFiles.Items.Count := GetFilesCount;
+    FbSearchFile        := False;
     Exit;
   end;
 
-  { ¿ªÊ¼ËÑË÷Õû¸ö´ÅÅÌÎÄ¼ş }
-  SearchDrivesFiles;
-end;
-
-procedure TfrmNTFSFiles.FormDestroy(Sender: TObject);
-begin
-  if FDatabase <> nil then
+  if Length(srchbxFileName.Text) < 2 then
   begin
-    FDatabase.DBClose;
-    FDatabase.Free;
-    FDatabase := nil;
-  end;
-
-  if FlstAllDrives <> nil then
-    FlstAllDrives.Free;
-end;
-
-procedure TfrmNTFSFiles.btnReSearchClick(Sender: TObject);
-begin
-  btnReSearch.Visible := False;
-  srchbxFile.Visible  := False;
-  lvData.Items.Count  := 0;
-  lblTip.Caption      := 'ÕıÔÚËÑË÷£¬ÇëÉÔºò¡¤¡¤¡¤¡¤¡¤¡¤';
-  lblTip.Visible      := True;
-  lblTip.Left         := (lblTip.Parent.Width - lblTip.Width) div 2;
-
-  { ¿ªÊ¼ËÑË÷Õû¸ö´ÅÅÌÎÄ¼ş }
-  SearchDrivesFiles;
-end;
-
-{ ´´½¨ Sqlite3 Êı¾İ¿â }
-procedure TfrmNTFSFiles.CreateSqlite3DB;
-const
-  c_strCreateDriveTable = 'CREATE TABLE NTFS ([ID] INTEGER PRIMARY KEY, [Drive] VARCHAR(1), [FileID_HI] INTEGER NULL, [FileID_LO] INTEGER NULL, [FilePID_HI] INTEGER NULL, [FilePID_LO] INTEGER NULL, [FileName] VARCHAR (255), [FullName] VARCHAR (255));';
-var
-  bExistDB: Boolean;
-begin
-  FstrSqlWhere := '';
-  bExistDB     := FileExists(FstrSqlite3DBFileName);                    // Êı¾İ¿âÎÄ¼şÊÇ·ñ´æÔÚ
-  FDatabase    := TSQLDataBase.Create(FstrSqlite3DBFileName);           // ´´½¨ Sqlite3 Êı¾İ¿â
-  FDatabase.ExecuteNoException('PRAGMA synchronous = OFF');             // ¹Ø±ÕĞ´Í¬²½£¬¼Ó¿ìĞ´ÈëËÙ¶È
-  if bExistDB then                                                      // Èç¹ûÊı¾İ¿âÒÑ¾­´æÔÚ
-  begin                                                                 //
-    FDatabase.ExecuteNoException('DROP TABLE NTFS');                    // É¾³ı±í
-    FDatabase.ExecuteNoException('DROP TABLE ' + c_strResultTableName); // É¾³ı±í
-  end;                                                                  //
-  FDatabase.ExecuteNoException(c_strCreateDriveTable);                  // ´´½¨±í½á¹¹
-  FDatabase.TransactionBegin();                                         // ¿ªÆôÊÂÎñ£¬¼Ó¿ìĞ´ÈëËÙ¶È
-end;
-
-{ ¿ªÊ¼ËÑË÷Õû¸ö´ÅÅÌÎÄ¼ş }
-procedure TfrmNTFSFiles.SearchDrivesFiles;
-var
-  strDrive: String;
-  lstDrive: System.Types.TStringDynArray;
-  sysFlags: DWORD;
-  strNTFS : array [0 .. 255] of Char;
-  intLen  : DWORD;
-  I       : Integer;
-begin
-  { ´´½¨Êı¾İ¿â }
-  CreateSqlite3DB;
-
-  { ³õÊ¼»¯³ÉÔ±±äÁ¿ }
-  FintCount                  := 0;
-  FintSearchDriveThreadCount := 0;
-  FlstAllDrives              := TStringList.Create;
-  lblTip.Visible             := True;
-
-  { ½«ËùÓĞ NTFS ÀàĞÍÅÌ·û¼ÓÈëµ½´ıËÑË÷ÁĞ±í }
-  lstDrive := TDirectory.GetLogicalDrives;
-  for strDrive in lstDrive do
-  begin
-    if not GetVolumeInformation(PChar(strDrive), nil, 0, nil, intLen, sysFlags, strNTFS, 256) then
-      Continue;
-
-    if not SameText(strNTFS, 'NTFS') then
-      Continue;
-
-    FlstAllDrives.Add(strDrive[1]);
-  end;
-
-  if FlstAllDrives.Count = 0 then
+    MessageBox(Handle, 'é•¿åº¦ä¸å¾—ä½äºä¸¤ä½', 'ç³»ç»Ÿæç¤ºï¼š', 64);
     Exit;
-
-  FintSearchDriveThreadCount := FlstAllDrives.Count;
-  FintStartTime              := GetTickCount;
-
-  { ¶àÏß³ÌËÑË÷ËùÓĞ NTFS ´ÅÅÌËùÓĞÎÄ¼ş }
-  for I := 0 to FlstAllDrives.Count - 1 do
-  begin
-    TSearchThread.Create(AnsiChar(FlstAllDrives.Strings[I][1]), Handle, FDatabase.db);
   end;
 
-  { ¼ì²éËùÓĞËÑË÷Ïß³ÌÊÇ·ñ½áÊø }
-  tmrSearchStop.Enabled := True;
-end;
-
-{ µ¥¸ö´ÅÅÌÎÄ¼şËÑË÷½áÊø }
-procedure TfrmNTFSFiles.SearchDriveFileFinished(var msg: TMessage);
-begin
-  Dec(FintSearchDriveThreadCount);
-
-  FintCount      := FintCount + msg.WParam;
-  lblTip.Caption := string(PChar(msg.LParam));
-  lblTip.Left    := (lblTip.Parent.Width - lblTip.Width) div 2;
-end;
-
-{ ¼ì²éËùÓĞËÑË÷Ïß³ÌÊÇ·ñ½áÊø }
-procedure TfrmNTFSFiles.tmrSearchStopTimer(Sender: TObject);
-begin
-  if FintSearchDriveThreadCount <> 0 then
-    Exit;
-
-  { ËùÓĞËÑË÷Ïß³ÌÖ´ĞĞ½áÊø }
-  tmrSearchStop.Enabled := False;
-  FDatabase.Commit;
-  lblTip.Caption                  := Format('ºÏ¼ÆÎÄ¼ş(%s)£º%d£¬ºÏ¼ÆÓÃÊ±£º%dÃë', [FlstAllDrives.DelimitedText, FintCount, (GetTickCount - FintStartTime) div 1000 - 1]);
-  lblTip.Left                     := (lblTip.Parent.Width - lblTip.Width) div 2;
-  tmrGetFileFullNameStart.Enabled := True;
-
-  { ËùÓĞËÑË÷Ïß³Ì½áÊøºó£¬ÔÙ»ñÈ¡´ÅÅÌÎÄ¼şµÄÈ«Â·¾¶ÎÄ¼şÃû³Æ }
-  TGetFileFullNameThread.Create(FlstAllDrives, Handle, FDatabase);
-end;
-
-{ »ñÈ¡ÎÄ¼şÈ«Â·¾¶½áÊø }
-procedure TfrmNTFSFiles.GetFileFullNameFinished(var msg: TMessage);
-begin
-  srchbxFile.Visible  := True;
-  btnReSearch.Visible := True;
-  lblTip.Visible      := False;
-  DrawDataItem;
-end;
-
-procedure TfrmNTFSFiles.FormResize(Sender: TObject);
-begin
-  lblTip.Left := (lblTip.Parent.Width - lblTip.Width) div 2;
-end;
-
-{ »æÖÆÊı¾İ }
-procedure TfrmNTFSFiles.lvDataData(Sender: TObject; Item: TListItem);
-var
-  strSQL      : String;
-  strValue    : String;
-  strTableName: String;
-begin
-  strTableName := IfThen(FstrSqlWhere = '', c_strResultTableName, c_strSearchTempTableName);
-  strSQL       := 'select FullName from ' + strTableName + ' where RowID=' + IntToStr(Item.Index + 1);
-  strValue     := UTF8ToString(FDatabase.ExecuteNoExceptionUTF8(RawUTF8(strSQL)));
-  Item.Caption := Format('%.10u', [Item.Index + 1]);
-  Item.SubItems.Add(strValue);
-end;
-
-procedure TfrmNTFSFiles.srchbxFileInvokeSearch(Sender: TObject);
-begin
-  lvData.Items.Count  := 0;
-  srchbxFile.Enabled  := False;
-  btnReSearch.Enabled := False;
-  FDatabase.ExecuteNoException('DROP TABLE ' + c_strSearchTempTableName);
-  Screen.Cursor  := crSQLWait;
-  lblTip.Caption := 'ÕıÔÚËÑË÷£¬ÇëÉÔºò¡¤¡¤¡¤¡¤¡¤¡¤';
-  lblTip.Visible := True;
+  { å°†æœç´¢ç»“æœä¿å­˜åˆ°åˆ—è¡¨ }
+  lblTip.Visible         := True;
+  FbSearchFile           := True;
+  strSearch              := '';
+  lvFiles.Items.Count    := 0;
+  srchbxFileName.Enabled := False;
+  btnReSearch.Enabled    := False;
   DelayTime(500);
-
-  if (System.SysUtils.Trim(srchbxFile.Text) = '') or (Length(srchbxFile.Text) < 2) then
-    FstrSqlWhere := ''
-  else
-    FstrSqlWhere := 'FullName like ' + QuotedStr('%' + srchbxFile.Text + '%');
-
-  DrawDataItem;
+  try
+    for I := 0 to FlstFilesCount.Count - 1 do
+    begin
+      strDriveName := FlstFilesCount.Names[I];
+      strTemp      := Format('select id, id ||'';''|| %s as DriveValue from %s where filename like %s', [QuotedStr(strDriveName), strDriveName + '_ntfs', QuotedStr('%' + srchbxFileName.Text)]);
+      strSearch    := strTemp + ' union ' + strSearch;
+    end;
+    strSearch           := System.SysUtils.Trim(strSearch);
+    strSearch           := LeftStr(strSearch, Length(strSearch) - 5);
+    strSearch           := 'select DriveValue, ROW_NUMBER() over(order by ID) as RowNum from (' + strSearch + ')';
+    lvFiles.Items.Count := FDatabase.Execute(RawUTF8(strSearch), FstrArrSearchResult);
+  finally
+    srchbxFileName.Enabled := True;
+    btnReSearch.Enabled    := True;
+    lblTip.Visible         := False;
+  end;
 end;
 
-{ ÔËĞĞÎÄ¼ş }
-procedure TfrmNTFSFiles.mniOpenClick(Sender: TObject);
+procedure TfrmSuperSearch.srchbxFileNameKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
-  if lvData.ItemIndex = -1 then
-    Exit;
-
-  ShellExecute(0, 'open', PChar(lvData.Selected.SubItems[0]), nil, nil, SW_SHOW);
-end;
-
-{ ´ò¿ªÂ·¾¶ }
-procedure TfrmNTFSFiles.mniOpenPathClick(Sender: TObject);
-begin
-  if lvData.ItemIndex = -1 then
-    Exit;
-
-  OpenFolderAndSelectFile(lvData.Selected.SubItems[0]);
-end;
-
-{ ÖØÃüÃûÎÄ¼ş }
-procedure TfrmNTFSFiles.mniReNameClick(Sender: TObject);
-begin
-  if lvData.ItemIndex = -1 then
-    Exit;
-
-  OpenFolderAndSelectFile(lvData.Selected.SubItems[0], True);
-end;
-
-{ É¾³ıÎÄ¼ş }
-procedure TfrmNTFSFiles.mniDeleteClick(Sender: TObject);
-begin
-  if lvData.ItemIndex = -1 then
-    Exit;
-
-  if DeleteFile(lvData.Selected.SubItems[0]) then
-    lvData.Selected.Delete;
-end;
-
-{ ÎÄ¼şÊôĞÔ¶Ô»°¿ò }
-procedure TfrmNTFSFiles.mniFileAttrClick(Sender: TObject);
-begin
-  if lvData.ItemIndex = -1 then
-    Exit;
-
-  ShowFileProperties(lvData.Selected.SubItems[0], 0);
+  if Key = VK_RETURN then
+    srchbxFileName.OnInvokeSearch(nil);
 end;
 
 end.

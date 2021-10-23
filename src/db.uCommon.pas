@@ -49,8 +49,8 @@ type
     RecordLength: Cardinal;
     MajorVersion: Word;
     MinorVersion: Word;
-    FileReferenceNumber: UInt64;       // Int64Rec;
-    ParentFileReferenceNumber: UInt64; // Int64Rec;
+    FileReferenceNumber: Int64Rec;
+    ParentFileReferenceNumber: Int64Rec;
     USN: Int64;
     TimeStamp: LARGE_INTEGER;
     Reason: Cardinal;
@@ -78,8 +78,6 @@ const
   c_strAESKey                  = 'dbyoung@sina.com';
   c_intBetweenVerticalDistance = 5;
   c_intDelayTime               = 200;
-  c_strResultTableName         = 'NTFS2';
-  c_strSearchTempTableName     = 'TempSearchTable';
   BUF_LEN                      = 500 * 1024;
   USN_DELETE_FLAG_DELETE       = $00000001;
   c_UInt64Root                 = 1407374883553285;
@@ -87,6 +85,18 @@ const
   WM_GETFILEFULLNAMEFINISHED   = WM_USER + $1001;
   WM_EXECSQL                   = WM_USER + $1002;
   WM_EXECSQLSUCCESS            = WM_USER + $1003;
+  c_strCreateDriveTable        = 'CREATE TABLE %s_NTFS ([ID] INTEGER PRIMARY KEY, [FileID_HI] INTEGER NULL, [FileID_LO] INTEGER NULL, [FilePID_HI] INTEGER NULL, [FilePID_LO] INTEGER NULL, [FileName] VARCHAR (128));';
+  c_strCreateDriveIndex01      = 'CREATE UNIQUE INDEX %s_ID ON %s_NTFS (ID);';
+  c_strCreateDriveIndex02      = 'CREATE INDEX %s_FILEID_HI ON %s_NTFS (FILEID_HI);';
+  c_strCreateDriveIndex03      = 'CREATE INDEX %s_FILEID_LO ON %s_NTFS (FILEID_LO);';
+  c_strInsertFiles             = 'INSERT INTO %s_NTFS (ID, FileID_HI, FileID_LO, FilePID_HI, FilePID_LO, FileName) VALUES(NULL, ?, ?, ?, ?, ?)';
+  c_strGetFullFileName         =                                                                                                                           //
+    'with recursive TempTable as ' +                                                                                                                       //
+    '( ' +                                                                                                                                                 //
+    '    select * from %s_ntfs where id=%d ' +                                                                                                             //
+    '    union all ' +                                                                                                                                     //
+    '    select %s_ntfs.* from TempTable inner join %s_ntfs on (TempTable.FilePID_HI = %s_ntfs.FileID_HI and TempTable.FilePID_LO = %s_ntfs.FileID_LO) ' + //
+    ') select FileName from TempTable';
 
   { 全局变量 }
 var

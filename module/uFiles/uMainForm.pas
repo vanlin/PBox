@@ -3,8 +3,9 @@
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.Math, System.IniFiles, System.SysUtils, System.StrUtils, System.Classes, System.IOUtils, System.Types, System.Diagnostics, System.Generics.Collections, Vcl.Controls, Vcl.WinXCtrls, Vcl.Forms, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.Buttons,
-  SynSQLite3, SynSQLite3Static, SynCommons, uTSDFS, db.uCommon;
+  Winapi.Windows, Winapi.Messages, Winapi.ShellAPI, System.Math, System.IniFiles, System.SysUtils, System.StrUtils, System.Classes, System.IOUtils, System.Types, System.Diagnostics, System.Generics.Collections,
+  Vcl.Controls, Vcl.WinXCtrls, Vcl.Forms, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.Buttons, Vcl.FileCtrl, Vcl.Menus,
+  SynSQLite3, SynSQLite3Static, SynCommons, db.uTSDFS, db.uCommon;
 
 type
   TfrmSuperSearch = class(TForm)
@@ -16,6 +17,15 @@ type
     btnReSearch: TButton;
     lvFiles: TListView;
     lblTip: TLabel;
+    pmFile: TPopupMenu;
+    mnuFileOpen: TMenuItem;
+    mniFilePos: TMenuItem;
+    mniFileReName: TMenuItem;
+    mniFileCopyTo: TMenuItem;
+    mniFileMoveTo: TMenuItem;
+    mniFileLine01: TMenuItem;
+    mniFileAttr: TMenuItem;
+    mnuFileCopyTo: TMenuItem;
     procedure tmrStartTimer(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
     procedure lvFilesData(Sender: TObject; Item: TListItem);
@@ -24,6 +34,13 @@ type
     procedure btnReSearchClick(Sender: TObject);
     procedure srchbxFileNameInvokeSearch(Sender: TObject);
     procedure srchbxFileNameKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure mnuFileOpenClick(Sender: TObject);
+    procedure mniFilePosClick(Sender: TObject);
+    procedure mniFileReNameClick(Sender: TObject);
+    procedure mniFileCopyToClick(Sender: TObject);
+    procedure mniFileMoveToClick(Sender: TObject);
+    procedure mniFileAttrClick(Sender: TObject);
+    procedure mnuFileCopyToClick(Sender: TObject);
   private
     FDatabase          : TSQLDataBase;
     FintDrivesCount    : Integer;
@@ -338,20 +355,6 @@ begin
   Item.SubItems.Add(GetFullFileName(Item.Index + 1, FbSearchFile));
 end;
 
-procedure DelayTime(const intTime: Cardinal);
-var
-  intST, intET: Cardinal;
-begin
-  intST := GetTickCount;
-  while True do
-  begin
-    Application.ProcessMessages;
-    intET := GetTickCount;
-    if intET - intST >= intTime then
-      Break;
-  end;
-end;
-
 procedure TfrmSuperSearch.srchbxFileNameInvokeSearch(Sender: TObject);
 var
   I           : Integer;
@@ -364,8 +367,10 @@ begin
   begin
     lvFiles.Items.Count := 0;
     DelayTime(500);
-    lvFiles.Items.Count := GetFilesCount;
-    FbSearchFile        := False;
+    lvFiles.Items.Count   := GetFilesCount;
+    FbSearchFile          := False;
+    mniFileCopyTo.Enabled := False;
+    mniFileMoveTo.Enabled := False;
     Exit;
   end;
 
@@ -398,6 +403,8 @@ begin
     srchbxFileName.Enabled := True;
     btnReSearch.Enabled    := True;
     lblTip.Visible         := False;
+    mniFileCopyTo.Enabled  := True;
+    mniFileMoveTo.Enabled  := True;
   end;
 end;
 
@@ -405,6 +412,111 @@ procedure TfrmSuperSearch.srchbxFileNameKeyDown(Sender: TObject; var Key: Word; 
 begin
   if Key = VK_RETURN then
     srchbxFileName.OnInvokeSearch(nil);
+end;
+
+procedure TfrmSuperSearch.mnuFileOpenClick(Sender: TObject);
+var
+  strFileName: string;
+begin
+  if lvFiles.ItemIndex = -1 then
+    Exit;
+
+  strFileName := lvFiles.Selected.SubItems[0];
+  ShellExecute(Handle, 'open', PChar(strFileName), nil, nil, SW_SHOW);
+end;
+
+{ --------------------------------------------------------------------------------------------------------------------------------------- }
+{ ----------------------------------------------------------------- 文件操作 ------------------------------------------------------------ }
+{ --------------------------------------------------------------------------------------------------------------------------------------- }
+
+procedure TfrmSuperSearch.mniFilePosClick(Sender: TObject);
+var
+  strFileName: string;
+begin
+  if lvFiles.ItemIndex = -1 then
+    Exit;
+
+  strFileName := lvFiles.Selected.SubItems[0];
+  OpenFolderAndSelectFile(strFileName);
+end;
+
+procedure TfrmSuperSearch.mniFileReNameClick(Sender: TObject);
+var
+  strFileName: string;
+begin
+  if lvFiles.ItemIndex = -1 then
+    Exit;
+
+  strFileName := lvFiles.Selected.SubItems[0];
+  OpenFolderAndSelectFile(strFileName, True);
+end;
+
+procedure TfrmSuperSearch.mniFileAttrClick(Sender: TObject);
+var
+  strFileName: string;
+begin
+  if lvFiles.ItemIndex = -1 then
+    Exit;
+
+  strFileName := lvFiles.Selected.SubItems[0];
+  ShowFileProperties(strFileName, GetMainFormHandle);
+end;
+
+procedure TfrmSuperSearch.mnuFileCopyToClick(Sender: TObject);
+var
+  strSavePath: String;
+  strFileName: string;
+  bOK        : Boolean;
+begin
+  if lvFiles.Items.Count = 0 then
+    Exit;
+
+  if not SelectDirectory('选择一个文件夹：', '', strSavePath, [], GetInstanceFromhWnd(GetMainFormHandle)) then
+    Exit;
+
+  strFileName := lvFiles.Selected.SubItems[0];
+  bOK         := CopyFile(PChar(strFileName), PChar(strSavePath + '\' + ExtractFileName(strFileName)), False);
+  MessageBox(GetMainFormHandle, PChar(Format('文件复制%s', [IfThen(bOK, '成功', '失败')])), c_strMsgTitle, 64);
+end;
+
+procedure TfrmSuperSearch.mniFileCopyToClick(Sender: TObject);
+var
+  I          : Integer;
+  strSavePath: String;
+  strFileName: string;
+begin
+  if lvFiles.Items.Count = 0 then
+    Exit;
+
+  if not SelectDirectory('选择一个文件夹：', '', strSavePath, [], GetInstanceFromhWnd(GetMainFormHandle)) then
+    Exit;
+
+  for I := 0 to lvFiles.Items.Count - 1 do
+  begin
+    strFileName := lvFiles.Items.Item[I].SubItems[0];
+    CopyFile(PChar(strFileName), PChar(strSavePath + '\' + ExtractFileName(strFileName)), False);
+  end;
+  MessageBox(GetMainFormHandle, '所有文件复制完毕', c_strMsgTitle, 64);
+end;
+
+procedure TfrmSuperSearch.mniFileMoveToClick(Sender: TObject);
+var
+  I          : Integer;
+  strSavePath: String;
+  strFileName: string;
+begin
+  if lvFiles.Items.Count = 0 then
+    Exit;
+
+  if not SelectDirectory('选择一个文件夹：', '', strSavePath, [], GetInstanceFromhWnd(GetMainFormHandle)) then
+    Exit;
+
+  for I := 0 to lvFiles.Items.Count - 1 do
+  begin
+    strFileName := lvFiles.Items.Item[I].SubItems[0];
+    MoveFile(PChar(strFileName), PChar(strSavePath + '\' + ExtractFileName(strFileName)));
+  end;
+  MessageBox(GetMainFormHandle, '所有文件移动完毕', c_strMsgTitle, 64);
 end;
 
 end.

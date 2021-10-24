@@ -113,14 +113,54 @@ object frmSuperSearch: TfrmSuperSearch
     ReadOnly = True
     RowSelect = True
     ParentFont = False
+    PopupMenu = pmFile
     TabOrder = 4
     ViewStyle = vsReport
     OnData = lvFilesData
+    OnDblClick = mnuFileOpenClick
   end
   object tmrStart: TTimer
     Interval = 500
     OnTimer = tmrStartTimer
     Left = 88
     Top = 96
+  end
+  object pmFile: TPopupMenu
+    AutoHotkeys = maManual
+    Left = 88
+    Top = 152
+    object mnuFileOpen: TMenuItem
+      Caption = #25171#24320#25991#20214
+      OnClick = mnuFileOpenClick
+    end
+    object mniFilePos: TMenuItem
+      Caption = #23450#20301#25991#20214
+      OnClick = mniFilePosClick
+    end
+    object mniFileReName: TMenuItem
+      Caption = #25991#20214#37325#21629#21517
+      OnClick = mniFileReNameClick
+    end
+    object mnuFileCopyTo: TMenuItem
+      Caption = #25991#20214#22797#21046#21040'.....'
+      OnClick = mnuFileCopyToClick
+    end
+    object mniFileAttr: TMenuItem
+      Caption = #25991#20214#23646#24615
+      OnClick = mniFileAttrClick
+    end
+    object mniFileLine01: TMenuItem
+      Caption = '-'
+    end
+    object mniFileCopyTo: TMenuItem
+      Caption = #22797#21046#25152#26377#25991#20214#21040'.....'
+      Enabled = False
+      OnClick = mniFileCopyToClick
+    end
+    object mniFileMoveTo: TMenuItem
+      Caption = #31227#21160#25152#26377#25991#20214#21040'......'
+      Enabled = False
+      OnClick = mniFileMoveToClick
+    end
   end
 end

@@ -79,5 +79,9 @@ extern "C" __declspec(dllexport) void db_ShowDllForm_Plugins(TLangStyle* lsFileT
     支持文件拖放至 EXE、DLL 窗体；
     支持 x86 EXE 调用 x64 EXE，x64 EXE 调用 x86 EXE；
     
-## 六：接下来工作：
+## 六：已知存在的BUG：
+    1、文件拖放只能拖放到主窗体上，不能直接拖放到子模块 DLL 窗口中；这是由于权限造成的问题(资源管理器是普通权限、而 PBox 是管理员权限)；
+    2、DLL 窗口中的 hint 提示，只有在主窗体获取焦点时、激活窗体时，才会有提示信息出现；
+
+## 七：接下来工作：
     添加数据库支持（由于本人对数据库不熟悉，所以开发较慢，又是业余时间开发）;

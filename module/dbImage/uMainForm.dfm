@@ -88,21 +88,21 @@ object frmImageView: TfrmImageView
       item
         Control = tlbBrowse
         ImageIndex = -1
-        Width = 1083
+        Width = 1089
       end
       item
         Control = tlbView
         ImageIndex = -1
         Visible = False
-        Width = 1083
+        Width = 1089
       end>
     object tlbBrowse: TToolBar
       Left = 9
       Top = 0
       Width = 1076
       Height = 25
-      ButtonHeight = 21
-      ButtonWidth = 31
+      ButtonHeight = 0
+      ButtonWidth = 0
       Caption = 'tlbBrowse'
       Menu = mmBrowse
       ShowCaptions = True
@@ -113,8 +113,8 @@ object frmImageView: TfrmImageView
       Top = 27
       Width = 1076
       Height = 25
-      ButtonHeight = 21
-      ButtonWidth = 31
+      ButtonHeight = 0
+      ButtonWidth = 0
       Caption = 'tlbView'
       Menu = mmView
       ShowCaptions = True

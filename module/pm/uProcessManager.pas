@@ -71,19 +71,19 @@ type
     { Public declarations }
   end;
 
-procedure db_ShowDllForm_Plugins(var frm: TFormClass; var strParentModuleName, strModuleName: PAnsiChar); stdcall;
+procedure db_ShowDllForm_Plugins(var frm: TFormClass; var strParentModuleName, strSubModuleName: PAnsiChar); stdcall;
 
 implementation
 
 {$R *.dfm}
 
-procedure db_ShowDllForm_Plugins(var frm: TFormClass; var strParentModuleName, strModuleName: PAnsiChar); stdcall;
+procedure db_ShowDllForm_Plugins(var frm: TFormClass; var strParentModuleName, strSubModuleName: PAnsiChar); stdcall;
 begin
   frm                     := TfrmProcessManager;
   strParentModuleName     := '程序员工具';
-  strModuleName           := 'PM进程管理器';
+  strSubModuleName        := 'PM进程管理器';
   Application.Handle      := GetMainFormApplication.Handle;
-  Application.Icon.Handle := GetMainFormApplication.Icon.Handle;
+  Application.Icon.Handle := GetDllModuleIconHandle(String(strParentModuleName), string(strSubModuleName));
 end;
 
 { 获取进程路径 }

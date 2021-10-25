@@ -21,19 +21,19 @@ type
     { Public declarations }
   end;
 
-procedure db_ShowDllForm_Plugins(var frm: TFormClass; var strParentModuleName, strModuleName: PAnsiChar); stdcall;
+procedure db_ShowDllForm_Plugins(var frm: TFormClass; var strParentModuleName, strSubModuleName: PAnsiChar); stdcall;
 
 implementation
 
 {$R *.dfm}
 
-procedure db_ShowDllForm_Plugins(var frm: TFormClass; var strParentModuleName, strModuleName: PAnsiChar); stdcall;
+procedure db_ShowDllForm_Plugins(var frm: TFormClass; var strParentModuleName, strSubModuleName: PAnsiChar); stdcall;
 begin
   frm                     := TfrmtxtOCR;
   strParentModuleName     := '图形图像';
-  strModuleName           := '文本识别';
+  strSubModuleName        := '文本识别';
   Application.Handle      := GetMainFormApplication.Handle;
-  Application.Icon.Handle := GetMainFormApplication.Icon.Handle;
+  Application.Icon.Handle := GetDllModuleIconHandle(String(strParentModuleName), string(strSubModuleName));
 end;
 
 procedure TfrmtxtOCR.srchbxFileInvokeSearch(Sender: TObject);

@@ -65,10 +65,7 @@ type
     procedure CreateButtons;
   end;
 
-var
-  MainForm: TMainForm;
-
-procedure db_ShowDllForm_Plugins(var frm: TFormClass; var strParentModuleName, strModuleName: PAnsiChar); stdcall;
+procedure db_ShowDllForm_Plugins(var frm: TFormClass; var strParentModuleName, strSubModuleName: PAnsiChar); stdcall;
 
 implementation
 
@@ -81,13 +78,13 @@ resourcestring
   sPDFFiler = 'Adobe PDF files (*.pdf)|*.pdf';
   sPDFPrompt = 'Open';
 
-procedure db_ShowDllForm_Plugins(var frm: TFormClass; var strParentModuleName, strModuleName: PAnsiChar); stdcall;
+procedure db_ShowDllForm_Plugins(var frm: TFormClass; var strParentModuleName, strSubModuleName: PAnsiChar); stdcall;
 begin
   frm                     := TMainForm;
   strParentModuleName     := '文本编辑';
-  strModuleName           := 'PDF查看器';
+  strSubModuleName        := 'PDF查看器';
   Application.Handle      := GetMainFormApplication.Handle;
-  Application.Icon.Handle := GetMainFormApplication.Icon.Handle;
+  Application.Icon.Handle := GetDllModuleIconHandle(String(strParentModuleName), string(strSubModuleName));
 end;
 
 procedure TMainForm.FormClose(Sender: TObject; var Action: TCloseAction);

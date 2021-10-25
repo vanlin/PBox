@@ -27,7 +27,7 @@ type
     { Public declarations }
   end;
 
-procedure db_ShowDllForm_Plugins(var frm: TFormClass; var strParentModuleName, strModuleName: PAnsiChar); stdcall;
+procedure db_ShowDllForm_Plugins(var frm: TFormClass; var strParentModuleName, strSubModuleName: PAnsiChar); stdcall;
 
 implementation
 
@@ -35,13 +35,13 @@ implementation
 
 uses untHzPy;
 
-procedure db_ShowDllForm_Plugins(var frm: TFormClass; var strParentModuleName, strModuleName: PAnsiChar); stdcall;
+procedure db_ShowDllForm_Plugins(var frm: TFormClass; var strParentModuleName, strSubModuleName: PAnsiChar); stdcall;
 begin
   frm                     := TfrmHZPY;
   strParentModuleName     := 'ÎÄ±¾±à¼­';
-  strModuleName           := 'ºº×Ö±ê×¢Æ´Òô';
+  strSubModuleName        := 'ºº×Ö±ê×¢Æ´Òô';
   Application.Handle      := GetMainFormApplication.Handle;
-  Application.Icon.Handle := GetMainFormApplication.Icon.Handle;
+  Application.Icon.Handle := GetDllModuleIconHandle(String(strParentModuleName), string(strSubModuleName));
 end;
 
 procedure TfrmHZPY.mnuFileOpenClick(Sender: TObject);

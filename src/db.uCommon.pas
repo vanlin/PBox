@@ -237,6 +237,8 @@ function GetProcductName: String;
 { 删除一些程序会读取窗体位置的信息 }
 procedure DeleteFormPositon;
 
+function GetDllModuleIconHandle(const strPModuleName, strSModuleName: String): THandle;
+
 implementation
 
 { 只允许运行一个实例 }
@@ -1796,6 +1798,34 @@ begin
       DeleteValue('Position');
     end;
     Free;
+  end;
+end;
+
+function GetDllModuleIconHandle(const strPModuleName, strSModuleName: String): THandle;
+var
+  strIconFilePath: String;
+  strIconFileName: String;
+  IcoExe         : TIcon;
+begin
+  Result := GetMainFormApplication.Icon.Handle;
+
+  with TIniFile.Create(ChangeFileExt(ParamStr(0), '.ini')) do
+  begin
+    try
+      strIconFilePath := ReadString(c_strIniModuleSection, Format('%s_%s_ICON', [strPModuleName, strSModuleName]), '');
+      if strIconFilePath = '' then
+        Exit;
+
+      strIconFileName := ExtractFilePath(ParamStr(0)) + 'Plugins\Icon\' + strIconFilePath;
+      if not FileExists(strIconFileName) then
+        Exit;
+
+      IcoExe := TIcon.Create;
+      IcoExe.LoadFromFile(strIconFileName);
+      Result := IcoExe.Handle;
+    finally
+      Free;
+    end;
   end;
 end;
 

@@ -1,5 +1,5 @@
 unit uMainForm;
-
+
 interface
 
 uses
@@ -396,19 +396,19 @@ type
     { Public declarations }
   end;
 
-procedure db_ShowDllForm_Plugins(var frm: TFormClass; var strParentModuleName, strModuleName: PAnsiChar); stdcall;
+procedure db_ShowDllForm_Plugins(var frm: TFormClass; var strParentModuleName, strSubModuleName: PAnsiChar); stdcall;
 
 implementation
 
 {$R *.dfm}
 
-procedure db_ShowDllForm_Plugins(var frm: TFormClass; var strParentModuleName, strModuleName: PAnsiChar); stdcall;
+procedure db_ShowDllForm_Plugins(var frm: TFormClass; var strParentModuleName, strSubModuleName: PAnsiChar); stdcall;
 begin
   frm                     := TfrmPEInfo;
   strParentModuleName     := '程序员工具';
-  strModuleName           := 'PE查看器';
+  strSubModuleName        := 'PE查看器';
   Application.Handle      := GetMainFormApplication.Handle;
-  Application.Icon.Handle := GetMainFormApplication.Icon.Handle;
+  Application.Icon.Handle := GetDllModuleIconHandle(String(strParentModuleName), string(strSubModuleName));
 end;
 
 procedure TfrmPEInfo.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -1269,4 +1269,3 @@ begin
 end;
 
 end.
-

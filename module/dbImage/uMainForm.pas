@@ -98,7 +98,7 @@ type
     { Public declarations }
   end;
 
-procedure db_ShowDllForm_Plugins(var frm: TFormClass; var strParentModuleName, strModuleName: PAnsiChar); stdcall;
+procedure db_ShowDllForm_Plugins(var frm: TFormClass; var strParentModuleName, strSubModuleName: PAnsiChar); stdcall;
 
 implementation
 
@@ -111,13 +111,13 @@ const
   c_intThumbHeight   = 120;
   c_strimgSeeCaption = 'imgSee v2.0';
 
-procedure db_ShowDllForm_Plugins(var frm: TFormClass; var strParentModuleName, strModuleName: PAnsiChar); stdcall;
+procedure db_ShowDllForm_Plugins(var frm: TFormClass; var strParentModuleName, strSubModuleName: PAnsiChar); stdcall;
 begin
   frm                     := TfrmImageView;
   strParentModuleName     := '图形图像';
-  strModuleName           := '图像查看器';
+  strSubModuleName        := '图像查看器';
   Application.Handle      := GetMainFormApplication.Handle;
-  Application.Icon.Handle := GetMainFormApplication.Icon.Handle;
+  Application.Icon.Handle := GetDllModuleIconHandle(String(strParentModuleName), string(strSubModuleName));
 end;
 
 { DLL 中初始化 GDIPLUS DLL }
@@ -170,9 +170,9 @@ begin
   else
   begin
     FrzshltrFolder.SelectedFolder.PathName := ExtractFilePath(strFileName);
-    clbrBrowse.Bands[1].Visible     := True;
-    clbrBrowse.Bands[0].Visible     := False;
-    pgcAll.ActivePageIndex          := 1;
+    clbrBrowse.Bands[1].Visible            := True;
+    clbrBrowse.Bands[0].Visible            := False;
+    pgcAll.ActivePageIndex                 := 1;
   end;
 end;
 

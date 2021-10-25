@@ -57,7 +57,7 @@ type
     procedure ShowMainForm;
   end;
 
-procedure db_ShowDllForm_Plugins(var frm: TFormClass; var strParentModuleName, strModuleName: PAnsiChar); stdcall;
+procedure db_ShowDllForm_Plugins(var frm: TFormClass; var strParentModuleName, strSubModuleName: PAnsiChar); stdcall;
 
 implementation
 
@@ -68,13 +68,13 @@ uses uFullScreen;
 const
   c_intHotkeyID = 11223344;
 
-procedure db_ShowDllForm_Plugins(var frm: TFormClass; var strParentModuleName, strModuleName: PAnsiChar); stdcall;
+procedure db_ShowDllForm_Plugins(var frm: TFormClass; var strParentModuleName, strSubModuleName: PAnsiChar); stdcall;
 begin
   frm                     := TfrmSnapScreen;
   strParentModuleName     := 'Í¼ÐÎÍ¼Ïñ';
-  strModuleName           := 'ÆÁÄ»½ØÍ¼';
+  strSubModuleName        := 'ÆÁÄ»½ØÍ¼';
   Application.Handle      := GetMainFormApplication.Handle;
-  Application.Icon.Handle := GetMainFormApplication.Icon.Handle;
+  Application.Icon.Handle := GetDllModuleIconHandle(String(strParentModuleName), string(strSubModuleName));
 end;
 
 procedure TfrmSnapScreen.FormCreate(Sender: TObject);

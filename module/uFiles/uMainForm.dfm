@@ -68,10 +68,16 @@ object frmSuperSearch: TfrmSuperSearch
   end
   object srchbxFileName: TSearchBox
     Left = 88
-    Top = 4
+    Top = 1
     Width = 217
-    Height = 21
+    Height = 23
     Hint = #20026#31354#26102#65292#26174#31034#25152#26377#25991#20214#12290#25628#32034#23383#31526#38271#24230#19981#24471#23569#20110'2'#20010#23383#31526
+    Font.Charset = GB2312_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -15
+    Font.Name = #23435#20307
+    Font.Style = []
+    ParentFont = False
     ParentShowHint = False
     ShowHint = True
     TabOrder = 2

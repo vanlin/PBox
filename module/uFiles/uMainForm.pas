@@ -359,9 +359,12 @@ var
   strTemp     : String;
   strDriveName: String;
   strSearch   : String;
+  strInput    : String;
 begin
-  { 还原到全部文件 }
-  if Length(srchbxFileName.Text) = 0 then
+  strInput := srchbxFileName.Text;
+
+  { 恢复到全部文件 }
+  if Length(strInput) = 0 then
   begin
     lvFiles.Items.Count := 0;
     DelayTime(500);
@@ -372,11 +375,15 @@ begin
     Exit;
   end;
 
-  if Length(srchbxFileName.Text) < 2 then
+  if Length(strInput) < 2 then
   begin
     MessageBox(Handle, '长度不得低于两位', '系统提示：', 64);
     Exit;
   end;
+
+  { 检查用户输入内容 }
+  if (strInput[1] = '*') and (strInput[2] = '.') then
+    strInput := RightStr(strInput, Length(strInput) - 1);
 
   { 将搜索结果保存到列表 }
   lblTip.Visible         := True;
@@ -390,7 +397,7 @@ begin
     for I := 0 to FlstFilesCount.Count - 1 do
     begin
       strDriveName := FlstFilesCount.Names[I];
-      strTemp      := Format('select id ||'';''|| %s as DriveValue from %s_ntfs where filename like %s', [QuotedStr(strDriveName), strDriveName, QuotedStr('%' + srchbxFileName.Text)]);
+      strTemp      := Format('select id ||'';''|| %s as DriveValue from %s_ntfs where filename like %s', [QuotedStr(strDriveName), strDriveName, QuotedStr('%' + strInput)]);
       strSearch    := strTemp + ' union ' + strSearch;
     end;
     strSearch           := System.SysUtils.Trim(strSearch);
@@ -410,6 +417,15 @@ procedure TfrmSuperSearch.srchbxFileNameKeyUp(Sender: TObject; var Key: Word; Sh
 begin
   if Key = VK_RETURN then
     srchbxFileName.OnInvokeSearch(nil);
+
+  { 当搜索条件为空时，恢复到全部文件 }
+  if Key = VK_BACK then
+  begin
+    if srchbxFileName.Text = '' then
+    begin
+      srchbxFileName.OnInvokeSearch(nil);
+    end;
+  end;
 end;
 
 procedure TfrmSuperSearch.mnuFileOpenClick(Sender: TObject);

@@ -419,7 +419,7 @@ begin
     srchbxFileName.OnInvokeSearch(nil);
 
   { 当搜索条件为空时，恢复到全部文件 }
-  if Key = VK_BACK then
+  if (Key = VK_BACK) or (Key = VK_DELETE) then
   begin
     if srchbxFileName.Text = '' then
     begin

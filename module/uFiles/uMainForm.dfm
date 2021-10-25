@@ -75,7 +75,7 @@ object frmSuperSearch: TfrmSuperSearch
     ParentShowHint = False
     ShowHint = True
     TabOrder = 2
-    OnKeyDown = srchbxFileNameKeyDown
+    OnKeyUp = srchbxFileNameKeyUp
     OnInvokeSearch = srchbxFileNameInvokeSearch
   end
   object btnReSearch: TButton

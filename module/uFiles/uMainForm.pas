@@ -33,7 +33,6 @@ type
     procedure FormResize(Sender: TObject);
     procedure btnReSearchClick(Sender: TObject);
     procedure srchbxFileNameInvokeSearch(Sender: TObject);
-    procedure srchbxFileNameKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure mnuFileOpenClick(Sender: TObject);
     procedure mniFilePosClick(Sender: TObject);
     procedure mniFileReNameClick(Sender: TObject);
@@ -41,6 +40,7 @@ type
     procedure mniFileMoveToClick(Sender: TObject);
     procedure mniFileAttrClick(Sender: TObject);
     procedure mnuFileCopyToClick(Sender: TObject);
+    procedure srchbxFileNameKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     FDatabase          : TSQLDataBase;
     FintDrivesCount    : Integer;
@@ -337,14 +337,10 @@ var
   I, Count   : Integer;
   strArrValue: TRawUTF8DynArray;
 begin
-  FDatabase.Execute(RawUTF8(Format(c_strGetFullFileName, [strTabelName[1], intID, strTabelName[1], strTabelName[1], strTabelName[1], strTabelName[1]])), strArrValue);
-  Count := Length(strArrValue);
+  Count := FDatabase.Execute(RawUTF8(Format(c_strGetFullFileName, [strTabelName[1], intID, strTabelName[1], strTabelName[1], strTabelName[1], strTabelName[1]])), strArrValue);
   for I := 0 to Count - 1 do
   begin
-    if strArrValue[I] <> '' then
-    begin
-      Result := UTF8ToString(strArrValue[I]) + '\' + Result;
-    end;
+    Result := UTF8ToString(strArrValue[I]) + '\' + Result;
   end;
   Result := strTabelName[1] + ':\' + LeftStr(Result, Length(Result) - 1);
 end;
@@ -408,7 +404,7 @@ begin
   end;
 end;
 
-procedure TfrmSuperSearch.srchbxFileNameKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TfrmSuperSearch.srchbxFileNameKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if Key = VK_RETURN then
     srchbxFileName.OnInvokeSearch(nil);

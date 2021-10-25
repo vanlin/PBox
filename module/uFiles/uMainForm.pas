@@ -96,7 +96,7 @@ begin
   FDatabase.Execute('SELECT name FROM sqlite_master WHERE type=''table'' ORDER BY name', arrTableName);
   for I := 0 to Length(arrTableName) - 1 do
   begin
-    Count := FDatabase.ExecuteNoExceptionInt64(RawUTF8(Format('select count(id) from %s', [arrTableName[I]])));
+    Count := FDatabase.ExecuteNoExceptionInt64(RawUTF8(Format('select max(rowid) from %s', [arrTableName[I]])));
     FlstFilesCount.Add(Format('%s=%d', [arrTableName[I][1], Count]));
   end;
 
@@ -122,7 +122,7 @@ begin
   strFileName := ChangeFileExt(GetDllFullFileName, '.db');
   if FileExists(strFileName) then
   begin
-    mmoLog.Lines.Add('数据库文件存在，加载中，请稍等••••••');
+    mmoLog.Lines.Add('数据库文件存在，加载中，请稍侯••••••');
     LoadFilesDB(strFileName);
     Exit;
   end;
@@ -166,6 +166,7 @@ begin
   FlstFilesCount.Add(string(PChar(msg.WParam)));
   mmoLog.Lines.Add(string(PChar(msg.LParam)));
 
+  { 所有盘符搜索完毕，数据库提交、触发绘制界面 }
   if FintDrivesCount = 0 then
   begin
     FDatabase.Commit;
@@ -300,6 +301,7 @@ begin
   J      := 0;
   ttt    := 0;
 
+  { 如果是查询文件，从数据数组中获取盘符和ID }
   if bSearchFile then
   begin
     strValue := string(FstrArrSearchResult[intIndex - 1]);
@@ -388,12 +390,12 @@ begin
     for I := 0 to FlstFilesCount.Count - 1 do
     begin
       strDriveName := FlstFilesCount.Names[I];
-      strTemp      := Format('select id, id ||'';''|| %s as DriveValue from %s where filename like %s', [QuotedStr(strDriveName), strDriveName + '_ntfs', QuotedStr('%' + srchbxFileName.Text)]);
+      strTemp      := Format('select id ||'';''|| %s as DriveValue from %s_ntfs where filename like %s', [QuotedStr(strDriveName), strDriveName, QuotedStr('%' + srchbxFileName.Text)]);
       strSearch    := strTemp + ' union ' + strSearch;
     end;
     strSearch           := System.SysUtils.Trim(strSearch);
     strSearch           := LeftStr(strSearch, Length(strSearch) - 5);
-    strSearch           := 'select DriveValue, ROW_NUMBER() over(order by ID) as RowNum from (' + strSearch + ')';
+    strSearch           := 'select DriveValue from (' + strSearch + ')';
     lvFiles.Items.Count := FDatabase.Execute(RawUTF8(strSearch), FstrArrSearchResult);
   finally
     srchbxFileName.Enabled := True;

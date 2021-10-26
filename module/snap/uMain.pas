@@ -7,7 +7,7 @@ uses
   Execute.DesktopDuplicationAPI, db.uCommon;
 
 type
-  TSnapType = (stGDI, stDX, stDXGI);
+  TSnapType = (stGDI, stDX, stDXGI, stCapture);
 
 type
   TfrmSnapScreen = class(TForm)
@@ -22,6 +22,7 @@ type
     pmGDI: TPopupMenu;
     mniGDIRect: TMenuItem;
     mniGDIWindow: TMenuItem;
+    btnCaptureScreen: TButton;
     procedure btnGDIClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
@@ -30,6 +31,7 @@ type
     procedure btnDXGIClick(Sender: TObject);
     procedure mniGDIWindowClick(Sender: TObject);
     procedure tmrPosTimer(Sender: TObject);
+    procedure btnCaptureScreenClick(Sender: TObject);
   private
     FSnapType     : TSnapType;
     FDuplication  : TDesktopDuplicationWrapper;
@@ -53,8 +55,9 @@ type
     procedure SnapDX(const x1, y1, x2, y2: Integer);
     { DXGI НиЭМ }
     procedure SnapDXGI(const x1, y1, x2, y2: Integer);
+    procedure SnapScrren(const x1, y1, x2, y2: Integer);
     procedure HideMainForm;
-    procedure ShowMainForm;
+    procedure ShowMainForm(const bShow: Boolean = True);
   end;
 
 procedure db_ShowDllForm_Plugins(var frm: TFormClass; var strParentModuleName, strSubModuleName: PAnsiChar); stdcall;
@@ -63,7 +66,7 @@ implementation
 
 {$R *.dfm}
 
-uses uFullScreen;
+uses uFullScreen, frmCaptureScreen;
 
 const
   c_intHotkeyID = 11223344;
@@ -79,10 +82,11 @@ end;
 
 procedure TfrmSnapScreen.FormCreate(Sender: TObject);
 begin
-  FDuplication         := TDesktopDuplicationWrapper.Create;
-  btnDXGI.Enabled      := Win32MajorVersion > 6;
-  FcvsGDIWindow        := TCanvas.Create;
-  FcvsGDIWindow.Handle := GetDC(0);
+  FDuplication             := TDesktopDuplicationWrapper.Create;
+  btnDXGI.Enabled          := Win32MajorVersion > 6;
+  FcvsGDIWindow            := TCanvas.Create;
+  FcvsGDIWindow.Handle     := GetDC(0);
+  btnCaptureScreen.Enabled := FileExists(GetDllFilePath + '\ffmpeg\bin\ffmpeg.exe');
 end;
 
 procedure TfrmSnapScreen.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -98,9 +102,12 @@ begin
   GetMainFormApplication.MainForm.WindowState := wsMinimized;
 end;
 
-procedure TfrmSnapScreen.ShowMainForm;
+procedure TfrmSnapScreen.ShowMainForm(const bShow: Boolean = True);
 begin
-  GetMainFormApplication.MainForm.WindowState := wsNormal;
+  if bShow then
+  begin
+    GetMainFormApplication.MainForm.WindowState := wsNormal;
+  end;
 end;
 
 procedure TfrmSnapScreen.btnDXClick(Sender: TObject);
@@ -236,6 +243,8 @@ begin
       SnapDX(x1, y1, x2, y2);
     stDXGI:
       SnapDXGI(x1, y1, x2, y2);
+    stCapture:
+      SnapScrren(x1, y1, x2, y2);
   end;
 end;
 
@@ -370,6 +379,18 @@ begin
       bmpSnap.Free;
     end;
   end;
+end;
+
+procedure TfrmSnapScreen.btnCaptureScreenClick(Sender: TObject);
+begin
+  FSnapType := stCapture;
+  ShowFullScreen(Handle, False);
+  HideMainForm;
+end;
+
+procedure TfrmSnapScreen.SnapScrren(const x1, y1, x2, y2: Integer);
+begin
+  ShowCaptureScreenSettingForm(Handle, x1, y1, x2, y2, btnCaptureScreenClick);
 end;
 
 end.

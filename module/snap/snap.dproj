@@ -117,10 +117,14 @@
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>(None)</Manifest_File>
         <Debugger_HostApplication>..\..\bin\Win32\PBox.exe</Debugger_HostApplication>
-        <DCC_UnitSearchPath>..\..\3rdparty\DXGI;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_UnitSearchPath>..\..\vcl\DXGI;..\..\src;..\..\vcl\AES;..\..\vcl\DOSCommand\Source;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
         <Debugger_HostApplication>..\..\bin\Win64\PBox.exe</Debugger_HostApplication>
+        <DCC_UnitSearchPath>..\..\vcl\DXGI;..\..\src;..\..\vcl\AES;..\..\vcl\DOSCommand\Source;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <Manifest_File>(None)</Manifest_File>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -130,14 +134,14 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
         <Debugger_HostApplication>..\..\bin\Win32\PBox.exe</Debugger_HostApplication>
-        <DCC_UnitSearchPath>..\..\vcl\DXGI;..\..\src;..\..\vcl\AES;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_UnitSearchPath>..\..\vcl\DXGI;..\..\src;..\..\vcl\AES;..\..\vcl\DOSCommand\Source;..\..\module\pm;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>(None)</Manifest_File>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
         <Debugger_HostApplication>..\..\bin\Win64\PBox.exe</Debugger_HostApplication>
-        <DCC_UnitSearchPath>..\..\vcl\DXGI;..\..\src;..\..\vcl\AES;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_UnitSearchPath>..\..\vcl\DXGI;..\..\src;..\..\vcl\AES;..\..\vcl\DOSCommand\Source;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>(None)</Manifest_File>
@@ -152,6 +156,10 @@
         </DCCReference>
         <DCCReference Include="uFullScreen.pas">
             <Form>frmFullScreen</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="frmCaptureScreen.pas">
+            <Form>frmCS</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Release">

@@ -80,6 +80,15 @@ object frmSnapScreen: TfrmSnapScreen
     TabOrder = 4
     OnClick = btnSaveFileClick
   end
+  object btnCaptureScreen: TButton
+    Left = 479
+    Top = 8
+    Width = 151
+    Height = 41
+    Caption = #23631#24149#24405#21046
+    TabOrder = 5
+    OnClick = btnCaptureScreenClick
+  end
   object tmrPos: TTimer
     Enabled = False
     Interval = 1

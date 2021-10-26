@@ -237,6 +237,7 @@ function GetProcductName: String;
 { 删除一些程序会读取窗体位置的信息 }
 procedure DeleteFormPositon;
 
+{ 获取 Dll 子模块窗体图标 }
 function GetDllModuleIconHandle(const strPModuleName, strSModuleName: String): THandle;
 
 implementation
@@ -1580,7 +1581,7 @@ end;
 function GetProcessThreadCount: Integer;
 var
   SnapProcHandle: THandle;
-  ThreadEntry   : TThreadEntry32;
+  ThreadEntry   : Winapi.TlHelp32.TThreadEntry32;
   Next          : Boolean;
 begin
   Result         := 0;
@@ -1801,6 +1802,7 @@ begin
   end;
 end;
 
+{ 获取 Dll 子模块窗体图标 }
 function GetDllModuleIconHandle(const strPModuleName, strSModuleName: String): THandle;
 var
   strIconFilePath: String;

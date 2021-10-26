@@ -8,7 +8,8 @@ uses
   System.SysUtils,
   System.Classes,
   uMain in 'uMain.pas' {frmSnapScreen},
-  uFullScreen in 'uFullScreen.pas' {frmFullScreen};
+  uFullScreen in 'uFullScreen.pas' {frmFullScreen},
+  frmCaptureScreen in 'frmCaptureScreen.pas' {frmCS};
 
 {$R *.res}
 

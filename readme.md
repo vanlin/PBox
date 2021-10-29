@@ -82,7 +82,6 @@ extern "C" __declspec(dllexport) void db_ShowDllForm_Plugins(TLangStyle* lsFileT
     
 ## VI. Known bugs:  
     1. File drag and drop can only be dragged and dropped to the main form, not directly to the sub module DLL window; This is a problem caused by permissions (resource manager is normal permissions and pbox is administrator permissions);
-    2. The hint prompt in DLL window will appear only when the main form obtains the focus and activates the form;
 
 ## VII. Next work:  
     Add database support (because I am not familiar with the database, the development is slow, and it is developed in my spare time)  

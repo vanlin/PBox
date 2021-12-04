@@ -1,3 +1,61 @@
+Changelog 0.99.4:
+
+2201: [New] Better FITS loading
+2198: [New] Shift to draw square & circle - http://newsgroup.xnview.com/viewtopic.php?t=42603
+2195: [New] Batch convert: Text size unit - http://newsgroup.xnview.com/viewtopic.php?t=42552
+2194: [New] Batch convert: Clear transparent pixels
+2189: [New] {Categories} in Batch rename - http://newsgroup.xnview.com/viewtopic.php?t=41992
+2188: [New] Color used in properties - http://newsgroup.xnview.com/viewtopic.php?t=42555
+2184: [New] Batch convert: QR Code - http://newsgroup.xnview.com/viewtopic.php?t=42512
+2183: [New] Batch convert: paste file list - http://newsgroup.xnview.com/viewtopic.php?t=42532
+2181: [New] Windows: 'Acquire into' - http://newsgroup.xnview.com/viewtopic.php?t=39809
+2180: [New] Batch convert: settings to disable format color - http://newsgroup.xnview.com/viewtopic.php?t=42514
+2177: [New] Batch convert: ALT+Wheel for previous/next image
+2176: [New] Open location code for GPS position - http://newsgroup.xnview.com/viewtopic.php?t=42503
+2174: [New] Cleaner face region - http://newsgroup.xnview.com/viewtopic.php?t=39741
+2170: [New] 'Lens Model' in template
+2167: [New] Menu item to configure panel visibility - http://newsgroup.xnview.com/viewtopic.php?t=42425
+2160: [New] lip format - http://newsgroup.xnview.com/viewtopic.php?t=42158
+2158: [New] libavif 0.9.2 - http://newsgroup.xnview.com/viewtopic.php?t=42382
+2156: [New] JPEGXL: Compression effort - http://newsgroup.xnview.com/viewtopic.php?t=42381
+2205: [Bug] can not delete file when entering in fullscreen - http://newsgroup.xnview.com/viewtopic.php?t=42471
+2204: [Bug] WebP ICC profile - http://newsgroup.xnview.com/viewtopic.php?t=42647
+2203: [Bug] Mac: 'open in finder' dont select/focus file - http://newsgroup.xnview.com/viewtopic.php?t=42632
+2202: [Bug] Overlay icon with DPI scaling - http://newsgroup.xnview.com/viewtopic.php?t=42638
+2200: [Bug] Face's region & orientation - http://newsgroup.xnview.com/viewtopic.php?t=42613
+2199: [Bug] MacOS: Delete shared folder - http://newsgroup.xnview.com/viewtopic.php?t=42586
+2197: [Bug] Search from context menu - http://newsgroup.xnview.com/viewtopic.php?t=42607
+2196: [Bug] Incorrect face tag regions - http://newsgroup.xnview.com/viewtopic.php?t=42597
+2193: [Bug] Rating on RAW files doesn't create sidecar - http://newsgroup.xnview.com/viewtopic.php?t=42564
+2192: [Bug] Print custom size - http://newsgroup.xnview.com/viewtopic.php?t=42509
+2191: [Bug] Batch convert: JPEG XL compression - http://newsgroup.xnview.com/viewtopic.php?t=42566
+2190: [Bug] Parent for new category - http://newsgroup.xnview.com/viewtopic.php?t=40554
+2187: [Bug] DDS 12bits - http://newsgroup.xnview.com/viewtopic.php?t=42583
+2186: [Bug] Update labels after 'Set category' via menu - http://newsgroup.xnview.com/viewtopic.php?t=40147
+2185: [Bug] Video Volume problem - http://newsgroup.xnview.com/viewtopic.php?t=37033
+2182: [Bug] Batch convert: RAW orientation - http://newsgroup.xnview.com/viewtopic.php?t=42539
+2179: [Bug] Wrong EXIF value on RAW - http://newsgroup.xnview.com/viewtopic.php?t=42518
+2175: [Bug] Convert: EXIF:Longitude/Latitude show decimal value in 'Text' - http://newsgroup.xnview.com/viewtopic.php?t=42502
+2173: [Bug] {EXIF:Altitude} not shown - http://newsgroup.xnview.com/viewtopic.php?t=42502
+2172: [Bug] HEIC filename with unicode - http://newsgroup.xnview.com/viewtopic.php?t=42428
+2171: [Bug] Set DPI - http://newsgroup.xnview.com/viewtopic.php?t=42490
+2169: [Bug] Crash on 1x1 bitmap - http://newsgroup.xnview.com/viewtopic.php?t=42462
+2168: [Bug] Slow browser when having a lot of subfolder - http://newsgroup.xnview.com/viewtopic.php?t=42325
+2166: [Bug] Rating in detail view
+2165: [Bug] Paint: ellipse bug - http://newsgroup.xnview.com/viewtopic.php?t=42443
+2164: [Bug] JPEGXL & unicode filename -http://newsgroup.xnview.com/viewtopic.php?t=42422
+2163: [Bug] Sort folder by comment - http://newsgroup.xnview.com/viewtopic.php?t=42404
+2162: [Bug] X3F on MacOS/Linux - http://newsgroup.xnview.com/viewtopic.php?t=42344
+2161: [Bug] {EXIF:xA...} fields - http://newsgroup.xnview.com/viewtopic.php?t=42279
+2159: [Bug] RAW EXIF Camera fields - http://newsgroup.xnview.com/viewtopic.php?t=42371
+2157: [Bug] Similar: Sort - http://newsgroup.xnview.com/viewtopic.php?t=42372
+2155: [Bug] XMP list fields in Batch rename - http://newsgroup.xnview.com/viewtopic.php?t=42023
+2154: [Bug] Batch convert: Disable mutli core when PDF - http://newsgroup.xnview.com/viewtopic.php?t=42359
+2153: [Bug] Animated webp - http://newsgroup.xnview.com/viewtopic.php?t=42383
+2152: [Bug] GPS writing Negative value - http://newsgroup.xnview.com/viewtopic.php?t=42378
+2151: [Bug] Image size on RAW - http://newsgroup.xnview.com/viewtopic.php?t=42349
+
+
 Changelog 0.99.1:
 
 2150: [Bug] Category Sets: Font & remove - http://newsgroup.xnview.com/viewtopic.php?t=42366
@@ -10,9 +68,9 @@ Changelog 0.99.1:
 2145: [Bug] Batch convert multipage file convert one page - http://newsgroup.xnview.com/viewtopic.php?t=42359
 2143: [Bug] X3F - http://newsgroup.xnview.com/viewtopic.php?t=42346
 2118: [Bug] PNG: 8bits + transparency - http://newsgroup.xnview.com/viewtopic.php?t=42103
-2142: [Bug] PNG crash - https://newsgroup.xnview.com/viewtopic.php?f=62&t=42354
+2142: [Bug] PNG crash - https://newsgroup.xnview.com/viewtopic.php?t=42354
 2141: [Bug] Time always changes to 00:00:00 - http://newsgroup.xnview.com/viewtopic.php?t=42352
-2140: [Bug] Play only once animated file - http://newsgroup.xnview.com/viewtopic.phpt=42342
+2140: [Bug] Play only once animated file - http://newsgroup.xnview.com/viewtopic.php?t=42342
 2139: [Bug] No auto refresh in Export>JPEGXL - http://newsgroup.xnview.com/viewtopic.php?t=42336
 
 
@@ -132,7 +190,7 @@ Changelog 0.98.3:
 2048: [Bug] HiDPI & bicubic-lanczos filter - http://newsgroup.xnview.com/viewtopic.php?t=41797
 2047: [Bug] HiDPI & b&w image - http://newsgroup.xnview.com/viewtopic.php?t=40984
 2045: [Bug] JPEG XR - http://newsgroup.xnview.com/viewtopic.php?t=41792
-2044: [Bug] Edit GPS: Copy/Paste problem - http://newsgroup.xnview.com/viewtopic.php?f=83&t=39706
+2044: [Bug] Edit GPS: Copy/Paste problem - http://newsgroup.xnview.com/viewtopic.php?t=39706
 2041: [Bug] Crash when moving/selecting category
 2040: [Bug] Detail view & rating/label with 125% font scaling - http://newsgroup.xnview.com/viewtopic.php?t=41752
 2039: [Bug] CR2 orientation problem

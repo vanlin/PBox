@@ -25,7 +25,7 @@ extern "C" __declspec(dllexport) void db_ShowDllForm_Plugins(TLangStyle* lsFileT
     * lsFileType       = lsQTDll;                 // TLangStyle
     * strParentName    = "程序员工具";            // 父模块名称
     * strSubModuleName = "CMake-GUI(DLL)";        // 子模块名称
-    * strClassName     = "Qt5150QWindowIcon";     // 窗体类名
+    * strClassName     = "Qt5152QWindowIcon";     // 窗体类名
     * strWindowName    = "CMakeSetup";            // 窗体名
     
     if (show) 

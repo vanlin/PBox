@@ -94,19 +94,19 @@ Lewis Van Winkle (TinyExpr)     https://github.com/codeplea/tinyexpr
 --------------------------------------------------------------------------------
 Acknowledgments:
 ----------------
+alex-ilin               https://github.com/alex-ilin
 alexantr                https://github.com/alexantr
-AlexIljin               https://github.com/AlexIljin
 ashish12phnx            https://github.com/ashish12phnx
 bravo-hero              https://github.com/bravo-hero
 craigo-                 https://github.com/craigo-/
 Crane70                 https://github.com/Crane70
+danfong                 https://github.com/danfong
 engelhro                https://github.com/engelhro
+geogeo-gr               https://github.com/geogeo-gr
 Hexaae                  https://github.com/Hexaae
 hpwamr                  https://github.com/hpwamr
-JeepWillys58            https://github.com/JeepWillys58
-jmacasd                 https://github.com/jmacasd
+igorruckert             https://github.com/igorruckert
 jupester                https://github.com/jupester
-kenneth-ran             https://github.com/kenneth-ran
 kofifus                 https://github.com/kofifus
 Lacn0755                https://github.com/Lacn0755
 leeoniya                https://github.com/leeoniya
@@ -114,13 +114,14 @@ lhmouse                 https://github.com/lhmouse
 ltGuillaume             https://github.com/ltGuillaume
 maboroshin              https://github.com/maboroshin
 MadDogVachon            https://github.com/MadDogVachon
+MelchiorGaspar          https://github.com/MelchiorGaspar
 Mitezuss                https://github.com/Mitezuss
 RaffaeleBianc0          https://github.com/RaffaeleBianc0
 RaiKoHoff               https://github.com/RaiKoHoff
 rizonesoft              https://github.com/rizonesoft
 Rudolfin                https://github.com/Rudolfin
+Stephan-P               https://github.com/Stephan-P
 ThreeLightsBeyond       https://github.com/ThreeLightsBeyond
-Turko-py                https://github.com/Turko-py
 VenusGirl               https://github.com/VenusGirl
 xsak                    https://github.com/xsak
 zufuliu                 https://github.com/zufuliu

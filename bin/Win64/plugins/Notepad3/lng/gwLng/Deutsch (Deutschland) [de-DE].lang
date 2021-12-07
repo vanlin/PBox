@@ -53,6 +53,10 @@ msgstr "&Ersetzen"
 msgid "&Search"
 msgstr "&Suchen"
 
+#. Resource IDs: (1003)
+msgid "&Whole word"
+msgstr "Ganzes &Wort"
+
 #. Resource IDs: (1013)
 msgid "..."
 msgstr "..."
@@ -331,9 +335,13 @@ msgstr "Der Pfad existiert nicht oder es kann nicht darauf zugegriffen werden!"
 msgid "Preset name"
 msgstr "Preset-Name"
 
-#. Resource IDs: (1022, 132)
+#. Resource IDs: (1022)
 msgid "Presets..."
 msgstr "Presets..."
+
+#. Resource IDs: (132)
+msgid "Presets"
+msgstr "Presets"
 
 #. Resource IDs: (1065)
 msgid "Press F1 for help..."
@@ -419,6 +427,11 @@ msgstr "Suchstring"
 #, c-format
 msgid "Searched %ld files, skipped %ld files. Found %ld matches in %ld files."
 msgstr "Gesucht %ld Dateien, übersprungen %ld Dateien. Gefunden %ld Übereinstimmungen in %ld Dateien."
+
+#. Resource IDs: (173)
+#, c-format
+msgid "Searched %ld files, skipped %ld files. Found %ld matches in %ld files. %ld results selected."
+msgstr "Dateien durchsucht %ld, übersprungen %ld. Treffer %ld in %ld Dateien. %ld Ergebnisse ausgewählt."
 
 #. Resource IDs: (140)
 msgid "Select Editor Application..."

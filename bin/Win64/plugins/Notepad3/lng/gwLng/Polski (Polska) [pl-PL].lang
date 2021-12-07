@@ -53,6 +53,10 @@ msgstr "&Zamień"
 msgid "&Search"
 msgstr "&Szukaj"
 
+#. Resource IDs: (1003)
+msgid "&Whole word"
+msgstr "Całe słowo"
+
 #. Resource IDs: (1013)
 msgid "..."
 msgstr "..."
@@ -331,9 +335,13 @@ msgstr "Ścieżka nie istnieje lub jest niedostępna!"
 msgid "Preset name"
 msgstr "Predefiniowana nazwa"
 
-#. Resource IDs: (1022, 132)
+#. Resource IDs: (1022)
 msgid "Presets..."
 msgstr "Predefinicje..."
+
+#. Resource IDs: (132)
+msgid "Presets"
+msgstr "Predefinicje"
 
 #. Resource IDs: (1065)
 msgid "Press F1 for help..."
@@ -420,6 +428,11 @@ msgstr "Szukana fraza"
 msgid "Searched %ld files, skipped %ld files. Found %ld matches in %ld files."
 msgstr "Wyszukano plików: %ld, pominięto plików: %ld. Znaleziono %ld dopasowań w %ld plikach."
 
+#. Resource IDs: (173)
+#, c-format
+msgid "Searched %ld files, skipped %ld files. Found %ld matches in %ld files. %ld results selected."
+msgstr "Przeszukano %ld plików, pominięto %ld plików. Znaleziono %ld dopasowań w %ld plikach. Zaznaczono %ld wyników"
+
 #. Resource IDs: (140)
 msgid "Select Editor Application..."
 msgstr "Wybierz Edytor aplikacji..."
@@ -475,7 +488,7 @@ msgstr "Traktuj pliki jak binarne"
 #. Resource IDs: (172)
 #, c-format
 msgid "You have the option \"%s\" enabled.\r\nWhen replacing, this option can lead to corrupted files.\r\nDo you want to proceed anyway?"
-msgstr ""
+msgstr "Włączona opcja \"%s\".\r\nPodczas przenoszenia, opcja ta doprowadzi do uszkodzenia plików.\r\nCzy kontynuować?" 
 
 #. Resource IDs: (116)
 msgid "a regular expression used for searching. Press F1 for more info."

@@ -12,12 +12,10 @@ Rizonesoft Notepad3 --- CHANGELOG ---
 --------------------------------------------------------
 LEGEND:
 --------------------------------------------------------
-LEGEND:
---------------------------------------------------------
 1) NEW: (Added, Feature, Optimize)
-2) CHANGES:
-3) FIXES: (Debug)
-4) REMOVED:
+2) CHANGES: (Change, Enhancement)
+3) FIXES: (Correction, Debug)
+4) REMOVED: (Obsolete, Depreciate)
 5) TRANSLATIONS (MUI): (New Language)
 
 --------------------------------------------------------
@@ -25,6 +23,7 @@ ABBREVIATIONS:
 --------------------------------------------------------
 CED - (C)ompact (E)ncoding (D)etection (by Google)
 GRE - (GRE)pWinNP3 Search in Files Tool
+LEX - (LEX)illa Library
 MUI - (M)ultilingual (U)ser (I)nterface
 NLS - (N)ew (L)anguage (S)trings (need for translation)
 ONI - (ONI)guruma Regex engine
@@ -34,13 +33,310 @@ UCD - (UCD)ARDET is an Encoding Detector Library
 
 
 ========================================================
-Current BETA/RC Version 5.21.207.(build_#) (2021-02-07)
+Version 5.21.1129.1 (29 November 2021)
+========================================================
+
+--------------------------------------------------------
+CHANGES:
+--------------------------------------------------------
+[1125.1]- Switching to Philippe Lhoste's (PhiLho) AutoHotkey (AHK) Lexer.
+[1119.1]- Migration of Solution/Projects/Src for VS2022.
+[1117.1]- Switch to Scintilla default idle styling mode (none).
+[1115.1]- Reverting changes to F/R behavior, correction for empty pattern.
+[1021.1]- On file restore, do not notify immediately, but check against stored file attributes.
+[1015.1]- Remove the max win version check for undocumented DarkMode UxTheme methods.
+[1015.1]- SQL Lexer bright and dark mode highlight color enhanced.
+[.924.1]- Disable actively file change polling - rely on directory change notification by default.
+[.924.1]- Allow [Settings2] "FileCheckInverval" to be zero(0), means no active file change polling.
+[.923.2]- Enable context menu for Statusbar.
+[.923.1]- Enable context menu for Menubar.
+[.916.1]- Use "round nearest displayed digit" method for estimated file size display.
+[.915.1]- Limit file size: 2GB (Until WideCharToMultiByte() / MultiByteToWideChar() INT32_MAX issues are clarified).
+
+--------------------------------------------------------
+FIXES:
+--------------------------------------------------------
+[1127.1]- Correction of a typo for command "Gui" in AutoHotkey (AHK) Lexer.
+[1125.1]- Sync with current Oniguruma v7.0(ß) dev.
+[1125.1]- Some other findings on the positioning of multi-instance launch.
+[1119.2]- Relaunch multi instances: don't cascade if pos param already defined.
+[1119.2]- Positioning on separate instance launch.
+[1119.1]- Positioning multi instance launch.
+[1115.1]- Don't clear occurrence markers for unchanged search pattern.
+[1115.1]- Correction to VS2019 project settings.
+[1115.1]- Find/Repl wildcard pattern handling.
+[1112.1]- Find/Repl dialog - empty search string should have no match (blue).
+[1030.1]- Wrong format for reporting number of replaced occurrences "In Selection".
+[1030.1]- "grepWinNP3" not intended switching file size search settings (GRE).
+[1023.1]- Key "Favorites=(path)" not added in "Setup" version.
+[1021.1]- "grepWinNP3" not intended switching "AllSize" settings (GRE).
+[1021.1]- Don't save default values for Caret and Whitespace.
+[1015.1]- SQL Lexer dark mode highlight default colors.
+[1015.1]- Disabled menu items if settings file itself is locked by file change notification.
+[.927.1]- Over paint annoying menu-bar bottom line.
+[.926.1]- Dark-mode system menu bar coloring (except bottom line).
+[.925.1]- Correction of some wrong keyboard shortcut (Alt+ Up, Alt+ Down).
+[.924.1]- Translucency (alpha) settings for white-space indicator.
+[.915.1]- Dark mode aware auto-completion-list-box.
+[.915.1]- Goto-Dialog: digit grouping of line/column numbers.
+[.914.1]- Digit grouping for replace occurrences result dialog.
+[.914.1]- Better hyperlink style in dark themes "Dark" and "Obsidian".
+[.913.1]- Initial factory window position.
+[.910.1]- Web-Action commands should use also user-defined app to open hyperlinks.
+[.907.1]- Reset background color for "visible whitespace" if not defined.
+
+--------------------------------------------------------
+REMOVED:
+--------------------------------------------------------
+[.924.1]- Remove deprecated "AutoReloadTimeout".
+[.907.1]- Remove Old and deprecated Notepad3 and grepWin icons.
+
+
+========================================================
+Version 5.21.905.1 (5 September 2021)
 ========================================================
 
 --------------------------------------------------------
 NEW:
 --------------------------------------------------------
-[.xxx.x]- .
+[.816.1]- Add Configuration (Properties) Lexer: add style setting for Key (of Key-Value pair).
+[.811.1]- Add "Notepad3 Replacement" on Windows 11 Insider Preview which works almost like with Windows 10:
+          - Open (ext: .inf, .ini, .log, .ps1, .psd1, .psm1, .scp, .txt, .wtx, .compositefont, .css, .sct, .wsc).
+          - Edit (ext: .bat, .cmd, .jse, .reg, .text, .vbe, .wsf).
+[.809.1]- Configure other application to open hyperlink (instead of default browser).
+[.805.1]- File URL forced to open in new window by (Ctrl+Alt+Click).
+[.805.1]- File change notification, if removed current file is recreated.
+[.805.1]- Allow definition of line number for file:/// URL (separator is ':' ).
+[.804.2]- File change notification Dlg: add "Indicator (silent) option.
+[.804.2]- Configurable File on disk Change/Deleted indicators for title bar.
+[.726.1]- "grepWinNP3" (current grepWin dev) allow multiple search paths (GRE).
+[.709.2]- Add "KiXtart" lexer (new in Lexilla) (LEX).
+[.709.1]- Integrating style theme "Sombra" as factory default Dark-Mode theme.
+[.525.1]- Add "Julia" lexer (new in Lexilla) (LEX).
+[.506.1]- Base64 Encoding/Decoding.
+[.428.1]- Custom ChooseColor resource definition.
+[.426.1]- Prepare Application Manifest for to grant Identity for non-package desktop apps.
+[.425.1]- Add file/dir exists/not-found to hyperlink tooltip (if file-url).
+[.422.1]- Support Scintilla's new feature: indicator stroke width.
+[.420.1]- TXT file for Translators to comunicate Line Mumbers of the "Added/Modified" strings.
+[.420.1]- Code Color for the "Change date" of the "Added/Modified" strings to translate".
+[.420.1]- More intermediate font weight constants added.
+[.420.1]- Remove useless font stretch handling.
+[.419.3]- Add font weights retina(450), semi-light(350) and extra-black(950).
+[.419.2]- Line Comment Add/Remove commands, additonal to existing Toggle.
+[.415.1]- Cut lines for rectangular and multi selection.
+[.412.1]- Use 'Ctrl+' key to force dropping files into new instance (Ctrl+ for new instance).
+[.402.1]- ScintillaWin horizontal mouse-wheel support.
+[.331.2]- Provide Mono-Language IDs.
+[.331.1]- Mono-Language compiler switch for MiniPath.
+[.325.1]- Compiler switch to allow Mono-language binary (no MUI DLL loading).
+[.324.1]- Exclusive Lock (write) Mode shown in windows title.
+[.323.1]- Menu item for excusive File Locking (write, shared read).
+[.323.1]- Decorator styling for Python files.
+[.321.1]- Exclusive File Lock option.
+[.301.1]- About Dlg: version info for split-off Lexilla component.
+[.301.1]- About Dlg: Copy-Ver-Info-Btn : add Dark-Mode information.
+[.301.1]- Some filesystem path vs. file:// URL helpers (backslash invert).
+[.301.1]- Converter: File-System Path to URL and vice versa.
+
+--------------------------------------------------------
+CHANGES:
+--------------------------------------------------------
+[.825.2]- Non themed app: edit-window frame visibility.
+[.811.1]- Current Lexilla dev (chg: HTML(PHP) Lexer) (LEX).
+[.811.1]- Scintilla Python generator methods for embeddable Python (SCI).
+[.811.1]- MUI base language definition moved to solution's preprocessors (C/C++ & RC) defines.
+[.803.1]- Optimized default style handling for settings file (Dark Mode).
+[.803.1]- Adapted other Dark Mode Theme Files.
+[.802.1]- Default FileWatchingMode from "don't care" to "notify by MsgBox".
+[.721.1]- Adapded "Sombra" Dark Mode default color scheme.
+[.721.1]- Rename "KiX Config" to "KiXtart Script".
+[.703.1]- Enable Dark Mode feature for Win11 v21H2 Insider beta.
+[.529.2]- Win10 Release-ID as string (allows 20H2 or 21H1).
+[.529.1]- Improved Julia Lexer (LEX).
+[.526.1]- Batch-Lexer + patching Markdown-Lexer (eolfilled header lines) (LEX).
+[.526.1]- Scheme-Dlg: dynamic (alloc) Style-Backup handling.
+[.525.1]- Update Lexilla Lib (bug fixes for Lexer: Markdown, Cmd/Batch) (LEX).
+[.515.1]- "grepWinNP3" based on current grepWin ver (boost v1.76 , upd: sktoolslib).
+[.515.1]- Add some more coding fonts to prefer over Consolas (if installed).
+[.515.1]- Linker: hardware-enforced stack-protection.
+[.513.1]- Canonicalize style section of .ini-settings.
+[.512.1]- Keep found initial common base default font in .ini.
+[.507.1]- Base64 Decoding: select source code-page for decoding.
+[.507.1]- Base64: default Encoding/Decoding based on current code-page
+[.427.1]- Color selection dialog: NP3 icon, positioning and dark-mode.
+[.427.1]- Adjust standard colors for URL Hyperlink (better standard dark-mode visual).
+[.425.1]- New default for hyperlink tooltip is OFF.
+[.425.1]- Immediate indicator hover response (colordef-hotspot, hyperlink-tooltip, hex-code-tooltip).
+[.422.1]- Code cleanup for Font and Style Selection.
+[.421.1]- Prefer "Cascadia Code" font over "Consolas" font for default if installed (ligatures).
+[.420.2]- Custom Font Selection Dialog.
+[.419.2]- Comment BockEdit shortcut changed (Ctl+Alt+Q => Alt+Shift+Q).
+[.419.2]- Comment has separate popup menu (Edit -> Selection).
+[.419.1]- Move some Lexer related functions to other module.
+[.419.1]- Enable compiler warnings level 4 and issue "Warnings as Errors" (for Lexilla, Scintilla, grepWinNP3).
+[.417.1]- Remove short-note from wrap around match tooltip.
+[.416.1]- Save bookmarks in file history in case of "Save as...".
+[.416.1]- Minimize usage of deprecated LCID/LANGID for MiniPath.
+[.415.1]- Cpp-Lexer fix merged from Lexilla (5b92f7219a9fe9fb0ae4c5cc19f57c39185e4074.
+[.414.2]- Minimize usage of deprecated LCID/LANGID for Notepad3.
+[.414.1]- New size "4MB" for "FileLoadWarningMB=4" (Styling and Syntax Highlighting are switched off).
+[.413.2]- Configurable position offset on launching new instance.
+[.413.1]- Clarify menu item string (only one instance per file).
+[.413.1]- Drag-n-Drop: allow multiple files to drop.
+[.413.1]- Drag-n-Drop: replace current file (Ctrl+ for new instance).
+[.413.1]- Menu/shortcut: launch "New Empty Wnd" <-> "Duplicate Instance".
+[.411.2]- Adapt to Scintilla v5.0.1 new translucent alpha color (marker).
+[.406.1]- C/C++ Lexer: styles and keywords (LEX).
+[.331.1]- Cleanup code: SplitUndoTransaction() on timeout resp. line-break.
+[.329.1]- Turning "Line Comment Block Edit" from option into command (Ctrl+Alt+Q).
+[.326.1]- Kotlin & Dart Lexer from Zufuliu's source.
+[.323.1]- File Lock: exclusive write/change, shared read.
+[.323.1]- Style color for triple strings in Python Lexer.
+[.316.1]- Cleanup lexilla component.
+[.311.1]- Using some more Scintilla direct call methods instead of SendMessage() thread independent calls. (SCI).
+[.311.1]- Refactoring for splitting Lexilla from Scintilla (SCI).
+[.303.1]- Renaming Spanish Mexican to Spanish Latin America (es-419) (MUI).
+[.302.1]- More liberal Hyperlink scanner (no need for validation here!).
+[.302.1]- RegEx API : retun matched pattern length too.
+[.302.1]- Prevent Path to URL conversion, if Hyperlink RegEx pattern does not match.
+[.301.1]- Enable Dark Mode feature for Win10 v21H1 insider beta.
+[.301.1]- EOL-Mode: status-bar double-click : inverted cyclic change rotation CRLF -> LF -> CR.
+
+--------------------------------------------------------
+CHANGES Versions in Tools or Libraries:
+--------------------------------------------------------
+[.802.1]- Update Lexilla Library (LEX) version 5.1.2 (2021-07-26).
+[.726.1]- Update Scintilla Library (SCI) version 5.1.1 (2021-07-26).
+[.726.1]- Update grepWinNP3 (GRE) version 2.1.8.39 (2021-07-26).
+[.702.5]- Update Oniguruma Regex (ONI) engine version 7.0.0 (2021-06-23).
+
+--------------------------------------------------------
+FIXES:
+--------------------------------------------------------
+[.903.1]- Broken relative paths in file history selection.
+[.828.1]- Open color selection on Ctrl+Left mouse click on color indicator too.
+[.828.1]- Change cursor hand on Ctrl key-Up.
+[.827.1]- Broken "scroll undo/redo history via mouse (RMB+WHEEL)" feature.
+[.827.1]- Don't jump on initial F/R Dialog on empty clipboard.
+[.827.1]- Cursor hand on ctrl-keydown hover hyperlink.
+[.826.1]- Show hand cursor on hyperlink after dwell time (if ctrl key pressed).
+[.825.2]- Caret change to hand over hyperlink only if ctrl is pressed.
+[.825.1]- Some minor corrections on visual appearance.
+[.824.1]- Sync status bar font size on system font size change.
+[.824.1]- Restore previous window position while DPI scaling changed meanwhile.
+[.822.1]- Missing .ini must not have an assertion failure, allowed case here.
+[.820.1]- Specify "/utf-8" compiler option for "Scintilla, Lexilla and grepWinNP3" projects.
+[.813.1]- "grepWinNP3" project: post build step - xcopy .lang files to desired build output dir (GRE).
+[.813.1]- Remove obsolete (by SCI Lib v5.1.1) settings.
+[.809.2]- Size of visible whitespace style.
+[.809.2]- Workaround for additional selection typing.
+[.807.1]- RegEx line begin pattern stuck after zero-length replacement.
+[.806.1]- Launching file URL (Alt+Click) with respect to flags "Reuse Window" and "Only one Instance per File".
+[.805.1]- File URL tooltip.
+[.804.1]- Config version dependent "FileWatchingMode" settings value.
+[.804.1]- File change notification in Title Bar.
+[.804.1]- Trigger reset file changed on disc flag.
+[.724.1]- Remove multiple file Notification, if current file has been deleted.
+[.723.1]- F/R-Dlg: show match while typing protected characters.
+[.722.1]- Fixing "infinite" loop in Markdown Lexer.
+[.722.1]- Forced file ext written to scheme export.
+[.722.1]- File-ext writing to stxle .ini files only on export.
+[.707.1]- Distinguish Win10 vs. Win11 using build number (>=22000).
+[.529.2]- F/R Dialog regression: allow replace in selection (if selection not empty).
+[.527.1]- Correct handling of F/R dialog pattern combo-box dropdown list.
+[.527.1]- Minor fixes Markdown-Lexer.
+[.513.1]- Go to doc begin after global indentation change.
+[.513.1]- Minor enhancements for selection scroll to view.
+[.513.1]- Optimized handling of multi-step undo/redo notifications.
+[.512.1]- Slow line-break toggle.
+[.511.2]- TinyExpr: expr need not start with blank.
+[.511.2]- TinyExpr: UTF-8 to ANSI-CP-1252 conversion should yield invalid characters instead of blank or currency.
+[.511.1]- Space-width, avgchar-width and tab-width calculation.
+[.511.1]- Scintilla missing recalculation of space width (to get correct tab width for indentation).
+[.511.1]- Revert to Scintilla std  tabwidth calculation on font changes.
+[.511.1]- Preserve "2nd Common Base" styling state across restarts.
+[.511.1]- Default style settings should not be written to .ini-file.
+[.429.1]- Handling of "File Vars" vs. "Encoding Tags".
+[.427.1]- Minor fixes around font redrawing.
+[.423.1]- Add thread COM initializations.
+[.423.1]- Adding DPI awareness to MiniPath (correct toolbar handling still open point).
+[.423.1]- minor corrections for customized font selection dialog (dark-mode and dpi-awareness).
+[.423.1]- DWRITE font allocation needs to font.family, not font.face name (Scintilla fix).
+[.421.1]- Correcting regression for icon scaling.
+[.421.1]- Rendering of "Relaunch Elevated" menu icon.
+[.421.1]- Regression on schema color definition.
+[.421.1]- Another bug retrieving Font SIze for Common Default vs. Lexer Specific.
+[.420.2]- Bug retrieving Font SIze for Common Default vs. Lexer Specific.
+[.420.2]- Font Name handling retrieved from Common-Default vs. Lexer-Specific.
+[.420.1]- Copy multi-selection to clipboard: separate each match by line-break.
+[.419.1]- Apply provided Scintilla patch.
+[.419.1]- Stream comment for .AU3 files.
+[.419.1]- "grepWinNP3": fix compiler warning Release Win32 (GRE).
+[.416.2]- Workaround Scintilla text-rendering bug, if line-number margin width set to 0 (so use 1 instead).
+[.416.1]- Save Schema config in case of inifile from scratch.
+[.415.1]- Small correction to Line Cut feature (thin selection).
+[.414.2]- Minipath uses NP3 preferred language, if not configured.
+[.414.2]- Compiling mono-language compiler switch version.
+[.414.1]- Std windows behavior for cascading new instances (if configured).
+[.413.2]- Sticky Window Flag on launching new instance.
+[.413.1]- Prevent duplicate instance, if setting does not allow.
+[.412.1]- Lazy styling (no need for SCN_STYLENEEDED).
+[.412.1]- Caret visibility on JumpTo() after file (re-)load.
+[.412.1]- FileWatching (file change notification) in some special cases.
+[.411.2]- Mark occurrences: no additional bookmarker -> use invisible marker instead of background marker.
+[.407.2]- New comment doc styling for C++ lexer (used for C#, RC, JS and Java too).
+[.407.1]- Center dialog in parent: for system dialog and if minimized (tray or taskbar).
+[.406.1]- Mark all Occurrences in case of reopened F/R dialog.
+[.406.1]- Center dialog in parent.
+[.406.1]- "grepWinNP3": fix missing search flags (GRE).
+[.326.1]- TinyExpr regresion inserting newline after equal sign.
+[.325.3]- Possible busy-loop in Kotlin and Dart Lexer.
+[.325.2]- Don't keep window top-most after returning from full-screen mode (F11 toggle).
+[.325.1]- Compiler switch to allow mono language binary.
+[.324.1]- Read-Only-Attribute cooperating with Exclusive-Write-Lock.
+[.323.1]- Lexer "Python": fixing Format-Strings (f-strings).
+[.321.1]- Regression with vertical slope definition.
+[.321.1]- Some regressions around external file change notification.
+[.316.1]- "grepWinNP3" Language-ID "[xx-YY]" exceeds 5 chars (e.g. [es-419]) (MUI).
+[.312.2]- Limit ChooseFont Dlg to CF_SCALABLEONLY for DirectWrite Technology.
+[.312.1]- Rectangular selection typing issue.
+[.309.1]- Replacing the "RCdll.dll" file to avoid garbage chars in foreign languages (MUI).
+[.309.1]- In ".zip" version, some filenames in "gwLng" folder are incorrectly displayed (MUI).
+[.303.1]- Language "Spanish Latin America" identifier correction (es-LA -> es-419) (MUI).
+[.302.1]- Hyperlink RegEx pattern fixed to use valid Unicode.
+[.302.1]- Handle quotes for URL <-> file-system path conversion.
+[.301.1]- "grepWinNP3": hide progress bar after search finisched (GRE).
+[.301.1]- ShellExecute() lpVerb for open hyperlink (Ctrl+Click) set to "open.
+[.301.1]- Data type mismatch.
+[.301.1]- Decoding of url-encoded file Hyperlinks ("file://...").
+
+--------------------------------------------------------
+REMOVED:
+--------------------------------------------------------
+[.828.1]- Open color selection on Alt+Left mouse click on color indicator.
+[.807.1]- Remove deprecated (no sensible use case) "overlapping find" option.
+[.506.1]- "fontsValid" extension (closer to default scintilla code base).
+[.420.1]- Remove useless font stretch handling.
+[.419.2]- Removing the font-style string for font selection.
+[.411.1]- Remove deprecated WinXP support (no horiz. mouse wheel).
+[.311.1]- Obsolete SCI_LEXER preproc symbol / no need to link lexers in Scintilla.
+
+--------------------------------------------------------
+TRANSLATIONS (MUI):
+--------------------------------------------------------
+[.707.1]- Chinese Traditional (zh-TW).
+[.417.1]- Greek (el-GR).
+[.303.1]- Portuguese Brazilian (pt-BR).
+
+
+========================================================
+Version 5.21.227.1 (27 February 2021)
+========================================================
+
+--------------------------------------------------------
+NEW:
+--------------------------------------------------------
 [.205.1]- Use user locale for date/time insert format: can be menu switched to preferred UI language.
 [.124.1]- Enable horizontal scrolling by "Shift + Mouse-Wheel".
 [.117.1]- Show search wrap-around tooltip (issue #3038).
@@ -48,7 +344,7 @@ NEW:
 [1222.1]- Dart Lexer based on Zufuliu's Dart Lexer code base.
 [1221.1]- TinyExpr: additional number parsing for binary (0b...) and octal (0o...) number formats.
 [1109.1]- Extension ".pkb" to SQL Lexer.
-[1012.1]- Support for Windows 10 20H2 Version 2009 (Build 19042).
+[1012.1]- 'Dark Mode' support for Windows 10 20H2 Version 2009 (Build 19042).
 [1004.1]- Open/Save file explorer dialog: populate file filter with current lexer supported file extensions.
 [.929.1]- Minipath.ini: [Settings2] FocusLostOpacity=100 (opycity level on losing focus).
 [.923.1]- Hotkey 'F3': use MRU latest item before clipboard content as search pattern if prior search pattern is empty.
@@ -63,13 +359,18 @@ NEW:
 [.915.2]- Configurable Dark Mode colors (non Explorer-Theme, Owner-Drawn).
 [.915.2]- Menu item to switch between Default and Dark-Mode.
 [.915.2]- DarkMode: Toolbar, static checkbox/listbox control.
-[.915.2]- Win10 DarkMode Awareness (initial development)
+[.915.2]- Win10 DarkMode Awareness (initial development).
 
 --------------------------------------------------------
 CHANGES:
 --------------------------------------------------------
-[.xxx.x]- .
-[.205.1]- Revert minor insert date/time format changes.
+[.223.1]- MiniPath: support mouse xbuttons for browsing direction.
+[.223.1]- Code styling reformat MiniPath sources (AStyle: OTBS).
+[.219.1]- Simple Line Comment Toggle handles each line separately
+[.219.1]- Menu move Line/Stream Comment items to Edit -> Selection top.
+[.218.1]- Find/Repl dialog - refactoring and minor fixes.
+[.213.1]- JSON5 enhancements to Scintilla's original JSON-Lexer.
+[.211.1]- Statusbar Selection-Info: switch to byte (instead of character) counting for huge files.
 [.205.1]- Use user locale for date/time insert format: insert date before time & tab separated.
 [.124.1]- Tinyexpr evaluation of math constants "e" and "pi" not being separated from prepending text.
 [.116.1]- Extent static find/replace/mark occurances pattern buffer to 4095 characters.
@@ -79,26 +380,19 @@ CHANGES:
 [1214.1]- Update keywords list in Style INNO Lexer.
 [1211.1]- No error message after decline loading file of huge size.
 [1201.1]- Renaming Chinese displayed encoding according to MIME/IANA.
-[1125.2]- Code styling reformat (AStyle: OTBS).
-[1125.2]- Format: AStyle ALLMAN core code base.
 [1118.1]- Sci_PositionCR type reverted to long for Win32 compatibility reasons.
 [1001.1]- Rebase DarkMode module on delay load version branch of win32-darkmode project.
 [.930.1]- Update the KeyWordList of lexers "C# Source Code" and "SQL Query".
 [.930.1]- Bookmark Occurrences Colors changed to get perceptually distinct colors.
 [.929.1]- Migration from CreateLexer() by ID to CreateLexer() by Name (Lexilla IFace5 conform) (GRE).
-[.928.1]- grepWinNP3: code clean-up (GRE).
 [.928.1]- TinyExpr format floating.point with non zero fractional part.
-[.927.1]- TinyExpr floating point format.
 [.927.1]- TinyExpr: change format (allow longer integer before switching to mantissa/exponent format).
-[.925.1]- Move home brew lexers to Lexills dir (SCI).
-[.925.1]- Scintilla 5 prep: Using ILexer5 interface from static build Lexilla.lib (SCI).
 [.925.1]- Prepare for Lexilla Library (Scintilla v5) (SCI).
 [.925.1]- Using @zufuliu's EOL Mode detection enhancement (no SSE2 or AVX2 specializations).
 [.923.1]- Unify search-pattern retrieval: (0.selection)[F/R-DLG] - 1.previous-search/MRU-List - 2.clipboard.
-[.923.1]- Performance leak in TOML Lexer.
 [.920.1]- grepWinNP3: save changed "Stay On Top" settings on exit (GRE).
 [.920.1]- First part of DarkMode Theme for MiniPath.
-[.917.4]- Need to separate DarkMode window-backgr color from button-facecolor.
+[.917.4]- Separate DarkMode window-backgr color from button-facecolor.
 [.916.1]- Opacity level on loosing focus for grepWinNP3.
 [.916.1]- TinyExpr: '%' operator: distinguish between modulo and percent operation by context.
 [.915.3]- Due to lack of interest, "Notepad3DLL" is discontinued.
@@ -110,13 +404,28 @@ CHANGES:
 --------------------------------------------------------
 FIXES:
 --------------------------------------------------------
-[.xxx.x]- .
+[.226.2]- URL-Decoding of file Hyperlinks ("file://...").
+[.226.1]- Wrap-Around tooltip use correct encoding.
+[.222.2]- Multi-Line movement: proceed to document end correctly.
+[.222.2]- Toggle comment on empty selection at insertion point: keep position of selection end.
+[.222.2]- MiniPath: Enable Mouse XButton usage ("browse back and forth").
+[.220.1]- Toggle Comment: proper selection handling.
+[.219.1]- Do not move selection on search pattern change if in Replace-Dlg.
+[.219.1]- FJSON Lexer has comments enabled now.
+[.219.1]- F/R-Dialog - allow multi-line clipboard paste to Replace String combobox too.
+[.218.2]- F/R: fixes some issues around RegEx zero-length match/findings.
+[.218.1]- ReplaceAll. avoid busy loop (infinity) while replacing zero-length-match (RegExpr).
+[.218.1]- F/R dialog don't change selection by typing search pattern.
+[.218.1]- F/R show wrap-around tooltip only if message boxes are hidden.
+[.215.1]- JSON5 string line continuation.
+[.212.1]- Context-Menu Handling in Release Mode.
+[.211.1]- Burndown some VS Analyze Mode Infos/Warnings.
 [.205.1]- Wildcard search: unintentional wrap around.
 [.125.1]- AHKL lexer: visual brace matching mix-ups.
 [.124.1]- InfoBox message icon DPI scaling.
 [.122.1]- Tinyexpr functions and constants parsing.
 [.116.1]- Buffer overrun while initializing structures.
-[.116.1]- Try to fix Font Dialog (Size handling) problems (issue #3012).
+[.116.1]- Fix Font Dialog (Size handling) problems (issue #3012).
 [1219.1]- F/R dialog: Transform Backslash option glitch.
 [1219.1]- F/R dialog: message box in case of not matching pattern.
 [1218.1]- Multi-Replace using RegExpr and Group-References.
@@ -143,6 +452,7 @@ FIXES:
 [.926.1]- grepWinNP3: wide char path names for language files (GRE).
 [.925.1]- Stop file change notification on deleted files if save is rejected.
 [.925.1]- Some RegEx engine fixes (current Oniguruma dev) (ONI).
+[.923.1]- Performance leak in TOML Lexer.
 [.923.1]- Customize Schemes title assembling.
 [.922.1]- DarkMode switching while non-modal dialogs are active.
 [.921.1]- TinyExpr: interpretation of '%' operator: allow "(...)" on rhs of modulo interpretation.
@@ -151,13 +461,12 @@ FIXES:
 [.921.1]- DarkMode: toolbar button text.
 [.921.1]- Let DarkMode work with 20H2.
 [.920.1]- grepWinNP3 new instance: read correct .ini-file (protable) (GRE).
-[.918.2]- 2nd try to fix Win7 start-up crash.
+[.918.2]- Fix Win7 start-up crash.
 [.918.1]- Final default color correction (toolbar, statusbar and margin).
 [.917.4]- Allow removing of compile pre-processing switch D_NP3_WIN10_DARK_MODE.
 [.917.3]- Bring back themed ReBar (Toolbar parent) for Win7.
 [.917.3]- Bring back themed ReBar (Toolbar parent) for Win10 using Light Mode (DarkMode not wanted).
 [.917.2]- Win7 Toolbar background back to COLOR_BTNFACE, Win10 stays with COLOR_WINDOWS.
-[.916.1]- 1st try to fix Win7 startup crash (library loading).
 [.916.1]- Update Titlebar on document modified.
 [.916.1]- Clean .ini-config for default values.
 [.916.1]- Standard margin background colors.
@@ -167,18 +476,12 @@ FIXES:
 --------------------------------------------------------
 REMOVED:
 --------------------------------------------------------
-[.xxx.x]- .
 [.921.1]- TinyExpr: '%%' as percent operator is deprecated.
 
 --------------------------------------------------------
 TRANSLATIONS (MUI):
 --------------------------------------------------------
-[.xxx.x]- .
 [1028.1]- Hindi (hi-IN).
-[.915.2]- Chinese Traditional (zh-TW) in waiting...
-[.915.2]- Indonesian (id-ID) in waiting...
-[.915.2]- Turkish (tr-TR) in waiting...
-[.915.2]- Vietnamese (vi-VN) in waiting...
 
 
 ========================================================
@@ -307,12 +610,6 @@ REMOVED:
 --------------------------------------------------------
 TRANSLATIONS (MUI):
 --------------------------------------------------------
-[.802.1]- Portuguese Brazilian (pt-BR).
-[.722.2]- Turkish (tr-TR) in processing...
-[.722.2]- Chinese Traditional (zh-TW) in waiting...
-[.722.2]- Hindi (hi-IN) in waiting...
-[.722.2]- Indonesian (id-ID) in waiting...
-[.722.2]- Vietnamese (vi-VN) in waiting...
 
 
 ========================================================

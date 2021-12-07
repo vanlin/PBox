@@ -53,6 +53,10 @@ msgstr ""
 msgid "&Search"
 msgstr ""
 
+#. Resource IDs: (1003)
+msgid "&Whole word"
+msgstr ""
+
 #. Resource IDs: (1013)
 msgid "..."
 msgstr "..."
@@ -331,8 +335,12 @@ msgstr ""
 msgid "Preset name"
 msgstr ""
 
-#. Resource IDs: (1022, 132)
+#. Resource IDs: (1022)
 msgid "Presets..."
+msgstr ""
+
+#. Resource IDs: (132)
+msgid "Presets"
 msgstr ""
 
 #. Resource IDs: (1065)
@@ -418,6 +426,11 @@ msgstr ""
 #. Resource IDs: (128)
 #, c-format
 msgid "Searched %ld files, skipped %ld files. Found %ld matches in %ld files."
+msgstr ""
+
+#. Resource IDs: (173)
+#, c-format
+msgid "Searched %ld files, skipped %ld files. Found %ld matches in %ld files. %ld results selected."
 msgstr ""
 
 #. Resource IDs: (140)

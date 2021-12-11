@@ -41,3 +41,5 @@
 /bin/Win64/plugins/SQLiteSpy/SQLiteSpy.db3
 /bin/Win32/plugins/HeidiSQL/Backups
 /bin/Win64/plugins/HeidiSQL/Backups
+/bin/Win64/plugins/Notepad++/config.xml
+/bin/Win32/plugins/Notepad++/config.xml

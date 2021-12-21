@@ -1,3 +1,28 @@
+Changelog 0.99.6:
+
+2222: [Bug] Del file crash - http://newsgroup.xnview.com/viewtopic.php?t=42746
+
+
+Changelog 0.99.5:
+
+2218: [New] Album/collection - http://newsgroup.xnview.com/viewtopic.php?t=28322
+2215: [New] Shortcut settings: filter
+2209: [New] libJPEGXL 0.6.1 - http://newsgroup.xnview.com/viewtopic.php?t=42715
+2206: [New] Filter Images/Videos without folders - http://newsgroup.xnview.com/viewtopic.php?t=42630
+2221: [Bug] Viewer -> Browser with a file from category - http://newsgroup.xnview.com/viewtopic.php?t=29310
+2220: [Bug] 'Rebuild thumbnails' and thumbnail caching disabled - http://newsgroup.xnview.com/viewtopic.php?t=42717
+2219: [Bug] {Categories} and 'base path' - http://newsgroup.xnview.com/viewtopic.php?t=41992&start=15
+2217: [Bug] Overlay icon with Dpi scaling - http://newsgroup.xnview.com/viewtopic.php?t=42713
+2216: [Bug] Label not exported in XMP - http://newsgroup.xnview.com/viewtopic.php?t=42564
+2214: [Bug] Panasonic RAW - http://newsgroup.xnview.com/viewtopic.php?t=42430
+2213: [Bug] Similar: Crash when closing dialog during a search
+2212: [Bug] Change timestamp: Date created always changed - http://newsgroup.xnview.com/viewtopic.php?t=42692
+2211: [Bug] Problem after rename file - http://newsgroup.xnview.com/viewtopic.php?t=42698
+2210: [Bug] 'Load defaults' in Resize Dialog - http://newsgroup.xnview.com/viewtopic.php?t=42693
+2208: [Bug] 4 thumbnails video should use percent frame setting - http://newsgroup.xnview.com/viewtopic.php?t=42709
+2207: [Bug] Wrong command for 'Edit XMP' shortcut in fullscreen - http://newsgroup.xnview.com/viewtopic.php?t=42707
+
+
 Changelog 0.99.4:
 
 2201: [New] Better FITS loading

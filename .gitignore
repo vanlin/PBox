@@ -43,3 +43,6 @@
 /bin/Win64/plugins/HeidiSQL/Backups
 /bin/Win64/plugins/Notepad++/config.xml
 /bin/Win32/plugins/Notepad++/config.xml
+/bin/Win64/plugins/OpenCV/4.5.5/CPU/bin/opencv_world455.dll
+/bin/Win64/plugins/OpenCV/4.5.5/GPU/bin/opencv_cudafilters455.dll
+/bin/Win64/plugins/OpenCV/4.5.5/GPU/bin/opencv_cudaarithm455.dll

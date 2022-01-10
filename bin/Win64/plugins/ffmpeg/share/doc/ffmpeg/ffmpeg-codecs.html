@@ -49,6 +49,11 @@
     <ul class="no-bullet">
       <li><a id="toc-Options-3" href="#Options-3">4.5.1 Options</a></li>
     </ul></li>
+    <li><a id="toc-QSV-Decoders" href="#QSV-Decoders">4.6 QSV Decoders</a>
+    <ul class="no-bullet">
+      <li><a id="toc-Common-Options" href="#Common-Options">4.6.1 Common Options</a></li>
+      <li><a id="toc-HEVC-Options" href="#HEVC-Options">4.6.2 HEVC Options</a></li>
+    </ul></li>
   </ul></li>
   <li><a id="toc-Audio-Decoders" href="#Audio-Decoders">5 Audio Decoders</a>
   <ul class="no-bullet">
@@ -248,7 +253,16 @@
       <li><a id="toc-Private-Options-for-prores_002dks" href="#Private-Options-for-prores_002dks">9.20.1 Private Options for prores-ks</a></li>
       <li><a id="toc-Speed-considerations" href="#Speed-considerations">9.20.2 Speed considerations</a></li>
     </ul></li>
-    <li><a id="toc-QSV-encoders" href="#QSV-encoders">9.21 QSV encoders</a></li>
+    <li><a id="toc-QSV-Encoders" href="#QSV-Encoders">9.21 QSV Encoders</a>
+    <ul class="no-bullet">
+      <li><a id="toc-Ratecontrol-Method" href="#Ratecontrol-Method">9.21.1 Ratecontrol Method</a></li>
+      <li><a id="toc-Global-Options-_002d_003e-MSDK-Options" href="#Global-Options-_002d_003e-MSDK-Options">9.21.2 Global Options -&gt; MSDK Options</a></li>
+      <li><a id="toc-Common-Options-1" href="#Common-Options-1">9.21.3 Common Options</a></li>
+      <li><a id="toc-H264-options" href="#H264-options">9.21.4 H264 options</a></li>
+      <li><a id="toc-HEVC-Options-1" href="#HEVC-Options-1">9.21.5 HEVC Options</a></li>
+      <li><a id="toc-MPEG2-Options" href="#MPEG2-Options">9.21.6 MPEG2 Options</a></li>
+      <li><a id="toc-VP9-Options" href="#VP9-Options">9.21.7 VP9 Options</a></li>
+    </ul></li>
     <li><a id="toc-snow" href="#snow">9.22 snow</a>
     <ul class="no-bullet">
       <li><a id="toc-Options-36" href="#Options-36">9.22.1 Options</a></li>
@@ -1682,6 +1696,53 @@ You need to explicitly configure the build with <code>--enable-libuavs3d</code>.
 <dl compact="compact">
 <dt><span><samp>frame_threads</samp></span></dt>
 <dd><p>Set amount of frame threads to use during decoding. The default value is 0 (autodetect).
+</p>
+</dd>
+</dl>
+
+<a name="QSV-Decoders"></a>
+<h3 class="section">4.6 QSV Decoders<span class="pull-right"><a class="anchor hidden-xs" href="#QSV-Decoders" aria-hidden="true">#</a> <a class="anchor hidden-xs"href="#toc-QSV-Decoders" aria-hidden="true">TOC</a></span></h3>
+
+<p>The family of Intel QuickSync Video decoders (VC1, MPEG-2, H.264, HEVC,
+JPEG/MJPEG, VP8, VP9, AV1).
+</p>
+<a name="Common-Options"></a>
+<h4 class="subsection">4.6.1 Common Options<span class="pull-right"><a class="anchor hidden-xs" href="#Common-Options" aria-hidden="true">#</a> <a class="anchor hidden-xs"href="#toc-Common-Options" aria-hidden="true">TOC</a></span></h4>
+
+<p>The following options are supported by all qsv decoders.
+</p>
+<dl compact="compact">
+<dt><span><samp><var>async_depth</var></samp></span></dt>
+<dd><p>Internal parallelization depth, the higher the value the higher the latency.
+</p>
+</dd>
+<dt><span><samp><var>gpu_copy</var></samp></span></dt>
+<dd><p>A GPU-accelerated copy between video and system memory
+</p><dl compact="compact">
+<dt><span>&lsquo;<samp>default</samp>&rsquo;</span></dt>
+<dt><span>&lsquo;<samp>on</samp>&rsquo;</span></dt>
+<dt><span>&lsquo;<samp>off</samp>&rsquo;</span></dt>
+</dl>
+
+</dd>
+</dl>
+
+<a name="HEVC-Options"></a>
+<h4 class="subsection">4.6.2 HEVC Options<span class="pull-right"><a class="anchor hidden-xs" href="#HEVC-Options" aria-hidden="true">#</a> <a class="anchor hidden-xs"href="#toc-HEVC-Options" aria-hidden="true">TOC</a></span></h4>
+<p>Extra options for hevc_qsv.
+</p>
+<dl compact="compact">
+<dt><span><samp><var>load_plugin</var></samp></span></dt>
+<dd><p>A user plugin to load in an internal session
+</p><dl compact="compact">
+<dt><span>&lsquo;<samp>none</samp>&rsquo;</span></dt>
+<dt><span>&lsquo;<samp>hevc_sw</samp>&rsquo;</span></dt>
+<dt><span>&lsquo;<samp>hevc_hw</samp>&rsquo;</span></dt>
+</dl>
+
+</dd>
+<dt><span><samp><var>load_plugins</var></samp></span></dt>
+<dd><p>A :-separate list of hexadecimal plugin UIDs to load in an internal session
 </p>
 </dd>
 </dl>
@@ -5184,6 +5245,10 @@ is kept undocumented for some reason.
 Only the mpeg2 and h264 decoders provide these. Default is 1 (on).
 </p>
 </dd>
+<dt><span><samp>udu_sei <var>boolean</var></samp></span></dt>
+<dd><p>Import user data unregistered SEI if available into output. Default is 0 (off).
+</p>
+</dd>
 <dt><span><samp>x264-params (N.A.)</samp></span></dt>
 <dd><p>Override the x264 configuration using a :-separated list of key=value
 parameters.
@@ -5278,6 +5343,10 @@ during configuration. You need to explicitly configure the build with
 <dt><span><samp>forced-idr</samp></span></dt>
 <dd><p>Normally, when forcing a I-frame type, the encoder can select any type
 of I-frame. This option forces it to choose an IDR-frame.
+</p>
+</dd>
+<dt><span><samp>udu_sei <var>boolean</var></samp></span></dt>
+<dd><p>Import user data unregistered SEI if available into output. Default is 0 (off).
 </p>
 </dd>
 <dt><span><samp>x265-params</samp></span></dt>
@@ -5705,14 +5774,16 @@ would spend more time searching for appropriate quantizers for each slice.
 <p>For the fastest encoding speed set the <samp>qscale</samp> parameter (4 is the
 recommended value) and do not set a size constraint.
 </p>
-<a name="QSV-encoders"></a>
-<h3 class="section">9.21 QSV encoders<span class="pull-right"><a class="anchor hidden-xs" href="#QSV-encoders" aria-hidden="true">#</a> <a class="anchor hidden-xs"href="#toc-QSV-encoders" aria-hidden="true">TOC</a></span></h3>
+<a name="QSV-Encoders"></a>
+<h3 class="section">9.21 QSV Encoders<span class="pull-right"><a class="anchor hidden-xs" href="#QSV-Encoders" aria-hidden="true">#</a> <a class="anchor hidden-xs"href="#toc-QSV-Encoders" aria-hidden="true">TOC</a></span></h3>
 
-<p>The family of Intel QuickSync Video encoders (MPEG-2, H.264, HEVC, JPEG/MJPEG and VP9)
+<p>The family of Intel QuickSync Video encoders (MPEG-2, H.264, HEVC, JPEG/MJPEG
+and VP9)
 </p>
+<a name="Ratecontrol-Method"></a>
+<h4 class="subsection">9.21.1 Ratecontrol Method<span class="pull-right"><a class="anchor hidden-xs" href="#Ratecontrol-Method" aria-hidden="true">#</a> <a class="anchor hidden-xs"href="#toc-Ratecontrol-Method" aria-hidden="true">TOC</a></span></h4>
 <p>The ratecontrol method is selected as follows:
-</p>
-<ul>
+</p><ul>
 <li> When <samp>global_quality</samp> is specified, a quality-based mode is used.
 Specifically this means either
 <ul class="no-bullet">
@@ -5749,6 +5820,8 @@ is further configured by the <samp>avbr_accuracy</samp> and
 may be selected by the encoder. Set the verbosity level to <var>verbose</var> or
 higher to see the actual settings used by the QSV runtime.
 </p>
+<a name="Global-Options-_002d_003e-MSDK-Options"></a>
+<h4 class="subsection">9.21.2 Global Options -&gt; MSDK Options<span class="pull-right"><a class="anchor hidden-xs" href="#Global-Options-_002d_003e-MSDK-Options" aria-hidden="true">#</a> <a class="anchor hidden-xs"href="#toc-Global-Options-_002d_003e-MSDK-Options" aria-hidden="true">TOC</a></span></h4>
 <p>Additional libavcodec global options are mapped to MSDK options as follows:
 </p>
 <ul>
@@ -5775,6 +5848,304 @@ and <var>QPP</var> and <var>QPB</var> respectively.
 encoder use CAVLC instead of CABAC.
 
 </li></ul>
+
+<a name="Common-Options-1"></a>
+<h4 class="subsection">9.21.3 Common Options<span class="pull-right"><a class="anchor hidden-xs" href="#Common-Options-1" aria-hidden="true">#</a> <a class="anchor hidden-xs"href="#toc-Common-Options-1" aria-hidden="true">TOC</a></span></h4>
+<p>Following options are used by all qsv encoders.
+</p>
+<dl compact="compact">
+<dt><span><samp><var>async_depth</var></samp></span></dt>
+<dd><p>Specifies how many asynchronous operations an application performs
+before the application explicitly synchronizes the result. If zero,
+the value is not specified.
+</p>
+</dd>
+<dt><span><samp><var>avbr_accuracy</var></samp></span></dt>
+<dd><p>Accuracy of the AVBR ratecontrol (unit of tenth of percent).
+</p>
+</dd>
+<dt><span><samp><var>avbr_convergence</var></samp></span></dt>
+<dd><p>Convergence of the AVBR ratecontrol (unit of 100 frames)
+</p>
+<p>The parameters <var>avbr_accuracy</var> and <var>avbr_convergence</var> are for the
+average variable bitrate control (AVBR) algorithm.
+The algorithm focuses on overall encoding quality while meeting the specified
+bitrate, <var>target_bitrate</var>, within the accuracy range <var>avbr_accuracy</var>,
+after a <var>avbr_Convergence</var> period. This method does not follow HRD and the
+instant bitrate is not capped or padded.
+</p>
+</dd>
+<dt><span><samp><var>preset</var></samp></span></dt>
+<dd><p>This option itemizes a range of choices from veryfast (best speed) to veryslow
+(best quality).
+</p><dl compact="compact">
+<dt><span>&lsquo;<samp>veryfast</samp>&rsquo;</span></dt>
+<dt><span>&lsquo;<samp>faster</samp>&rsquo;</span></dt>
+<dt><span>&lsquo;<samp>fast</samp>&rsquo;</span></dt>
+<dt><span>&lsquo;<samp>medium</samp>&rsquo;</span></dt>
+<dt><span>&lsquo;<samp>slow</samp>&rsquo;</span></dt>
+<dt><span>&lsquo;<samp>slower</samp>&rsquo;</span></dt>
+<dt><span>&lsquo;<samp>veryslow</samp>&rsquo;</span></dt>
+</dl>
+
+</dd>
+<dt><span><samp><var>forced_idr</var></samp></span></dt>
+<dd><p>Forcing I frames as IDR frames.
+</p>
+</dd>
+<dt><span><samp><var>low_power</var></samp></span></dt>
+<dd><p>For encoders set this flag to ON to reduce power consumption and GPU usage.
+</p></dd>
+</dl>
+
+<a name="H264-options"></a>
+<h4 class="subsection">9.21.4 H264 options<span class="pull-right"><a class="anchor hidden-xs" href="#H264-options" aria-hidden="true">#</a> <a class="anchor hidden-xs"href="#toc-H264-options" aria-hidden="true">TOC</a></span></h4>
+<p>These options are used by h264_qsv
+</p>
+<dl compact="compact">
+<dt><span><samp><var>extbrc</var></samp></span></dt>
+<dd><p>Extended bitrate control.
+</p>
+</dd>
+<dt><span><samp><var>recovery_point_sei</var></samp></span></dt>
+<dd><p>Set this flag to insert the recovery point SEI message at the beginning of every
+intra refresh cycle.
+</p>
+</dd>
+<dt><span><samp><var>rdo</var></samp></span></dt>
+<dd><p>Enable rate distortion optimization.
+</p>
+</dd>
+<dt><span><samp><var>max_frame_size</var></samp></span></dt>
+<dd><p>Maximum encoded frame size in bytes.
+</p>
+</dd>
+<dt><span><samp><var>max_slice_size</var></samp></span></dt>
+<dd><p>Maximum encoded slice size in bytes.
+</p>
+</dd>
+<dt><span><samp><var>bitrate_limit</var></samp></span></dt>
+<dd><p>Toggle bitrate limitations.
+Modifies bitrate to be in the range imposed by the QSV encoder. Setting this
+flag off may lead to violation of HRD conformance. Mind that specifying bitrate
+below the QSV encoder range might significantly affect quality. If on this
+option takes effect in non CQP modes: if bitrate is not in the range imposed
+by the QSV encoder, it will be changed to be in the range.
+</p>
+</dd>
+<dt><span><samp><var>mbbrc</var></samp></span></dt>
+<dd><p>Setting this flag enables macroblock level bitrate control that generally
+improves subjective visual quality. Enabling this flag may have negative impact
+on performance and objective visual quality metric.
+</p>
+</dd>
+<dt><span><samp><var>adaptive_i</var></samp></span></dt>
+<dd><p>This flag controls insertion of I frames by the QSV encoder. Turn ON this flag
+to allow changing of frame type from P and B to I.
+</p>
+</dd>
+<dt><span><samp><var>adaptive_b</var></samp></span></dt>
+<dd><p>This flag controls changing of frame type from B to P.
+</p>
+</dd>
+<dt><span><samp><var>b_strategy</var></samp></span></dt>
+<dd><p>This option controls usage of B frames as reference.
+</p>
+</dd>
+<dt><span><samp><var>cavlc</var></samp></span></dt>
+<dd><p>If set, CAVLC is used; if unset, CABAC is used for encoding.
+</p>
+</dd>
+<dt><span><samp><var>vcm</var></samp></span></dt>
+<dd><p>Video conferencing mode, please see ratecontrol method.
+</p>
+</dd>
+<dt><span><samp><var>idr_interval</var></samp></span></dt>
+<dd><p>Distance (in I-frames) between IDR frames.
+</p>
+</dd>
+<dt><span><samp><var>pic_timing_sei</var></samp></span></dt>
+<dd><p>Insert picture timing SEI with pic_struct_syntax element.
+</p>
+</dd>
+<dt><span><samp><var>single_sei_nal_unit</var></samp></span></dt>
+<dd><p>Put all the SEI messages into one NALU.
+</p>
+</dd>
+<dt><span><samp><var>max_dec_frame_buffering</var></samp></span></dt>
+<dd><p>Maximum number of frames buffered in the DPB.
+</p>
+</dd>
+<dt><span><samp><var>look_ahead</var></samp></span></dt>
+<dd><p>Use VBR algorithm with look ahead.
+</p>
+</dd>
+<dt><span><samp><var>look_ahead_depth</var></samp></span></dt>
+<dd><p>Depth of look ahead in number frames.
+</p>
+</dd>
+<dt><span><samp><var>look_ahead_downsampling</var></samp></span></dt>
+<dd><p>Downscaling factor for the frames saved for the lookahead analysis.
+</p><dl compact="compact">
+<dt><span>&lsquo;<samp>unknown</samp>&rsquo;</span></dt>
+<dt><span>&lsquo;<samp>auto</samp>&rsquo;</span></dt>
+<dt><span>&lsquo;<samp>off</samp>&rsquo;</span></dt>
+<dt><span>&lsquo;<samp>2x</samp>&rsquo;</span></dt>
+<dt><span>&lsquo;<samp>4x</samp>&rsquo;</span></dt>
+</dl>
+
+</dd>
+<dt><span><samp><var>int_ref_type</var></samp></span></dt>
+<dd><p>Specifies intra refresh type. The major goal of intra refresh is improvement of
+error resilience without significant impact on encoded bitstream size caused by
+I frames. The SDK encoder achieves this by encoding part of each frame in
+refresh cycle using intra MBs. <var>none</var> means no refresh. <var>vertical</var> means
+vertical refresh, by column of MBs.
+</p>
+</dd>
+<dt><span><samp><var>int_ref_cycle_size</var></samp></span></dt>
+<dd><p>Specifies number of pictures within refresh cycle starting from 2. 0 and 1 are
+invalid values.
+</p>
+</dd>
+<dt><span><samp><var>int_ref_qp_delta</var></samp></span></dt>
+<dd><p>Specifies QP difference for inserted intra MBs. This is signed value in
+[-51, 51] range if target encoding bit-depth for luma samples is 8 and this
+range is [-63, 63] for 10 bit-depth or [-75, 75] for 12 bit-depth respectively.
+</p>
+</dd>
+<dt><span><samp><var>profile</var></samp></span></dt>
+<dd><dl compact="compact">
+<dt><span>&lsquo;<samp>unknown</samp>&rsquo;</span></dt>
+<dt><span>&lsquo;<samp>baseline</samp>&rsquo;</span></dt>
+<dt><span>&lsquo;<samp>main</samp>&rsquo;</span></dt>
+<dt><span>&lsquo;<samp>high</samp>&rsquo;</span></dt>
+</dl>
+
+</dd>
+<dt><span><samp><var>a53cc</var></samp></span></dt>
+<dd><p>Use A53 Closed Captions (if available).
+</p>
+</dd>
+<dt><span><samp><var>aud</var></samp></span></dt>
+<dd><p>Insert the Access Unit Delimiter NAL.
+</p>
+</dd>
+<dt><span><samp><var>mfmode</var></samp></span></dt>
+<dd><p>Multi-Frame Mode.
+</p><dl compact="compact">
+<dt><span>&lsquo;<samp>off</samp>&rsquo;</span></dt>
+<dt><span>&lsquo;<samp>auto</samp>&rsquo;</span></dt>
+</dl>
+
+</dd>
+<dt><span><samp><var>repeat_pps</var></samp></span></dt>
+<dd><p>Repeat pps for every frame.
+</p></dd>
+</dl>
+
+<a name="HEVC-Options-1"></a>
+<h4 class="subsection">9.21.5 HEVC Options<span class="pull-right"><a class="anchor hidden-xs" href="#HEVC-Options-1" aria-hidden="true">#</a> <a class="anchor hidden-xs"href="#toc-HEVC-Options-1" aria-hidden="true">TOC</a></span></h4>
+<p>These options are used by hevc_qsv
+</p>
+<dl compact="compact">
+<dt><span><samp><var>extbrc</var></samp></span></dt>
+<dd><p>Extended bitrate control.
+</p>
+</dd>
+<dt><span><samp><var>recovery_point_sei</var></samp></span></dt>
+<dd><p>Set this flag to insert the recovery point SEI message at the beginning of every
+intra refresh cycle.
+</p>
+</dd>
+<dt><span><samp><var>rdo</var></samp></span></dt>
+<dd><p>Enable rate distortion optimization.
+</p>
+</dd>
+<dt><span><samp><var>idr_interval</var></samp></span></dt>
+<dd><p>Distance (in I-frames) between IDR frames.
+</p><dl compact="compact">
+<dt><span>&lsquo;<samp>begin_only</samp>&rsquo;</span></dt>
+<dd><p>Output an IDR-frame only at the beginning of the stream.
+</p></dd>
+</dl>
+
+</dd>
+<dt><span><samp><var>load_plugin</var></samp></span></dt>
+<dd><p>A user plugin to load in an internal session.
+</p><dl compact="compact">
+<dt><span>&lsquo;<samp>none</samp>&rsquo;</span></dt>
+<dt><span>&lsquo;<samp>hevc_sw</samp>&rsquo;</span></dt>
+<dt><span>&lsquo;<samp>hevc_hw</samp>&rsquo;</span></dt>
+</dl>
+
+</dd>
+<dt><span><samp><var>load_plugins</var></samp></span></dt>
+<dd><p>A :-separate list of hexadecimal plugin UIDs to load in
+an internal session.
+</p>
+</dd>
+<dt><span><samp><var>look_ahead_depth</var></samp></span></dt>
+<dd><p>Depth of look ahead in number frames, available when extbrc option is enabled.
+</p>
+</dd>
+<dt><span><samp><var>profile</var></samp></span></dt>
+<dd><dl compact="compact">
+<dt><span>&lsquo;<samp>unknown</samp>&rsquo;</span></dt>
+<dt><span>&lsquo;<samp>main</samp>&rsquo;</span></dt>
+<dt><span>&lsquo;<samp>main10</samp>&rsquo;</span></dt>
+<dt><span>&lsquo;<samp>mainsp</samp>&rsquo;</span></dt>
+<dt><span>&lsquo;<samp>rext</samp>&rsquo;</span></dt>
+</dl>
+
+</dd>
+<dt><span><samp><var>gpb</var></samp></span></dt>
+<dd><p>1: GPB (generalized P/B frame)
+</p>
+<p>0: regular P frame.
+</p>
+</dd>
+<dt><span><samp><var>tile_cols</var></samp></span></dt>
+<dd><p>Number of columns for tiled encoding.
+</p>
+</dd>
+<dt><span><samp><var>tile_rows</var></samp></span></dt>
+<dd><p>Number of rows for tiled encoding.
+</p>
+</dd>
+<dt><span><samp><var>aud</var></samp></span></dt>
+<dd><p>Insert the Access Unit Delimiter NAL.
+</p></dd>
+</dl>
+
+<a name="MPEG2-Options"></a>
+<h4 class="subsection">9.21.6 MPEG2 Options<span class="pull-right"><a class="anchor hidden-xs" href="#MPEG2-Options" aria-hidden="true">#</a> <a class="anchor hidden-xs"href="#toc-MPEG2-Options" aria-hidden="true">TOC</a></span></h4>
+<p>These options are used by mpeg2_qsv
+</p><dl compact="compact">
+<dt><span><samp><var>profile</var></samp></span></dt>
+<dd><dl compact="compact">
+<dt><span>&lsquo;<samp>unknown</samp>&rsquo;</span></dt>
+<dt><span>&lsquo;<samp>simple</samp>&rsquo;</span></dt>
+<dt><span>&lsquo;<samp>main</samp>&rsquo;</span></dt>
+<dt><span>&lsquo;<samp>high</samp>&rsquo;</span></dt>
+</dl>
+</dd>
+</dl>
+
+<a name="VP9-Options"></a>
+<h4 class="subsection">9.21.7 VP9 Options<span class="pull-right"><a class="anchor hidden-xs" href="#VP9-Options" aria-hidden="true">#</a> <a class="anchor hidden-xs"href="#toc-VP9-Options" aria-hidden="true">TOC</a></span></h4>
+<p>These options are used by vp9_qsv
+</p><dl compact="compact">
+<dt><span><samp><var>profile</var></samp></span></dt>
+<dd><dl compact="compact">
+<dt><span>&lsquo;<samp>unknown</samp>&rsquo;</span></dt>
+<dt><span>&lsquo;<samp>profile0</samp>&rsquo;</span></dt>
+<dt><span>&lsquo;<samp>profile1</samp>&rsquo;</span></dt>
+<dt><span>&lsquo;<samp>profile2</samp>&rsquo;</span></dt>
+<dt><span>&lsquo;<samp>profile3</samp>&rsquo;</span></dt>
+</dl>
+</dd>
+</dl>
 
 <a name="snow"></a>
 <h3 class="section">9.22 snow<span class="pull-right"><a class="anchor hidden-xs" href="#snow" aria-hidden="true">#</a> <a class="anchor hidden-xs"href="#toc-snow" aria-hidden="true">TOC</a></span></h3>

@@ -1624,6 +1624,56 @@ The following option is supported by the libuavs3d wrapper.
 .IP "\fBframe_threads\fR" 4
 .IX Item "frame_threads"
 Set amount of frame threads to use during decoding. The default value is 0 (autodetect).
+.SS "\s-1QSV\s0 Decoders"
+.IX Subsection "QSV Decoders"
+The family of Intel QuickSync Video decoders (\s-1VC1, MPEG\-2, H.264, HEVC,
+JPEG/MJPEG, VP8, VP9, AV1\s0).
+.PP
+\fICommon Options\fR
+.IX Subsection "Common Options"
+.PP
+The following options are supported by all qsv decoders.
+.IP "\fIasync_depth\fR" 4
+.IX Item "async_depth"
+Internal parallelization depth, the higher the value the higher the latency.
+.IP "\fIgpu_copy\fR" 4
+.IX Item "gpu_copy"
+A GPU-accelerated copy between video and system memory
+.RS 4
+.IP "\fBdefault\fR" 4
+.IX Item "default"
+.PD 0
+.IP "\fBon\fR" 4
+.IX Item "on"
+.IP "\fBoff\fR" 4
+.IX Item "off"
+.RE
+.RS 4
+.RE
+.PD
+.PP
+\fI\s-1HEVC\s0 Options\fR
+.IX Subsection "HEVC Options"
+.PP
+Extra options for hevc_qsv.
+.IP "\fIload_plugin\fR" 4
+.IX Item "load_plugin"
+A user plugin to load in an internal session
+.RS 4
+.IP "\fBnone\fR" 4
+.IX Item "none"
+.PD 0
+.IP "\fBhevc_sw\fR" 4
+.IX Item "hevc_sw"
+.IP "\fBhevc_hw\fR" 4
+.IX Item "hevc_hw"
+.RE
+.RS 4
+.RE
+.IP "\fIload_plugins\fR" 4
+.IX Item "load_plugins"
+.PD
+A :\-separate list of hexadecimal plugin UIDs to load in an internal session
 .SH "AUDIO DECODERS"
 .IX Header "AUDIO DECODERS"
 A description of some of the currently available audio decoders
@@ -4901,6 +4951,9 @@ For example to specify libx264 encoding options with \fBffmpeg\fR:
 .IX Item "a53cc boolean"
 Import closed captions (which must be \s-1ATSC\s0 compatible format) into output.
 Only the mpeg2 and h264 decoders provide these. Default is 1 (on).
+.IP "\fBudu_sei\fR \fIboolean\fR" 4
+.IX Item "udu_sei boolean"
+Import user data unregistered \s-1SEI\s0 if available into output. Default is 0 (off).
 .IP "\fBx264\-params (N.A.)\fR" 4
 .IX Item "x264-params (N.A.)"
 Override the x264 configuration using a :\-separated list of key=value
@@ -4985,6 +5038,9 @@ Quantizer curve compression factor
 .PD
 Normally, when forcing a I\-frame type, the encoder can select any type
 of I\-frame. This option forces it to choose an IDR-frame.
+.IP "\fBudu_sei\fR \fIboolean\fR" 4
+.IX Item "udu_sei boolean"
+Import user data unregistered \s-1SEI\s0 if available into output. Default is 0 (off).
 .IP "\fBx265\-params\fR" 4
 .IX Item "x265-params"
 Set x265 options using a list of \fIkey\fR=\fIvalue\fR couples separated
@@ -5416,9 +5472,13 @@ Setting a higher \fBbits_per_mb\fR limit will improve the speed.
 .PP
 For the fastest encoding speed set the \fBqscale\fR parameter (4 is the
 recommended value) and do not set a size constraint.
-.SS "\s-1QSV\s0 encoders"
-.IX Subsection "QSV encoders"
-The family of Intel QuickSync Video encoders (\s-1MPEG\-2, H.264, HEVC, JPEG/MJPEG\s0 and \s-1VP9\s0)
+.SS "\s-1QSV\s0 Encoders"
+.IX Subsection "QSV Encoders"
+The family of Intel QuickSync Video encoders (\s-1MPEG\-2, H.264, HEVC, JPEG/MJPEG\s0
+and \s-1VP9\s0)
+.PP
+\fIRatecontrol Method\fR
+.IX Subsection "Ratecontrol Method"
 .PP
 The ratecontrol method is selected as follows:
 .IP "\(bu" 4
@@ -5463,6 +5523,9 @@ Note that depending on your system, a different mode than the one you specified
 may be selected by the encoder. Set the verbosity level to \fIverbose\fR or
 higher to see the actual settings used by the \s-1QSV\s0 runtime.
 .PP
+\fIGlobal Options \-> \s-1MSDK\s0 Options\fR
+.IX Subsection "Global Options -> MSDK Options"
+.PP
 Additional libavcodec global options are mapped to \s-1MSDK\s0 options as follows:
 .IP "\(bu" 4
 \&\fBg/gop_size\fR \-> \fBGopPicSize\fR
@@ -5486,6 +5549,323 @@ and \fI\s-1QPP\s0\fR and \fI\s-1QPB\s0\fR respectively.
 .IP "\(bu" 4
 Setting the \fBcoder\fR option to the value \fIvlc\fR will make the H.264
 encoder use \s-1CAVLC\s0 instead of \s-1CABAC.\s0
+.PP
+\fICommon Options\fR
+.IX Subsection "Common Options"
+.PP
+Following options are used by all qsv encoders.
+.IP "\fIasync_depth\fR" 4
+.IX Item "async_depth"
+Specifies how many asynchronous operations an application performs
+before the application explicitly synchronizes the result. If zero,
+the value is not specified.
+.IP "\fIavbr_accuracy\fR" 4
+.IX Item "avbr_accuracy"
+Accuracy of the \s-1AVBR\s0 ratecontrol (unit of tenth of percent).
+.IP "\fIavbr_convergence\fR" 4
+.IX Item "avbr_convergence"
+Convergence of the \s-1AVBR\s0 ratecontrol (unit of 100 frames)
+.Sp
+The parameters \fIavbr_accuracy\fR and \fIavbr_convergence\fR are for the
+average variable bitrate control (\s-1AVBR\s0) algorithm.
+The algorithm focuses on overall encoding quality while meeting the specified
+bitrate, \fItarget_bitrate\fR, within the accuracy range \fIavbr_accuracy\fR,
+after a \fIavbr_Convergence\fR period. This method does not follow \s-1HRD\s0 and the
+instant bitrate is not capped or padded.
+.IP "\fIpreset\fR" 4
+.IX Item "preset"
+This option itemizes a range of choices from veryfast (best speed) to veryslow
+(best quality).
+.RS 4
+.IP "\fBveryfast\fR" 4
+.IX Item "veryfast"
+.PD 0
+.IP "\fBfaster\fR" 4
+.IX Item "faster"
+.IP "\fBfast\fR" 4
+.IX Item "fast"
+.IP "\fBmedium\fR" 4
+.IX Item "medium"
+.IP "\fBslow\fR" 4
+.IX Item "slow"
+.IP "\fBslower\fR" 4
+.IX Item "slower"
+.IP "\fBveryslow\fR" 4
+.IX Item "veryslow"
+.RE
+.RS 4
+.RE
+.IP "\fIforced_idr\fR" 4
+.IX Item "forced_idr"
+.PD
+Forcing I frames as \s-1IDR\s0 frames.
+.IP "\fIlow_power\fR" 4
+.IX Item "low_power"
+For encoders set this flag to \s-1ON\s0 to reduce power consumption and \s-1GPU\s0 usage.
+.PP
+\fIH264 options\fR
+.IX Subsection "H264 options"
+.PP
+These options are used by h264_qsv
+.IP "\fIextbrc\fR" 4
+.IX Item "extbrc"
+Extended bitrate control.
+.IP "\fIrecovery_point_sei\fR" 4
+.IX Item "recovery_point_sei"
+Set this flag to insert the recovery point \s-1SEI\s0 message at the beginning of every
+intra refresh cycle.
+.IP "\fIrdo\fR" 4
+.IX Item "rdo"
+Enable rate distortion optimization.
+.IP "\fImax_frame_size\fR" 4
+.IX Item "max_frame_size"
+Maximum encoded frame size in bytes.
+.IP "\fImax_slice_size\fR" 4
+.IX Item "max_slice_size"
+Maximum encoded slice size in bytes.
+.IP "\fIbitrate_limit\fR" 4
+.IX Item "bitrate_limit"
+Toggle bitrate limitations.
+Modifies bitrate to be in the range imposed by the \s-1QSV\s0 encoder. Setting this
+flag off may lead to violation of \s-1HRD\s0 conformance. Mind that specifying bitrate
+below the \s-1QSV\s0 encoder range might significantly affect quality. If on this
+option takes effect in non \s-1CQP\s0 modes: if bitrate is not in the range imposed
+by the \s-1QSV\s0 encoder, it will be changed to be in the range.
+.IP "\fImbbrc\fR" 4
+.IX Item "mbbrc"
+Setting this flag enables macroblock level bitrate control that generally
+improves subjective visual quality. Enabling this flag may have negative impact
+on performance and objective visual quality metric.
+.IP "\fIadaptive_i\fR" 4
+.IX Item "adaptive_i"
+This flag controls insertion of I frames by the \s-1QSV\s0 encoder. Turn \s-1ON\s0 this flag
+to allow changing of frame type from P and B to I.
+.IP "\fIadaptive_b\fR" 4
+.IX Item "adaptive_b"
+This flag controls changing of frame type from B to P.
+.IP "\fIb_strategy\fR" 4
+.IX Item "b_strategy"
+This option controls usage of B frames as reference.
+.IP "\fIcavlc\fR" 4
+.IX Item "cavlc"
+If set, \s-1CAVLC\s0 is used; if unset, \s-1CABAC\s0 is used for encoding.
+.IP "\fIvcm\fR" 4
+.IX Item "vcm"
+Video conferencing mode, please see ratecontrol method.
+.IP "\fIidr_interval\fR" 4
+.IX Item "idr_interval"
+Distance (in I\-frames) between \s-1IDR\s0 frames.
+.IP "\fIpic_timing_sei\fR" 4
+.IX Item "pic_timing_sei"
+Insert picture timing \s-1SEI\s0 with pic_struct_syntax element.
+.IP "\fIsingle_sei_nal_unit\fR" 4
+.IX Item "single_sei_nal_unit"
+Put all the \s-1SEI\s0 messages into one \s-1NALU.\s0
+.IP "\fImax_dec_frame_buffering\fR" 4
+.IX Item "max_dec_frame_buffering"
+Maximum number of frames buffered in the \s-1DPB.\s0
+.IP "\fIlook_ahead\fR" 4
+.IX Item "look_ahead"
+Use \s-1VBR\s0 algorithm with look ahead.
+.IP "\fIlook_ahead_depth\fR" 4
+.IX Item "look_ahead_depth"
+Depth of look ahead in number frames.
+.IP "\fIlook_ahead_downsampling\fR" 4
+.IX Item "look_ahead_downsampling"
+Downscaling factor for the frames saved for the lookahead analysis.
+.RS 4
+.IP "\fBunknown\fR" 4
+.IX Item "unknown"
+.PD 0
+.IP "\fBauto\fR" 4
+.IX Item "auto"
+.IP "\fBoff\fR" 4
+.IX Item "off"
+.IP "\fB2x\fR" 4
+.IX Item "2x"
+.IP "\fB4x\fR" 4
+.IX Item "4x"
+.RE
+.RS 4
+.RE
+.IP "\fIint_ref_type\fR" 4
+.IX Item "int_ref_type"
+.PD
+Specifies intra refresh type. The major goal of intra refresh is improvement of
+error resilience without significant impact on encoded bitstream size caused by
+I frames. The \s-1SDK\s0 encoder achieves this by encoding part of each frame in
+refresh cycle using intra MBs. \fInone\fR means no refresh. \fIvertical\fR means
+vertical refresh, by column of MBs.
+.IP "\fIint_ref_cycle_size\fR" 4
+.IX Item "int_ref_cycle_size"
+Specifies number of pictures within refresh cycle starting from 2. 0 and 1 are
+invalid values.
+.IP "\fIint_ref_qp_delta\fR" 4
+.IX Item "int_ref_qp_delta"
+Specifies \s-1QP\s0 difference for inserted intra MBs. This is signed value in
+[\-51, 51] range if target encoding bit-depth for luma samples is 8 and this
+range is [\-63, 63] for 10 bit-depth or [\-75, 75] for 12 bit-depth respectively.
+.IP "\fIprofile\fR" 4
+.IX Item "profile"
+.RS 4
+.PD 0
+.IP "\fBunknown\fR" 4
+.IX Item "unknown"
+.IP "\fBbaseline\fR" 4
+.IX Item "baseline"
+.IP "\fBmain\fR" 4
+.IX Item "main"
+.IP "\fBhigh\fR" 4
+.IX Item "high"
+.RE
+.RS 4
+.RE
+.IP "\fIa53cc\fR" 4
+.IX Item "a53cc"
+.PD
+Use A53 Closed Captions (if available).
+.IP "\fIaud\fR" 4
+.IX Item "aud"
+Insert the Access Unit Delimiter \s-1NAL.\s0
+.IP "\fImfmode\fR" 4
+.IX Item "mfmode"
+Multi-Frame Mode.
+.RS 4
+.IP "\fBoff\fR" 4
+.IX Item "off"
+.PD 0
+.IP "\fBauto\fR" 4
+.IX Item "auto"
+.RE
+.RS 4
+.RE
+.IP "\fIrepeat_pps\fR" 4
+.IX Item "repeat_pps"
+.PD
+Repeat pps for every frame.
+.PP
+\fI\s-1HEVC\s0 Options\fR
+.IX Subsection "HEVC Options"
+.PP
+These options are used by hevc_qsv
+.IP "\fIextbrc\fR" 4
+.IX Item "extbrc"
+Extended bitrate control.
+.IP "\fIrecovery_point_sei\fR" 4
+.IX Item "recovery_point_sei"
+Set this flag to insert the recovery point \s-1SEI\s0 message at the beginning of every
+intra refresh cycle.
+.IP "\fIrdo\fR" 4
+.IX Item "rdo"
+Enable rate distortion optimization.
+.IP "\fIidr_interval\fR" 4
+.IX Item "idr_interval"
+Distance (in I\-frames) between \s-1IDR\s0 frames.
+.RS 4
+.IP "\fBbegin_only\fR" 4
+.IX Item "begin_only"
+Output an IDR-frame only at the beginning of the stream.
+.RE
+.RS 4
+.RE
+.IP "\fIload_plugin\fR" 4
+.IX Item "load_plugin"
+A user plugin to load in an internal session.
+.RS 4
+.IP "\fBnone\fR" 4
+.IX Item "none"
+.PD 0
+.IP "\fBhevc_sw\fR" 4
+.IX Item "hevc_sw"
+.IP "\fBhevc_hw\fR" 4
+.IX Item "hevc_hw"
+.RE
+.RS 4
+.RE
+.IP "\fIload_plugins\fR" 4
+.IX Item "load_plugins"
+.PD
+A :\-separate list of hexadecimal plugin UIDs to load in
+an internal session.
+.IP "\fIlook_ahead_depth\fR" 4
+.IX Item "look_ahead_depth"
+Depth of look ahead in number frames, available when extbrc option is enabled.
+.IP "\fIprofile\fR" 4
+.IX Item "profile"
+.RS 4
+.PD 0
+.IP "\fBunknown\fR" 4
+.IX Item "unknown"
+.IP "\fBmain\fR" 4
+.IX Item "main"
+.IP "\fBmain10\fR" 4
+.IX Item "main10"
+.IP "\fBmainsp\fR" 4
+.IX Item "mainsp"
+.IP "\fBrext\fR" 4
+.IX Item "rext"
+.RE
+.RS 4
+.RE
+.IP "\fIgpb\fR" 4
+.IX Item "gpb"
+.PD
+1: \s-1GPB\s0 (generalized P/B frame)
+.Sp
+0: regular P frame.
+.IP "\fItile_cols\fR" 4
+.IX Item "tile_cols"
+Number of columns for tiled encoding.
+.IP "\fItile_rows\fR" 4
+.IX Item "tile_rows"
+Number of rows for tiled encoding.
+.IP "\fIaud\fR" 4
+.IX Item "aud"
+Insert the Access Unit Delimiter \s-1NAL.\s0
+.PP
+\fI\s-1MPEG2\s0 Options\fR
+.IX Subsection "MPEG2 Options"
+.PP
+These options are used by mpeg2_qsv
+.IP "\fIprofile\fR" 4
+.IX Item "profile"
+.RS 4
+.PD 0
+.IP "\fBunknown\fR" 4
+.IX Item "unknown"
+.IP "\fBsimple\fR" 4
+.IX Item "simple"
+.IP "\fBmain\fR" 4
+.IX Item "main"
+.IP "\fBhigh\fR" 4
+.IX Item "high"
+.RE
+.RS 4
+.RE
+.PD
+.PP
+\fI\s-1VP9\s0 Options\fR
+.IX Subsection "VP9 Options"
+.PP
+These options are used by vp9_qsv
+.IP "\fIprofile\fR" 4
+.IX Item "profile"
+.RS 4
+.PD 0
+.IP "\fBunknown\fR" 4
+.IX Item "unknown"
+.IP "\fBprofile0\fR" 4
+.IX Item "profile0"
+.IP "\fBprofile1\fR" 4
+.IX Item "profile1"
+.IP "\fBprofile2\fR" 4
+.IX Item "profile2"
+.IP "\fBprofile3\fR" 4
+.IX Item "profile3"
+.RE
+.RS 4
+.RE
+.PD
 .SS "snow"
 .IX Subsection "snow"
 \fIOptions\fR

@@ -12,6 +12,13 @@ del NP2.lib
 del NP2.obj
 del vc140.pdb
 
+set MSYS=F:\Source\mpc-be\MSYS
+
+CD /D %CurrentCD%GIT
+
+:: 生成版本号
+call update_rev.bat
+
 :: 修改源码
 CD /D %CurrentCD%GIT
 git apply ..\NP2.patch 
@@ -36,6 +43,7 @@ git clean -d  -fx -f
 git checkout .
 
 :: 删除临时文件
+CD /D %CurrentCD%
 del NP2.dll
 del NP2.exp
 del NP2.lib

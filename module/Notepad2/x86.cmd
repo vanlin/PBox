@@ -12,8 +12,14 @@ del NP2.lib
 del NP2.obj
 del vc140.pdb
 
-:: 修改源码
+set MSYS=F:\Source\mpc-be\MSYS
+
 CD /D %CurrentCD%GIT
+
+:: 生成版本号
+call update_rev.bat
+
+:: 修改源码
 git apply ..\NP2.patch 
 
 :: 编译原有的 NOTEPAD2 源码
@@ -36,6 +42,7 @@ git clean -d  -fx -f
 git checkout .
 
 :: 删除临时文件
+CD /D %CurrentCD%
 del NP2.dll
 del NP2.exp
 del NP2.lib

@@ -12,7 +12,7 @@ del NP3.lib
 del NP3.obj
 del vc140.pdb
 
-:: 更新版本
+:: 更新版本号
 CD /D "%CurrentCD%GIT"
 call Version.cmd"
 

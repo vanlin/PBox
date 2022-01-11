@@ -1,0 +1,33 @@
+ src/Notepad3.c | 4 ++--
+ src/PathLib.c  | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/src/Notepad3.c b/src/Notepad3.c
+index ab1fc14cc..515ac3d14 100644
+--- a/src/Notepad3.c
++++ b/src/Notepad3.c
+@@ -1553,9 +1553,9 @@ HWND InitInstance(const HINSTANCE hInstance, LPCWSTR pszCmdLine, int nCmdShow)
+     g_IniWinInfo.dpi = Scintilla_GetWindowDPI(hwndMain); // correct dpi
+     SnapToWinInfoPos(hwndMain, g_IniWinInfo, SCR_NORMAL);
+ 
+-    if (g_IniWinInfo.max) {
++    //if (g_IniWinInfo.max) {
+         nCmdShow = SW_SHOWMAXIMIZED;
+-    }
++    //}
+ 
+     SetDialogIconNP3(hwndMain);
+     InitWindowCommon(hwndMain, true);
+diff --git a/src/PathLib.c b/src/PathLib.c
+index 1eebe19b6..f0d19a32d 100644
+--- a/src/PathLib.c
++++ b/src/PathLib.c
+@@ -1105,7 +1105,7 @@ void PTHAPI Path_GetModuleFilePath(HPATHL hpth_out)
+     if (!mod_path) {
+         mod_path = Path_Allocate(NULL);
+         LPWSTR const buf = Path_WriteAccessBuf(mod_path, PATHLONG_MAX_CCH);
+-        GetModuleFileNameW(NULL, buf, PATHLONG_MAX_CCH);
++        GetModuleFileNameW(Globals.hInstance, buf, PATHLONG_MAX_CCH);
+         Path_Sanitize(mod_path);
+         Path_Canonicalize(mod_path);
+         Path_FreeExtra(mod_path, 0);

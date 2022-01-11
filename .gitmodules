@@ -37,3 +37,6 @@
 [submodule "vcl/DOSCommand"]
 	path = vcl/DOSCommand
 	url = https://github.com/TurboPack/DOSCommand.git
+[submodule "module/Notepad3/GIT"]
+	path = module/Notepad3/GIT
+	url = https://github.com/rizonesoft/Notepad3.git

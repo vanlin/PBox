@@ -44,6 +44,11 @@ copy /Y NP3.dll ..\..\bin\WIN64\plugins\NP3.dll
 :: 复制语言列表到  PBox plugins 目录下
 xcopy /e /y /c /i "%CurrentCD%GIT\Bin\Release_x64_v142\lng\*.*"   "..\..\bin\WIN64\plugins\lng\" 
 
+:: 还原源码
+CD /D %CurrentCD%GIT
+git clean -d  -fx -f 
+git checkout .
+
 :: 删除临时文件
 del NP3.dll
 del NP3.exp

@@ -1,0 +1,56 @@
+ module/Notepad2/GIT/scintilla/Scintilla.vcxproj | 3 ++-
+ module/Notepad2/GIT/src/Notepad2.c              | 2 +-
+ module/Notepad2/GIT/src/Notepad2.vcxproj        | 3 ++-
+ 3 files changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/module/Notepad2/GIT/scintilla/Scintilla.vcxproj b/module/Notepad2/GIT/scintilla/Scintilla.vcxproj
+index 0be3d2b5..766be406 100644
+--- a/module/Notepad2/GIT/scintilla/Scintilla.vcxproj
++++ b/module/Notepad2/GIT/scintilla/Scintilla.vcxproj
+@@ -23,12 +23,13 @@
+     <ProjectGuid>{5877B917-512B-49F5-B514-1B4159E7A9CA}</ProjectGuid>
+     <ProjectName>Scintilla</ProjectName>
+     <RootNamespace>Scintilla</RootNamespace>
++    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+   </PropertyGroup>
+   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+     <CharacterSet>Unicode</CharacterSet>
+     <ConfigurationType>StaticLibrary</ConfigurationType>
+-    <PlatformToolset>v141_xp</PlatformToolset>
++    <PlatformToolset>v141</PlatformToolset>
+   </PropertyGroup>
+   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+     <CharacterSet>Unicode</CharacterSet>
+diff --git a/module/Notepad2/GIT/src/Notepad2.c b/module/Notepad2/GIT/src/Notepad2.c
+index 1ede8854..582d6d6a 100644
+--- a/module/Notepad2/GIT/src/Notepad2.c
++++ b/module/Notepad2/GIT/src/Notepad2.c
+@@ -6474,7 +6474,7 @@ int FindIniFile() {
+   int bFound = 0;
+   WCHAR tchTest[MAX_PATH];
+   WCHAR tchModule[MAX_PATH];
+-  GetModuleFileName(NULL,tchModule,COUNTOF(tchModule));
++  GetModuleFileName(g_hInstance,tchModule,COUNTOF(tchModule));
+ 
+   if (lstrlen(szIniFile)) {
+     if (lstrcmpi(szIniFile,L"*?") == 0)
+diff --git a/module/Notepad2/GIT/src/Notepad2.vcxproj b/module/Notepad2/GIT/src/Notepad2.vcxproj
+index f828c286..0836a041 100644
+--- a/module/Notepad2/GIT/src/Notepad2.vcxproj
++++ b/module/Notepad2/GIT/src/Notepad2.vcxproj
+@@ -22,12 +22,13 @@
+     <Keyword>Win32Proj</Keyword>
+     <ProjectGuid>{BAAD32AB-CD47-12FD-873C-0BBC204B7641}</ProjectGuid>
+     <ProjectName>Notepad2</ProjectName>
++    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+   </PropertyGroup>
+   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+     <CharacterSet>Unicode</CharacterSet>
+     <ConfigurationType>Application</ConfigurationType>
+-    <PlatformToolset>v141_xp</PlatformToolset>
++    <PlatformToolset>v141</PlatformToolset>
+     <UseDebugLibraries>true</UseDebugLibraries>
+   </PropertyGroup>
+   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

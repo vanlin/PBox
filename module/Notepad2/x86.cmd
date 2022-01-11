@@ -12,6 +12,10 @@ del NP2.lib
 del NP2.obj
 del vc140.pdb
 
+:: 修改源码
+CD /D %CurrentCD%GIT
+git apply ..\NP2.patch 
+
 :: 编译原有的 NOTEPAD2 源码
 call %CurrentCD%GIT\Build\build_vs2017.bat /Build /x86 /Release
 
@@ -25,6 +29,11 @@ link /dll -out:NP2.dll /DELAYLOAD:mpr.dll -nologo -RELEASE -OPT:REF -OPT:ICF -LT
 
 :: 复制到 PBox plugins 目录下
 copy /Y NP2.dll ..\..\bin\Win32\plugins\NP2.dll
+
+:: 还原源码
+CD /D %CurrentCD%GIT
+git clean -d  -fx -f 
+git checkout .
 
 :: 删除临时文件
 del NP2.dll

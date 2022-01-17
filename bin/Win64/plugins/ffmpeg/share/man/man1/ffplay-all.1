@@ -6025,6 +6025,10 @@ disabled). Default value is \-1.
 .IX Item "merge_pmt_versions"
 Re-use existing streams when a \s-1PMT\s0's version is updated and elementary
 streams move to different PIDs. Default value is 0.
+.IP "\fBmax_packet_size\fR" 4
+.IX Item "max_packet_size"
+Set maximum size, in bytes, of packet emitted by the demuxer. Payloads above this size
+are split across multiple packets. Range is 1 to \s-1INT_MAX/2.\s0 Default is 204800 bytes.
 .SS "mpjpeg"
 .IX Subsection "mpjpeg"
 \&\s-1MJPEG\s0 encapsulated in multi-part \s-1MIME\s0 demuxer.

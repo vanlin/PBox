@@ -14885,6 +14885,11 @@ disabled). Default value is -1.
 <dt><span><samp>merge_pmt_versions</samp></span></dt>
 <dd><p>Re-use existing streams when a PMT&rsquo;s version is updated and elementary
 streams move to different PIDs. Default value is 0.
+</p>
+</dd>
+<dt><span><samp>max_packet_size</samp></span></dt>
+<dd><p>Set maximum size, in bytes, of packet emitted by the demuxer. Payloads above this size
+are split across multiple packets. Range is 1 to INT_MAX/2. Default is 204800 bytes.
 </p></dd>
 </dl>
 
@@ -16736,7 +16741,17 @@ A safe size for most use cases should be about 50kB per hour of video.
 </p>
 <p>Note that cues are only written if the output is seekable and this option will
 have no effect if it is not.
-</p></dd>
+</p>
+</dd>
+<dt><span><samp>cues_to_front</samp></span></dt>
+<dd><p>If set, the muxer will write the index at the beginning of the file
+by shifting the main data if necessary. This can be combined with
+reserve_index_space in which case the data is only shifted if
+the initially reserved space turns out to be insufficient.
+</p>
+<p>This option is ignored if the output is unseekable.
+</p>
+</dd>
 <dt><span><samp>default_mode</samp></span></dt>
 <dd><p>This option controls how the FlagDefault of the output tracks will be set.
 It influences which tracks players should play by default. The default mode

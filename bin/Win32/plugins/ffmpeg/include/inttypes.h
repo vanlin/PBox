@@ -1,304 +1,206 @@
-/**
- * This file has no copyright assigned and is placed in the Public Domain.
- * This file is part of the mingw-w64 runtime package.
- * No warranty is given; refer to the file DISCLAIMER.PD within this package.
+/* ISO C9x  7.18  Integer types <stdint.h>
+ * Based on ISO/IEC SC22/WG14 9899 Committee draft (SC22 N2794)
+ *
+ *  THIS SOFTWARE IS NOT COPYRIGHTED
+ *
+ *  Contributor: Danny Smith <danny_r_smith_2001@yahoo.co.nz>
+ *
+ *  This source code is offered for use in the public domain. You may
+ *  use, modify or distribute it freely.
+ *
+ *  This code is distributed in the hope that it will be useful but
+ *  WITHOUT ANY WARRANTY. ALL WARRANTIES, EXPRESS OR IMPLIED ARE HEREBY
+ *  DISCLAIMED. This includes but is not limited to warranties of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ *  Date: 2000-12-02
  */
-/* 7.8 Format conversion of integer types <inttypes.h> */
 
-#ifndef _INTTYPES_H_
-#define _INTTYPES_H_
 
-#include <crtdefs.h>
-#include <stdint.h>
+#ifndef _STDINT_H
+#define _STDINT_H
+#define __need_wint_t
 #define __need_wchar_t
 #include <stddef.h>
 
-#ifdef	__cplusplus
-extern	"C"	{
-#endif
+/* 7.18.1.1  Exact-width integer types */
+typedef signed char int8_t;
+typedef unsigned char   uint8_t;
+typedef short  int16_t;
+typedef unsigned short  uint16_t;
+typedef int  int32_t;
+typedef unsigned   uint32_t;
+typedef long long  int64_t;
+typedef unsigned long long   uint64_t;
 
-typedef struct {
-	intmax_t quot;
-	intmax_t rem;
-	} imaxdiv_t;
+/* 7.18.1.2  Minimum-width integer types */
+typedef signed char int_least8_t;
+typedef unsigned char   uint_least8_t;
+typedef short  int_least16_t;
+typedef unsigned short  uint_least16_t;
+typedef int  int_least32_t;
+typedef unsigned   uint_least32_t;
+typedef long long  int_least64_t;
+typedef unsigned long long   uint_least64_t;
 
-/* 7.8.1 Macros for format specifiers
- * 
- * MS runtime does not yet understand C9x standard "ll"
- * length specifier. It appears to treat "ll" as "l".
- * The non-standard I64 length specifier causes warning in GCC,
- * but understood by MS runtime functions.
+/*  7.18.1.3  Fastest minimum-width integer types 
+ *  Not actually guaranteed to be fastest for all purposes
+ *  Here we use the exact-width types for 8 and 16-bit ints. 
  */
-#if defined(_UCRT) || __USE_MINGW_ANSI_STDIO
-#define PRId64 "lld"
-#define PRIi64 "lli"
-#define PRIo64 "llo"
-#define PRIu64 "llu"
-#define PRIx64 "llx"
-#define PRIX64 "llX"
-#else
-#define PRId64 "I64d"
-#define PRIi64 "I64i"
-#define PRIo64 "I64o"
-#define PRIu64 "I64u"
-#define PRIx64 "I64x"
-#define PRIX64 "I64X"
-#endif
+typedef char int_fast8_t;
+typedef unsigned char uint_fast8_t;
+typedef short  int_fast16_t;
+typedef unsigned short  uint_fast16_t;
+typedef int  int_fast32_t;
+typedef unsigned  int  uint_fast32_t;
+typedef long long  int_fast64_t;
+typedef unsigned long long   uint_fast64_t;
 
-/* fprintf macros for signed types */
-#define PRId8 "d"
-#define PRId16 "d"
-#define PRId32 "d"
+/* 7.18.1.4  Integer types capable of holding object pointers */
 
-#define PRIdLEAST8 "d"
-#define PRIdLEAST16 "d"
-#define PRIdLEAST32 "d"
-#define PRIdLEAST64 PRId64
-
-#define PRIdFAST8 "d"
-#define PRIdFAST16 "d"
-#define PRIdFAST32 "d"
-#define PRIdFAST64 PRId64
-
-#define PRIdMAX PRId64
-
-#define PRIi8 "i"
-#define PRIi16 "i"
-#define PRIi32 "i"
-
-#define PRIiLEAST8 "i"
-#define PRIiLEAST16 "i"
-#define PRIiLEAST32 "i"
-#define PRIiLEAST64 PRIi64
-
-#define PRIiFAST8 "i"
-#define PRIiFAST16 "i"
-#define PRIiFAST32 "i"
-#define PRIiFAST64 PRIi64
-
-#define PRIiMAX PRIi64
-
-#define PRIo8 "o"
-#define PRIo16 "o"
-#define PRIo32 "o"
-
-#define PRIoLEAST8 "o"
-#define PRIoLEAST16 "o"
-#define PRIoLEAST32 "o"
-#define PRIoLEAST64 PRIo64
-
-#define PRIoFAST8 "o"
-#define PRIoFAST16 "o"
-#define PRIoFAST32 "o"
-#define PRIoFAST64 PRIo64
-
-#define PRIoMAX PRIo64
-
-/* fprintf macros for unsigned types */
-#define PRIu8 "u"
-#define PRIu16 "u"
-#define PRIu32 "u"
-
-
-#define PRIuLEAST8 "u"
-#define PRIuLEAST16 "u"
-#define PRIuLEAST32 "u"
-#define PRIuLEAST64 PRIu64
-
-#define PRIuFAST8 "u"
-#define PRIuFAST16 "u"
-#define PRIuFAST32 "u"
-#define PRIuFAST64 PRIu64
-
-#define PRIuMAX PRIu64
-
-#define PRIx8 "x"
-#define PRIx16 "x"
-#define PRIx32 "x"
-
-#define PRIxLEAST8 "x"
-#define PRIxLEAST16 "x"
-#define PRIxLEAST32 "x"
-#define PRIxLEAST64 PRIx64
-
-#define PRIxFAST8 "x"
-#define PRIxFAST16 "x"
-#define PRIxFAST32 "x"
-#define PRIxFAST64 PRIx64
-
-#define PRIxMAX PRIx64
-
-#define PRIX8 "X"
-#define PRIX16 "X"
-#define PRIX32 "X"
-
-#define PRIXLEAST8 "X"
-#define PRIXLEAST16 "X"
-#define PRIXLEAST32 "X"
-#define PRIXLEAST64 PRIX64
-
-#define PRIXFAST8 "X"
-#define PRIXFAST16 "X"
-#define PRIXFAST32 "X"
-#define PRIXFAST64 PRIX64
-
-#define PRIXMAX PRIX64
-
-/*
- *   fscanf macros for signed int types
- *   NOTE: if 32-bit int is used for int_fast8_t and int_fast16_t
- *   (see stdint.h, 7.18.1.3), FAST8 and FAST16 should have
- *   no length identifiers
- */
-
-#define SCNd16 "hd"
-#define SCNd32 "d"
-#define SCNd64 PRId64
-
-#define SCNdLEAST16 "hd"
-#define SCNdLEAST32 "d"
-#define SCNdLEAST64 PRId64
-
-#define SCNdFAST16 "hd"
-#define SCNdFAST32 "d"
-#define SCNdFAST64 PRId64
-
-#define SCNdMAX PRId64
-
-#define SCNi16 "hi"
-#define SCNi32 "i"
-#define SCNi64 PRIi64
-
-#define SCNiLEAST16 "hi"
-#define SCNiLEAST32 "i"
-#define SCNiLEAST64 PRIi64
-
-#define SCNiFAST16 "hi"
-#define SCNiFAST32 "i"
-#define SCNiFAST64 PRIi64
-
-#define SCNiMAX PRIi64
-
-#define SCNo16 "ho"
-#define SCNo32 "o"
-#define SCNo64 PRIo64
-
-#define SCNoLEAST16 "ho"
-#define SCNoLEAST32 "o"
-#define SCNoLEAST64 PRIo64
-
-#define SCNoFAST16 "ho"
-#define SCNoFAST32 "o"
-#define SCNoFAST64 PRIo64
-
-#define SCNoMAX PRIo64
-
-#define SCNx16 "hx"
-#define SCNx32 "x"
-#define SCNx64 PRIx64
-
-#define SCNxLEAST16 "hx"
-#define SCNxLEAST32 "x"
-#define SCNxLEAST64 PRIx64
-
-#define SCNxFAST16 "hx"
-#define SCNxFAST32 "x"
-#define SCNxFAST64 PRIx64
-
-#define SCNxMAX PRIx64
-
-/* fscanf macros for unsigned int types */
-
-#define SCNu16 "hu"
-#define SCNu32 "u"
-#define SCNu64 PRIu64
-
-#define SCNuLEAST16 "hu"
-#define SCNuLEAST32 "u"
-#define SCNuLEAST64 PRIu64
-
-#define SCNuFAST16 "hu"
-#define SCNuFAST32 "u"
-#define SCNuFAST64 PRIu64
-
-#define SCNuMAX PRIu64
-
+#ifndef _INTPTR_T_DEFINED
+#define _INTPTR_T_DEFINED
 #ifdef _WIN64
-#define PRIdPTR PRId64
-#define PRIiPTR PRIi64
-#define PRIoPTR PRIo64
-#define PRIuPTR PRIu64
-#define PRIxPTR PRIx64
-#define PRIXPTR PRIX64
-#define SCNdPTR PRId64
-#define SCNiPTR PRIi64
-#define SCNoPTR PRIo64
-#define SCNxPTR PRIx64
-#define SCNuPTR PRIu64
+  typedef __int64 intptr_t;
 #else
-#define PRIdPTR "d"
-#define PRIiPTR "i"
-#define PRIoPTR "o"
-#define PRIuPTR "u"
-#define PRIxPTR "x"
-#define PRIXPTR "X"
-#define SCNdPTR "d"
-#define SCNiPTR "i"
-#define SCNoPTR "o"
-#define SCNxPTR "x"
- #define SCNuPTR "u"
+  typedef int intptr_t;
+#endif
 #endif
 
-#if defined(_UCRT) || __USE_MINGW_ANSI_STDIO
+#ifndef _UINTPTR_T_DEFINED
+#define _UINTPTR_T_DEFINED
+#ifdef _WIN64
+  typedef unsigned __int64 uintptr_t;
+#else
+  typedef unsigned int uintptr_t;
+#endif
+#endif
+
+/* 7.18.1.5  Greatest-width integer types */
+typedef long long  intmax_t;
+typedef unsigned long long uintmax_t;
+
+/* 7.18.2  Limits of specified-width integer types */
+#if !defined ( __cplusplus) || defined (__STDC_LIMIT_MACROS)
+
+/* 7.18.2.1  Limits of exact-width integer types */
+#define INT8_MIN (-128) 
+#define INT16_MIN (-32768)
+#define INT32_MIN (-2147483647 - 1)
+#define INT64_MIN  (-9223372036854775807LL - 1)
+
+#define INT8_MAX 127
+#define INT16_MAX 32767
+#define INT32_MAX 2147483647
+#define INT64_MAX 9223372036854775807LL
+
+#define UINT8_MAX 0xff /* 255U */
+#define UINT16_MAX 0xffff /* 65535U */
+#define UINT32_MAX 0xffffffff  /* 4294967295U */
+#define UINT64_MAX 0xffffffffffffffffULL /* 18446744073709551615ULL */
+
+/* 7.18.2.2  Limits of minimum-width integer types */
+#define INT_LEAST8_MIN INT8_MIN
+#define INT_LEAST16_MIN INT16_MIN
+#define INT_LEAST32_MIN INT32_MIN
+#define INT_LEAST64_MIN INT64_MIN
+
+#define INT_LEAST8_MAX INT8_MAX
+#define INT_LEAST16_MAX INT16_MAX
+#define INT_LEAST32_MAX INT32_MAX
+#define INT_LEAST64_MAX INT64_MAX
+
+#define UINT_LEAST8_MAX UINT8_MAX
+#define UINT_LEAST16_MAX UINT16_MAX
+#define UINT_LEAST32_MAX UINT32_MAX
+#define UINT_LEAST64_MAX UINT64_MAX
+
+/* 7.18.2.3  Limits of fastest minimum-width integer types */
+#define INT_FAST8_MIN INT8_MIN
+#define INT_FAST16_MIN INT16_MIN
+#define INT_FAST32_MIN INT32_MIN
+#define INT_FAST64_MIN INT64_MIN
+
+#define INT_FAST8_MAX INT8_MAX
+#define INT_FAST16_MAX INT16_MAX
+#define INT_FAST32_MAX INT32_MAX
+#define INT_FAST64_MAX INT64_MAX
+
+#define UINT_FAST8_MAX UINT8_MAX
+#define UINT_FAST16_MAX UINT16_MAX
+#define UINT_FAST32_MAX UINT32_MAX
+#define UINT_FAST64_MAX UINT64_MAX
+
+/* 7.18.2.4  Limits of integer types capable of holding
+    object pointers */
+#ifdef _WIN64
+#define INTPTR_MIN INT64_MIN
+#define INTPTR_MAX INT64_MAX
+#define UINTPTR_MAX UINT64_MAX
+#else
+#define INTPTR_MIN INT32_MIN
+#define INTPTR_MAX INT32_MAX
+#define UINTPTR_MAX UINT32_MAX
+#endif
+
+/* 7.18.2.5  Limits of greatest-width integer types */
+#define INTMAX_MIN INT64_MIN
+#define INTMAX_MAX INT64_MAX
+#define UINTMAX_MAX UINT64_MAX
+
+/* 7.18.3  Limits of other integer types */
+#define PTRDIFF_MIN INTPTR_MIN
+#define PTRDIFF_MAX INTPTR_MAX
+
+#define SIG_ATOMIC_MIN INTPTR_MIN
+#define SIG_ATOMIC_MAX INTPTR_MAX
+
+#define SIZE_MAX UINTPTR_MAX
+
+#ifndef WCHAR_MIN  /* also in wchar.h */ 
+#define WCHAR_MIN 0
+#define WCHAR_MAX 0xffff /* UINT16_MAX */
+#endif
+
 /*
- * no length modifier for char types prior to C9x
- * MS runtime  scanf appears to treat "hh" as "h" 
+ * wint_t is unsigned short for compatibility with MS runtime
  */
+#define WINT_MIN 0
+#define WINT_MAX 0xffff /* UINT16_MAX */
 
-/* signed char */
-#define SCNd8 "hhd"
-#define SCNdLEAST8 "hhd"
-#define SCNdFAST8 "hhd"
+#endif /* !defined ( __cplusplus) || defined __STDC_LIMIT_MACROS */
 
-#define SCNi8 "hhi"
-#define SCNiLEAST8 "hhi"
-#define SCNiFAST8 "hhi"
 
-#define SCNo8 "hho"
-#define SCNoLEAST8 "hho"
-#define SCNoFAST8 "hho"
+/* 7.18.4  Macros for integer constants */
+#if !defined ( __cplusplus) || defined (__STDC_CONSTANT_MACROS)
 
-#define SCNx8 "hhx"
-#define SCNxLEAST8 "hhx"
-#define SCNxFAST8 "hhx"
+/* 7.18.4.1  Macros for minimum-width integer constants
 
-/* unsigned char */
-#define SCNu8 "hhu"
-#define SCNuLEAST8 "hhu"
-#define SCNuFAST8 "hhu"
-#endif /* __STDC_VERSION__ >= 199901 */
+    Accoding to Douglas Gwyn <gwyn@arl.mil>:
+	"This spec was changed in ISO/IEC 9899:1999 TC1; in ISO/IEC
+	9899:1999 as initially published, the expansion was required
+	to be an integer constant of precisely matching type, which
+	is impossible to accomplish for the shorter types on most
+	platforms, because C99 provides no standard way to designate
+	an integer constant with width less than that of type int.
+	TC1 changed this to require just an integer constant
+	*expression* with *promoted* type."
+*/
 
-intmax_t __cdecl imaxabs (intmax_t j);
-#ifndef __CRT__NO_INLINE
-__CRT_INLINE intmax_t __cdecl imaxabs (intmax_t j)
-	{return	(j >= 0 ? j : -j);}
+#define INT8_C(val) ((int8_t) + (val))
+#define UINT8_C(val) ((uint8_t) + (val##U))
+#define INT16_C(val) ((int16_t) + (val))
+#define UINT16_C(val) ((uint16_t) + (val##U))
+
+#define INT32_C(val) val##L
+#define UINT32_C(val) val##UL
+#define INT64_C(val) val##LL
+#define UINT64_C(val) val##ULL
+
+/* 7.18.4.2  Macros for greatest-width integer constants */
+#define INTMAX_C(val)  INT64_C(val)
+#define UINTMAX_C(val) UINT64_C(val)
+
+#endif  /* !defined ( __cplusplus) || defined __STDC_CONSTANT_MACROS */
+
 #endif
-imaxdiv_t __cdecl imaxdiv (intmax_t numer, intmax_t denom);
-
-/* 7.8.2 Conversion functions for greatest-width integer types */
-
-intmax_t __cdecl strtoimax (const char* __restrict__ nptr,
-                            char** __restrict__ endptr, int base);
-uintmax_t __cdecl strtoumax (const char* __restrict__ nptr,
-			     char** __restrict__ endptr, int base);
-
-intmax_t __cdecl wcstoimax (const wchar_t* __restrict__ nptr,
-                            wchar_t** __restrict__ endptr, int base);
-uintmax_t __cdecl wcstoumax (const wchar_t* __restrict__ nptr,
-			     wchar_t** __restrict__ endptr, int base);
-
-#ifdef	__cplusplus
-}
-#endif
-
-#endif /* ndef _INTTYPES_H */

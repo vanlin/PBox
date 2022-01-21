@@ -9783,9 +9783,15 @@ to allow changing of frame type from P and B to I.
 .IP "\fIadaptive_b\fR" 4
 .IX Item "adaptive_b"
 This flag controls changing of frame type from B to P.
+.IP "\fIp_strategy\fR" 4
+.IX Item "p_strategy"
+Enable P\-pyramid: 0\-default 1\-simple 2\-pyramid(bf need to be set to 0).
 .IP "\fIb_strategy\fR" 4
 .IX Item "b_strategy"
 This option controls usage of B frames as reference.
+.IP "\fIdblk_idc\fR" 4
+.IX Item "dblk_idc"
+This option disable deblocking. It has value in range 0~2.
 .IP "\fIcavlc\fR" 4
 .IX Item "cavlc"
 If set, \s-1CAVLC\s0 is used; if unset, \s-1CABAC\s0 is used for encoding.
@@ -9898,6 +9904,15 @@ intra refresh cycle.
 .IP "\fIrdo\fR" 4
 .IX Item "rdo"
 Enable rate distortion optimization.
+.IP "\fImax_frame_size\fR" 4
+.IX Item "max_frame_size"
+Maximum encoded frame size in bytes.
+.IP "\fIp_strategy\fR" 4
+.IX Item "p_strategy"
+Enable P\-pyramid: 0\-default 1\-simple 2\-pyramid(bf need to be set to 0).
+.IP "\fIdblk_idc\fR" 4
+.IX Item "dblk_idc"
+This option disable deblocking. It has value in range 0~2.
 .IP "\fIidr_interval\fR" 4
 .IX Item "idr_interval"
 Distance (in I\-frames) between \s-1IDR\s0 frames.
@@ -9932,10 +9947,11 @@ an internal session.
 Depth of look ahead in number frames, available when extbrc option is enabled.
 .IP "\fIprofile\fR" 4
 .IX Item "profile"
+Set the encoding profile (scc requires libmfx >= 1.32).
 .RS 4
-.PD 0
 .IP "\fBunknown\fR" 4
 .IX Item "unknown"
+.PD 0
 .IP "\fBmain\fR" 4
 .IX Item "main"
 .IP "\fBmain10\fR" 4
@@ -9944,6 +9960,8 @@ Depth of look ahead in number frames, available when extbrc option is enabled.
 .IX Item "mainsp"
 .IP "\fBrext\fR" 4
 .IX Item "rext"
+.IP "\fBscc\fR" 4
+.IX Item "scc"
 .RE
 .RS 4
 .RE
@@ -9962,6 +9980,13 @@ Number of rows for tiled encoding.
 .IP "\fIaud\fR" 4
 .IX Item "aud"
 Insert the Access Unit Delimiter \s-1NAL.\s0
+.IP "\fIpic_timing_sei\fR" 4
+.IX Item "pic_timing_sei"
+Insert picture timing \s-1SEI\s0 with pic_struct_syntax element.
+.IP "\fItransform_skip\fR" 4
+.IX Item "transform_skip"
+Turn this option \s-1ON\s0 to enable transformskip. It is supported on platform equal
+or newer than \s-1ICL.\s0
 .PP
 \fI\s-1MPEG2\s0 Options\fR
 .IX Subsection "MPEG2 Options"
@@ -46123,6 +46148,51 @@ To enable compilation of these filters you need to configure FFmpeg with
 \&\f(CW\*(C`\-\-enable\-vaapi\*(C'\fR.
 .PP
 To use vaapi filters, you need to setup the vaapi device correctly. For more information, please read <\fBhttps://trac.ffmpeg.org/wiki/Hardware/VAAPI\fR>
+.SS "overlay_vaapi"
+.IX Subsection "overlay_vaapi"
+Overlay one video on the top of another.
+.PP
+It takes two inputs and has one output. The first input is the \*(L"main\*(R" video on which the second input is overlaid.
+This filter requires same memory layout for all the inputs. So, format conversion may be needed.
+.PP
+The filter accepts the following options:
+.IP "\fBx\fR" 4
+.IX Item "x"
+Set the x coordinate of the overlaid video on the main video.
+Default value is \f(CW0\fR.
+.IP "\fBy\fR" 4
+.IX Item "y"
+Set the y coordinate of the overlaid video on the main video.
+Default value is \f(CW0\fR.
+.IP "\fBw\fR" 4
+.IX Item "w"
+Set the width of the overlaid video on the main video.
+Default value is the width of input overlay video.
+.IP "\fBh\fR" 4
+.IX Item "h"
+Set the height of the overlaid video on the main video.
+Default value is the height of input overlay video.
+.IP "\fBalpha\fR" 4
+.IX Item "alpha"
+Set blocking detection thresholds. Allowed range is 0.0 to 1.0, it
+requires an input video with alpha channel.
+Default value is \f(CW0.0\fR.
+.PP
+\fIExamples\fR
+.IX Subsection "Examples"
+.IP "\(bu" 4
+Overlay an image \s-1LOGO\s0 at the top-left corner of the \s-1INPUT\s0 video. Both inputs for this filter are yuv420p format.
+.Sp
+.Vb 1
+\&        \-i INPUT \-i LOGO \-filter_complex "[0:v]hwupload[a], [1:v]format=yuv420p, hwupload[b], [a][b]overlay_vaapi" OUTPUT
+.Ve
+.IP "\(bu" 4
+Overlay an image \s-1LOGO\s0 at the offset (200, 100) from the top-left corner of the \s-1INPUT\s0 video.
+The inputs have same memory layout for color channels, the overlay has additional alpha plane, like \s-1INPUT\s0 is yuv420p, and the \s-1LOGO\s0 is yuva420p.
+.Sp
+.Vb 1
+\&        \-i INPUT \-i LOGO \-filter_complex "[0:v]hwupload[a], [1:v]format=yuva420p, hwupload[b], [a][b]overlay_vaapi=x=200:y=100:w=400:h=300:alpha=1.0, hwdownload, format=nv12" OUTPUT
+.Ve
 .SS "tonemap_vaapi"
 .IX Subsection "tonemap_vaapi"
 Perform \s-1HDR\s0(High Dynamic Range) to \s-1SDR\s0(Standard Dynamic Range) conversion with tone-mapping.

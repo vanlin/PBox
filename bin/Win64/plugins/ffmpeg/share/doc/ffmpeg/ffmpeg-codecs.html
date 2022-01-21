@@ -5948,8 +5948,16 @@ to allow changing of frame type from P and B to I.
 <dd><p>This flag controls changing of frame type from B to P.
 </p>
 </dd>
+<dt><span><samp><var>p_strategy</var></samp></span></dt>
+<dd><p>Enable P-pyramid: 0-default 1-simple 2-pyramid(bf need to be set to 0).
+</p>
+</dd>
 <dt><span><samp><var>b_strategy</var></samp></span></dt>
 <dd><p>This option controls usage of B frames as reference.
+</p>
+</dd>
+<dt><span><samp><var>dblk_idc</var></samp></span></dt>
+<dd><p>This option disable deblocking. It has value in range 0~2.
 </p>
 </dd>
 <dt><span><samp><var>cavlc</var></samp></span></dt>
@@ -6062,6 +6070,18 @@ intra refresh cycle.
 <dd><p>Enable rate distortion optimization.
 </p>
 </dd>
+<dt><span><samp><var>max_frame_size</var></samp></span></dt>
+<dd><p>Maximum encoded frame size in bytes.
+</p>
+</dd>
+<dt><span><samp><var>p_strategy</var></samp></span></dt>
+<dd><p>Enable P-pyramid: 0-default 1-simple 2-pyramid(bf need to be set to 0).
+</p>
+</dd>
+<dt><span><samp><var>dblk_idc</var></samp></span></dt>
+<dd><p>This option disable deblocking. It has value in range 0~2.
+</p>
+</dd>
 <dt><span><samp><var>idr_interval</var></samp></span></dt>
 <dd><p>Distance (in I-frames) between IDR frames.
 </p><dl compact="compact">
@@ -6090,12 +6110,15 @@ an internal session.
 </p>
 </dd>
 <dt><span><samp><var>profile</var></samp></span></dt>
-<dd><dl compact="compact">
+<dd><p>Set the encoding profile (scc requires libmfx &gt;= 1.32).
+</p>
+<dl compact="compact">
 <dt><span>&lsquo;<samp>unknown</samp>&rsquo;</span></dt>
 <dt><span>&lsquo;<samp>main</samp>&rsquo;</span></dt>
 <dt><span>&lsquo;<samp>main10</samp>&rsquo;</span></dt>
 <dt><span>&lsquo;<samp>mainsp</samp>&rsquo;</span></dt>
 <dt><span>&lsquo;<samp>rext</samp>&rsquo;</span></dt>
+<dt><span>&lsquo;<samp>scc</samp>&rsquo;</span></dt>
 </dl>
 
 </dd>
@@ -6115,6 +6138,15 @@ an internal session.
 </dd>
 <dt><span><samp><var>aud</var></samp></span></dt>
 <dd><p>Insert the Access Unit Delimiter NAL.
+</p>
+</dd>
+<dt><span><samp><var>pic_timing_sei</var></samp></span></dt>
+<dd><p>Insert picture timing SEI with pic_struct_syntax element.
+</p>
+</dd>
+<dt><span><samp><var>transform_skip</var></samp></span></dt>
+<dd><p>Turn this option ON to enable transformskip. It is supported on platform equal
+or newer than ICL.
 </p></dd>
 </dl>
 

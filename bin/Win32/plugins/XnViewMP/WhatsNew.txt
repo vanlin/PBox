@@ -1,3 +1,48 @@
+Changelog 0.99.7:
+
+2256: [New] Resize: Lanczos2 filter - http://newsgroup.xnview.com/viewtopic.php?t=42816
+2255: [New] 'Use checkerboard pattern' in menu - http://newsgroup.xnview.com/viewtopic.php?t=42847
+2234: [New] XMP in tooltips - http://newsgroup.xnview.com/viewtopic.php?t=42714
+2227: [New] Category menu: Parent label on top of submenu - http://newsgroup.xnview.com/viewtopic.php?t=42575
+2226: [New] Album: Import/Export Bridge collection
+2246: [New] Batch convert: Antialiasing option for 'Text'
+2261: [Bug] Bottom line not visible on HDPI - http://newsgroup.xnview.com/viewtopic.php?t=42783
+2260: [Bug] Image is not antialiased when zoom % matches HiDPI scaling - http://newsgroup.xnview.com/viewtopic.php?t=42784
+2259: [Bug] Linux: SaveAs always use original date file
+2258: [Bug] Join: Need to use sRGB color profile - http://newsgroup.xnview.com/viewtopic.php?t=42853
+2257: [Bug] Remove/Extract alpha channel on 8bits image - http://newsgroup.xnview.com/viewtopic.php?t=42824
+2254: [Bug] MacOS: EXIF on HEIC file - http://newsgroup.xnview.com/viewtopic.php?t=42838
+2253: [Bug] PDF crash
+2252: [Bug] Slideshow: Close when using timer at the end - http://newsgroup.xnview.com/viewtopic.php?t=42820
+2251: [Bug] Slideshow & high DPI scaling - http://newsgroup.xnview.com/viewtopic.php?t=42811
+2250: [Bug] Tag Face: People list not updated - http://newsgroup.xnview.com/viewtopic.php?t=42793
+2249: [Bug] Fullscreen info truncated (HTML) - http://newsgroup.xnview.com/viewtopic.php?t=42708
+2248: [Bug] Rating in Edit mode doen't update browser - http://newsgroup.xnview.com/viewtopic.php?t=42807
+2247: [Bug] Text in statusbar clipped
+2245: [Bug] Pan on HiDPI with 1 image pixel = 1 screen pixel
+2244: [Bug] Batch rename: option to remove diacritic character - http://newsgroup.xnview.com/viewtopic.php?t=42617
+2243: [Bug] Tag Face: XMP metadata not always written - http://newsgroup.xnview.com/viewtopic.php?t=42
+2242: [Bug] Tag Face: Crash with grey images - http://newsgroup.xnview.com/viewtopic.php?t=42793
+2241: [Bug] Windows: High DPI scaling problem - http://newsgroup.xnview.com/viewtopic.php?t=42756
+2240: [Bug] Slideshow a animated file - http://newsgroup.xnview.com/viewtopic.php?t=42792
+2239: [Bug] StatusBar: Bad image size in edit mode
+2238: [Bug] Resize: Mode not applied - http://newsgroup.xnview.com/viewtopic.php?t=42767
+2237: [Bug] Temporary file & reuse - http://newsgroup.xnview.com/viewtopic.php?t=42741
+2236: [Bug] Print Selection: aspect ratio of preview image is distorted - http://newsgroup.xnview.com/viewtopic.php?t=42771
+2235: [Bug] 'Print selection' not enabled in toolbar - http://newsgroup.xnview.com/viewtopic.php?t=42775
+2233: [Bug] Zoom selection & high dpi scale - http://newsgroup.xnview.com/viewtopic.php?t=42718
+2203: [Bug] Mac: 'open in finder' dont select/focus file - http://newsgroup.xnview.com/viewtopic.php?t=42632
+2232: [Bug] StatusBar not correctly updated if Preview is hidden - http://newsgroup.xnview.com/viewtopic.php?t=42764
+2231: [Bug] {File Index} in statusbar - http://newsgroup.xnview.com/viewtopic.php?t=42749
+2230: [Bug] Remember last selected filename - http://newsgroup.xnview.com/viewtopic.php?t=42355
+2229: [Bug] Open container on category list
+2228: [Bug] Edit category's parent doesn't refresh tree - http://newsgroup.xnview.com/viewtopic.php?t=40521
+2225: [Bug] Album: Create first show 2 entries
+2219: [Bug] {Categories} and 'base path' - http://newsgroup.xnview.com/viewtopic.php?t=41992
+2224: [Bug] JXR 128 RGBA - http://newsgroup.xnview.com/viewtopic.php?t=42750
+2223: [Bug] Multipage create: Bad orientation for files with EXIF orientation
+
+
 Changelog 0.99.6:
 
 2222: [Bug] Del file crash - http://newsgroup.xnview.com/viewtopic.php?t=42746
